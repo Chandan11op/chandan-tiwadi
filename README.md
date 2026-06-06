@@ -1,37 +1,16 @@
-# 🌐 First Basic Portfolio Project
+# React + Vite
 
-Welcome to my **First Basic Portfolio Project** — a simple yet elegant personal portfolio website created to showcase my skills, projects, and interests as a beginner web developer.  
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This marks my first step into the world of web development, where I’m learning how to design, structure, and build websites using core web technologies.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 📸 Project Preview
+## React Compiler
 
-You can check out the live version here :  
-👉  https://first-basic-portfolio.vercel.app/
----
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🚀 Project Overview
+## Expanding the ESLint configuration
 
-This portfolio serves as a digital introduction — presenting who I am, what I do, and what I’m passionate about.  
-The main objective behind this project was to **apply the foundational concepts of HTML, CSS, and basic design principles** while developing a functional and responsive web page.
-
----
-
-## 🧩 Features
-
-- 🏠 **Home Section** – A brief introduction about me.  
-- 💼 **Projects Section** – Highlights of my early web development projects.  
-- 📞 **Contact Section** – Easy ways to get in touch.  
-- 🎨 **Responsive Layout** – Works smoothly across different devices.  
-- ⚡ **Simple & Lightweight** – Built purely with HTML and CSS, no frameworks.  
-
----
-
-## 🛠️ Built With
-
-| Technology | Purpose |
-|-------------|----------|
-| **HTML5** | Structure and content |
-| **CSS3** | Styling and layout |
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
