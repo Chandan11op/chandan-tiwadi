@@ -77,21 +77,29 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        {/* Logo */}
         <a
           href="#About"
           onClick={(e) => handleLinkClick(e, '#About')}
-          className="flex items-center gap-3 group transition-transform duration-200"
+          className="flex items-center gap-2.5 group transition-transform duration-200"
         >
-          <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-accent/40 group-hover:border-accent group-hover:scale-105 transition-all duration-300 shadow-gold-glow">
-            <img
-              src={profileImg}
-              alt="Chandan Tiwadi Logo"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <span className="text-lg font-black tracking-wider text-gray-100 group-hover:text-accent transition-colors duration-300">
-            {portfolioData.personalInfo.initials}
+          {/* Custom SVG Logo */}
+          <svg className="w-8 h-8 group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(255,215,0,0.2)]" viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="nav-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFD700" />
+                <stop offset="100%" stopColor="#FFA500" />
+              </linearGradient>
+              <linearGradient id="nav-blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#1E90FF" />
+                <stop offset="100%" stopColor="#00BFFF" />
+              </linearGradient>
+            </defs>
+            <path d="M 32,30 L 12,50 L 32,70" stroke="url(#nav-gold-grad)" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M 58,20 L 42,80" stroke="url(#nav-blue-grad)" strokeWidth="10" strokeLinecap="round" />
+            <path d="M 68,30 L 88,50 L 68,70" stroke="url(#nav-gold-grad)" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span className="text-xl font-extrabold tracking-tight text-gray-100 group-hover:text-accent transition-colors duration-300 font-sans">
+            Chandan<span className="text-accent">.</span>
           </span>
         </a>
 

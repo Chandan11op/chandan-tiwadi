@@ -12,13 +12,29 @@ import Footer from './components/Footer';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
   const [toast, setToast] = useState({ show: false, message: '' });
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1800);
-    return () => clearTimeout(timer);
+    const duration = 1600; // total animation time in ms
+    const intervalTime = 25; // update interval in ms
+    const step = 100 / (duration / intervalTime);
+
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + step;
+        if (next >= 100) {
+          clearInterval(timer);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 300); // slight delay after reaching 100% for smooth entry
+          return 100;
+        }
+        return next;
+      });
+    }, intervalTime);
+
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -39,42 +55,90 @@ export default function App() {
         {isLoading ? (
           <motion.div
             key="loader"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -20, transition: { duration: 0.4, ease: 'easeInOut' } }}
-            className="fixed inset-0 z-50 bg-darkBg flex items-center justify-center"
+            initial={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 0.96, filter: "blur(12px)", transition: { duration: 0.6, ease: [0.43, 0.13, 0.23, 0.96] } }}
+            className="fixed inset-0 z-50 bg-darkBg flex flex-col items-center justify-center overflow-hidden"
           >
+            {/* Background glowing effects */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-accent/5 blur-[120px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-secondaryAccent/5 blur-[100px] pointer-events-none" />
+
             <div className="relative flex flex-col items-center">
-              {/* Animated Catchy Code Logo */}
-              <motion.div
-                initial={{ scale: 0.6, opacity: 0 }}
-                animate={{ scale: [0.6, 1.1, 1], opacity: 1 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="flex items-center gap-1.5 z-10 select-none font-black text-4xl drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]"
-              >
-                <span className="text-accent">&lt;</span>
-                <motion.span
-                  animate={{ opacity: [1, 0.3, 1], scale: [1, 1.15, 1] }}
-                  transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-                  className="text-secondaryAccent font-bold"
-                >
-                  /
-                </motion.span>
-                <span className="text-accent">&gt;</span>
-              </motion.div>
-              {/* Spin circle around initials */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
-                className="absolute inset-0 border-[3px] border-accent/5 border-t-accent border-r-secondaryAccent rounded-full -m-6 shadow-[0_0_15px_rgba(30,144,255,0.2)]"
-              />
-              <motion.span
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 0.6, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-12 select-none"
-              >
-                Loading Portfolio
-              </motion.span>
+              {/* Outer Circular Glow Track */}
+              <div className="relative w-44 h-44 flex items-center justify-center">
+                {/* Ring 1 - Golden Pulse */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                  className="absolute inset-0 border-2 border-dashed border-accent/25 border-t-accent rounded-full shadow-[0_0_15px_rgba(255,215,0,0.15)]"
+                />
+                
+                {/* Ring 2 - Electric Blue Orbit */}
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                  className="absolute inset-3 border border-dotted border-secondaryAccent/45 border-b-secondaryAccent rounded-full shadow-[0_0_15px_rgba(30,144,255,0.2)]"
+                />
+
+                {/* Ring 3 - Innermost Glowing Accent */}
+                <motion.div
+                  animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  className="absolute inset-8 border border-accent/10 rounded-full bg-primary/30 backdrop-blur-sm shadow-[inset_0_0_20px_rgba(255,215,0,0.08)]"
+                />
+
+                {/* Percentage Display */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center select-none">
+                  <motion.span 
+                    className="text-4xl md:text-5xl font-black text-gradient-mixed tracking-tighter font-sans tabular-nums"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                  >
+                    {Math.round(progress)}
+                  </motion.span>
+                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em] -mt-1 font-sans">
+                    %
+                  </span>
+                </div>
+              </div>
+
+              {/* Loader Status message */}
+              <div className="h-6 flex items-center justify-center mt-10">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={
+                      progress < 25 ? "init" : 
+                      progress < 50 ? "comp" : 
+                      progress < 75 ? "build" : 
+                      progress < 100 ? "optim" : "welcome"
+                    }
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 0.8, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    transition={{ duration: 0.15 }}
+                    className="text-xs text-gray-400 font-bold uppercase tracking-[0.25em] text-center font-sans"
+                  >
+                    {progress < 25 ? "Initializing Systems..." :
+                     progress < 50 ? "Compiling Assets..." :
+                     progress < 75 ? "Building Experience..." :
+                     progress < 100 ? "Optimizing Interface..." : "Welcome"}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+
+              {/* Glowing Linear Progress Bar */}
+              <div className="w-52 h-[3px] bg-white/5 rounded-full overflow-hidden mt-6 relative border border-white/5 shadow-inner">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-accent to-secondaryAccent"
+                  style={{ width: `${progress}%` }}
+                  transition={{ ease: "easeOut" }}
+                />
+                {/* Glow dot on tip */}
+                <motion.div 
+                  className="absolute top-0 w-3 h-full bg-white blur-[2px] shadow-[0_0_8px_#fff]"
+                  style={{ left: `calc(${progress}% - 6px)` }}
+                />
+              </div>
             </div>
           </motion.div>
         ) : (

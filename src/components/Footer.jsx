@@ -54,8 +54,8 @@ export default function Footer() {
         </button>
 
         {/* Brand Logo / Initials */}
-        <h3 className="text-2xl font-black text-accent tracking-widest mb-6">
-          {personal.initials}
+        <h3 className="text-2xl font-black text-accent tracking-wider mb-6 font-sans">
+          Chandan<span className="text-gray-100">.</span>
         </h3>
 
         {/* Repeated Links */}
