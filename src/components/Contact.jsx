@@ -23,83 +23,26 @@ export default function Contact() {
     if (!formData.name || !formData.email || !formData.message) return;
 
     setFormStatus('submitting');
-    
-    const config = portfolioData.emailConfig;
-    
-    // If EmailJS details are configured, use EmailJS to send notifications & styled autoresponses.
-    // Otherwise, fall back to FormSubmit.co
-    if (config && config.serviceId && config.templateIdNotify && config.templateIdAutoresponder && config.publicKey) {
-      const notifyPromise = fetch("https://api.emailjs.com/api/v1.0/email/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          service_id: config.serviceId,
-          template_id: config.templateIdNotify,
-          user_id: config.publicKey,
-          template_params: {
-            from_name: formData.name,
-            from_email: formData.email,
-            message: formData.message,
-            reply_to: formData.email
-          }
-        })
-      });
 
-      const autorespondPromise = fetch("https://api.emailjs.com/api/v1.0/email/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          service_id: config.serviceId,
-          template_id: config.templateIdAutoresponder,
-          user_id: config.publicKey,
-          template_params: {
-            to_name: formData.name,
-            to_email: formData.email,
-            reply_to: "chandan110906@gmail.com"
-          }
-        })
-      });
+    const form = e.target;
+    const formPayload = new FormData(form);
 
-      Promise.all([notifyPromise, autorespondPromise])
-        .then(([res1, res2]) => {
-          if (res1.ok && res2.ok) {
-            setFormStatus('success');
-            setFormData({ name: '', email: '', message: '' });
-          } else {
-            setFormStatus('error');
-          }
-        })
-        .catch(error => {
-          console.error("EmailJS Error:", error);
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formPayload,
+    })
+      .then((res) => {
+        if (res.ok) {
+          setFormStatus('success');
+          setFormData({ name: '', email: '', message: '' });
+        } else {
           setFormStatus('error');
-        });
-    } else {
-      // Fallback: FormSubmit.co
-      fetch("https://formsubmit.co/ajax/chandan110906@gmail.com", {
-        method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message
-        })
+        }
       })
-        .then(response => {
-          if (response.ok) {
-            setFormStatus('success');
-            setFormData({ name: '', email: '', message: '' });
-          } else {
-            setFormStatus('error');
-          }
-        })
-        .catch(error => {
-          console.error("FormSubmit Error:", error);
-          setFormStatus('error');
-        });
-    }
+      .catch((error) => {
+        console.error('Web3Forms submission error:', error);
+        setFormStatus('error');
+      });
   };
 
   const contactDetails = [
@@ -247,6 +190,10 @@ export default function Contact() {
                     onSubmit={handleSubmit}
                     className="space-y-6"
                   >
+                    {/* Web3Forms required hidden fields */}
+                    <input type="hidden" name="access_key" value="d656db94-098e-4b86-8370-2dd1e667f37b" />
+                    <input type="hidden" name="autoresponse" value="Thank you for reaching out! I appreciate you contacting me. I have received your message and will get back to you shortly.&#10;&#10;Best regards,&#10;Chandan" />
+
                     <h3 className="text-xl font-bold text-gray-100 pb-3 border-b border-white/5">
                       Send a Message
                     </h3>
