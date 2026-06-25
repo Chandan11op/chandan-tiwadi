@@ -78,33 +78,21 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
         <a
-          href="#About"
-          onClick={(e) => handleLinkClick(e, '#About')}
-          className="flex items-center gap-2.5 group transition-transform duration-200"
+          href="#Hero"
+          onClick={(e) => handleLinkClick(e, '#Hero')}
+          className="flex items-center gap-3 group transition-transform duration-200"
         >
-          {/* Custom SVG Logo */}
-          <svg className="w-8 h-8 group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(255,215,0,0.2)]" viewBox="0 0 100 100" fill="none">
-            <defs>
-              <linearGradient id="nav-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#FFD700" />
-                <stop offset="100%" stopColor="#FFA500" />
-              </linearGradient>
-              <linearGradient id="nav-blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#1E90FF" />
-                <stop offset="100%" stopColor="#00BFFF" />
-              </linearGradient>
-            </defs>
-            <path d="M 32,30 L 12,50 L 32,70" stroke="url(#nav-gold-grad)" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 58,20 L 42,80" stroke="url(#nav-blue-grad)" strokeWidth="10" strokeLinecap="round" />
-            <path d="M 68,30 L 88,50 L 68,70" stroke="url(#nav-gold-grad)" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <span className="text-xl font-extrabold tracking-tight text-gray-100 group-hover:text-accent transition-colors duration-300 font-sans">
-            Chandan<span className="text-accent">.</span>
+          {/* Initials Logo */}
+          <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/40 flex items-center justify-center font-bold text-sm tracking-tight text-white shadow-blue-glow group-hover:scale-105 transition-all duration-300">
+            CT
+          </div>
+          <span className="text-lg font-extrabold tracking-tight text-gray-100 group-hover:text-accent transition-colors duration-300 font-sans">
+            Chandan Tiwari
           </span>
         </a>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex space-x-8 items-center">
+        <div className="hidden md:flex space-x-8 items-center font-sans">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.substring(1);
             return (
@@ -113,22 +101,23 @@ export default function Navbar() {
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={`relative py-2 font-medium text-sm transition-colors duration-200 hover:text-accent ${
-                  isActive ? 'text-accent' : 'text-gray-300'
+                  isActive ? 'text-accent font-semibold' : 'text-gray-300'
                 }`}
               >
                 {link.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent rounded-full animate-pulse shadow-[0_0_8px_#FFD700]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent rounded-full animate-pulse shadow-blue-glow" />
                 )}
               </a>
             );
           })}
+          {/* Download CV Action */}
           <a
             href="#Contact"
             onClick={(e) => handleLinkClick(e, '#Contact')}
-            className="px-5 py-2 rounded-full border border-accent text-accent font-semibold text-sm hover:bg-accent hover:text-primary transition-all duration-300 hover:shadow-gold-glow"
+            className="px-5 py-2 rounded-full border border-accent/40 text-gray-200 font-semibold text-sm hover:bg-accent hover:text-white hover:border-accent hover:shadow-blue-glow-hover transition-all duration-300 flex items-center gap-1.5 bg-accent/5"
           >
-            Hire Me
+            Download CV
           </a>
         </div>
 
@@ -167,9 +156,9 @@ export default function Navbar() {
         <a
           href="#Contact"
           onClick={(e) => handleLinkClick(e, '#Contact')}
-          className="px-8 py-3 rounded-full border border-accent text-accent font-semibold text-lg hover:bg-accent hover:text-primary transition-all duration-300 w-full text-center max-w-xs"
+          className="px-8 py-3 rounded-full border border-accent/40 text-gray-200 font-semibold text-lg hover:bg-accent hover:text-white transition-all duration-300 w-full text-center max-w-xs bg-accent/5"
         >
-          Hire Me
+          Download CV
         </a>
       </div>
     </nav>

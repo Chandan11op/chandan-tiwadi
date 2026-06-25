@@ -1,48 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, ArrowRight, Download } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { ArrowRight, MessageSquare, Code2, Rocket, Brain, Server } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
-import resumePdf from '../assets/Chandan Tiwadi.pdf';
 
 export default function Hero() {
-  const [currentText, setCurrentText] = useState('');
-  const [titleIndex, setTitleIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const titles = portfolioData.heroTitles;
   const personal = portfolioData.personalInfo;
 
-  useEffect(() => {
-    let timer;
-    const currentTitle = titles[titleIndex];
-    
-    if (isDeleting) {
-      timer = setTimeout(() => {
-        setCurrentText(currentTitle.substring(0, charIndex - 1));
-        setCharIndex((prev) => prev - 1);
-      }, 30);
-    } else {
-      timer = setTimeout(() => {
-        setCurrentText(currentTitle.substring(0, charIndex + 1));
-        setCharIndex((prev) => prev + 1);
-      }, 70);
-    }
+  // Icon mapping for stats
+  const getStatIcon = (index) => {
+    const icons = [
+      <Code2 className="w-5 h-5 text-accent" />,
+      <Rocket className="w-5 h-5 text-accentPurple" />,
+      <Brain className="w-5 h-5 text-accent" />,
+      <Server className="w-5 h-5 text-accentPurple" />
+    ];
+    return icons[index % icons.length];
+  };
 
-    if (!isDeleting && charIndex === currentTitle.length) {
-      timer = setTimeout(() => setIsDeleting(true), 2000);
-    } else if (isDeleting && charIndex === 0) {
-      setIsDeleting(false);
-      setTitleIndex((prev) => (prev + 1) % titles.length);
-    }
-
-    return () => clearTimeout(timer);
-  }, [charIndex, isDeleting, titleIndex, titles]);
-
-  const handleScrollToProjects = (e) => {
+  const handleScrollToSection = (e, id) => {
     e.preventDefault();
-    const element = document.getElementById('Projects');
+    const element = document.getElementById(id);
     if (element) {
       const navbarHeight = 80;
       const elementPosition = element.getBoundingClientRect().top;
@@ -57,144 +34,121 @@ export default function Hero() {
   return (
     <section
       id="Hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-darkBg pt-20"
-      style={{
-        backgroundImage: 'radial-gradient(rgba(255, 215, 0, 0.03) 1.5px, transparent 1.5px)',
-        backgroundSize: '40px 40px',
-      }}
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden pt-28 pb-12 hero-bg"
     >
-      {/* Background Glowing Blobs */}
-      <motion.div
-        animate={{
-          y: [0, -30, 0],
-          x: [0, 20, 0],
-        }}
-        transition={{
-          duration: 7,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="glow-orb w-[350px] h-[350px] bg-accent top-1/4 right-10 md:right-24"
-      />
-      <motion.div
-        animate={{
-          y: [0, 40, 0],
-          x: [0, -30, 0],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="glow-orb w-[450px] h-[450px] bg-secondaryAccent bottom-1/4 left-10 md:left-24"
-      />
+      {/* Background Glowing Blobs for extra depth */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accentPurple/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center flex flex-col items-center">
-        {/* Intro Tag */}
+      {/* Main Hero Container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full flex items-center flex-grow">
+        {/* Left Section: Text & Actions (takes max-w-2xl so it doesn't overlap the right mountain backdrop) */}
+        <div className="max-w-2xl flex flex-col items-start text-left">
+          {/* Availability Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-semibold uppercase tracking-wider mb-6"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+            </span>
+            Available
+          </motion.div>
+
+          {/* Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-5xl md:text-7xl font-bold tracking-tight text-white font-sans mb-3"
+          >
+            Hi, I'm
+          </motion.h1>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-5xl md:text-7xl font-black tracking-tight font-sans mb-4 text-gradient-gold"
+          >
+            {personal.name}
+          </motion.h2>
+
+          {/* Subheading */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-2xl md:text-3xl font-medium font-sans text-gray-300 mb-6"
+          >
+            Full Stack <span className="text-accent font-semibold">Developer</span>
+          </motion.p>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-gray-400 text-base md:text-lg max-w-xl mb-10 leading-relaxed"
+          >
+            {personal.tagline}
+          </motion.p>
+
+          {/* Actions */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+          >
+            <a
+              href="#Projects"
+              onClick={(e) => handleScrollToSection(e, 'Projects')}
+              className="px-8 py-3.5 rounded-xl bg-accent text-white font-bold text-sm hover:shadow-blue-glow-hover hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 group"
+            >
+              View My Work
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a
+              href="#Contact"
+              onClick={(e) => handleScrollToSection(e, 'Contact')}
+              className="px-8 py-3.5 rounded-xl bg-transparent border border-white/10 text-gray-300 font-bold text-sm hover:border-accent hover:text-white transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <MessageSquare className="w-4 h-4" />
+              Contact Me
+            </a>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Stats Row Container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full mt-12 lg:mt-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="px-4 py-1.5 rounded-full bg-primary/40 border border-glassBorder text-accent font-semibold text-xs tracking-wider uppercase mb-6 shadow-gold-glow"
-        >
-          Welcome to my Space
-        </motion.div>
-
-        {/* Big Heading */}
-        <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-4xl md:text-7xl font-extrabold tracking-tight mb-4"
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-2xl glass-card border border-glassBorder shadow-card-glow"
         >
-          Hi, I'm <span className="text-gradient-gold">{personal.name}</span>
-        </motion.h1>
-
-        {/* Typewriter Subtitle */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="h-10 md:h-14 flex items-center justify-center mb-6"
-        >
-          <span className="text-xl md:text-3xl font-medium text-gray-300">
-            I am a{' '}
-            <span className="text-gradient-blue font-bold typewriter-cursor text-accent">
-              {currentText}
-            </span>
-          </span>
-        </motion.div>
-
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-base md:text-xl text-gray-400 max-w-2xl mb-10 leading-relaxed"
-        >
-          {personal.tagline}
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-md mb-16"
-        >
-          <a
-            href="#Projects"
-            onClick={handleScrollToProjects}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-accent text-primary font-bold text-base hover:bg-yellow-400 hover:shadow-gold-glow-hover transition-all duration-300 flex items-center justify-center gap-2 group"
-          >
-            View My Work
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </a>
-          <a
-            href={resumePdf}
-            download="Chandan_Tiwadi_Resume.pdf"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full border border-gray-500 text-gray-300 font-bold text-base hover:border-accent hover:text-accent hover:bg-accent/5 transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            Download Resume
-            <Download className="w-5 h-5" />
-          </a>
-        </motion.div>
-
-        {/* Social Icons */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.7 }}
-          className="flex gap-6 justify-center items-center"
-        >
-          {[
-            { icon: <FaGithub className="w-6 h-6" />, href: personal.github, label: 'GitHub' },
-            { icon: <FaLinkedin className="w-6 h-6" />, href: personal.linkedin, label: 'LinkedIn' },
-            { icon: <FaInstagram className="w-6 h-6" />, href: personal.instagram, label: 'Instagram' },
-            { icon: <Mail className="w-6 h-6" />, href: `mailto:${personal.email}`, label: 'Email' }
-          ].map((social, idx) => (
-            <a
+          {personal.stats.map((stat, idx) => (
+            <div
               key={idx}
-              href={social.label === 'Email' ? `https://mail.google.com/mail/?view=cm&fs=1&to=${personal.email}` : social.href}
-              onClick={(e) => {
-                if (social.label === 'Email') {
-                  e.preventDefault();
-                  if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(personal.email);
-                  }
-                  window.dispatchEvent(new CustomEvent('show-toast', { detail: 'Email copied! Opening Gmail...' }));
-                  setTimeout(() => {
-                    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${personal.email}`, '_blank', 'noopener,noreferrer');
-                  }, 800);
-                }
-              }}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={social.label}
-              className="text-gray-400 hover:text-accent hover:-translate-y-1 transition-all duration-300 p-2.5 rounded-full hover:bg-primary/50 hover:shadow-gold-glow border border-transparent hover:border-glassBorder"
+              className="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-xl hover:bg-white/[0.02] transition-colors duration-300 group"
             >
-              {social.icon}
-            </a>
+              <div className="p-2.5 rounded-lg bg-white/[0.03] border border-white/5 text-gray-300 group-hover:scale-105 transition-transform">
+                {getStatIcon(idx)}
+              </div>
+              <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                <span className="text-2xl font-extrabold text-white tracking-tight leading-none mb-1">
+                  {stat.value}
+                </span>
+                <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider leading-tight">
+                  {stat.label}
+                </span>
+              </div>
+            </div>
           ))}
         </motion.div>
       </div>

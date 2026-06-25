@@ -78,7 +78,7 @@ export default function Contact() {
             whileInView={{ width: '80px' }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-[0_0_8px_#FFD700]"
+            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
           />
         </div>
 
@@ -100,7 +100,7 @@ export default function Contact() {
                 {contactDetails.map((detail, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-4 p-3 rounded-2xl bg-primary/40 border border-white/5 hover:border-accent/20 hover:shadow-gold-glow transition-all duration-300 group"
+                    className="flex items-center gap-4 p-3 rounded-2xl bg-primary/40 border border-white/5 hover:border-accent/20 hover:shadow-blue-glow transition-all duration-300 group"
                   >
                     <div className="p-3 rounded-xl bg-primary/80 border border-glassBorder group-hover:scale-105 transition-transform shrink-0">
                       {detail.icon}
@@ -176,7 +176,7 @@ export default function Contact() {
                     </p>
                     <button
                       onClick={() => setFormStatus('idle')}
-                      className="px-6 py-2.5 rounded-full border border-accent text-accent font-semibold hover:bg-accent hover:text-primary transition-all duration-300 hover:shadow-gold-glow"
+                      className="px-6 py-2.5 rounded-full border border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-all duration-300 hover:shadow-blue-glow"
                     >
                       Send Another Message
                     </button>
@@ -212,7 +212,7 @@ export default function Contact() {
                         required
                         disabled={formStatus === 'submitting'}
                         placeholder="John Doe"
-                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-gold-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-blue-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium"
                       />
                     </div>
 
@@ -230,7 +230,7 @@ export default function Contact() {
                         required
                         disabled={formStatus === 'submitting'}
                         placeholder="john@example.com"
-                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-gold-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-blue-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium"
                       />
                     </div>
 
@@ -248,13 +248,13 @@ export default function Contact() {
                         rows="5"
                         disabled={formStatus === 'submitting'}
                         placeholder="Type your message details here..."
-                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-gold-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium resize-none"
+                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-blue-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium resize-none"
                       />
                     </div>
 
                     {formStatus === 'error' && (
                       <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold">
-                        Failed to send message. Please try again or email directly to chandan110906@gmail.com.
+                        Failed to send message. Please try again or email directly to {personal.email}.
                       </div>
                     )}
 
@@ -262,7 +262,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={formStatus === 'submitting'}
-                      className="w-full py-4 rounded-xl bg-accent text-primary font-bold text-sm hover:bg-yellow-400 hover:shadow-gold-glow-hover transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 cursor-pointer"
+                      className="w-full py-4 rounded-xl bg-accent text-white font-bold text-sm hover:bg-accent/80 hover:shadow-blue-glow-hover transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 cursor-pointer"
                     >
                       {formStatus === 'submitting' ? (
                         <>

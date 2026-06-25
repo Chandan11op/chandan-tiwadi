@@ -7,7 +7,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #050B18;
+    background-color: #030712;
     color: #F3F4F6;
     font-family: 'Outfit', 'Inter', system-ui, sans-serif;
   }
@@ -22,57 +22,57 @@
   }
   
   ::-webkit-scrollbar-track {
-    background: #050B18;
+    background: #030712;
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #111B3D;
+    background: #0b0f19;
     border-radius: 4px;
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.1);
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: #FFD700;
+    background: #3b82f6;
   }
 }
 
 @layer components {
   /* Premium Glassmorphism Card style */
   .glass-card {
-    background: rgba(10, 15, 44, 0.5);
+    background: rgba(11, 15, 25, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 215, 0, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.08);
   }
 
   .glass-card-blue {
-    background: rgba(10, 15, 44, 0.5);
+    background: rgba(11, 15, 25, 0.7);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(30, 144, 255, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.15);
   }
 
   .glass-card-neutral {
-    background: rgba(10, 15, 44, 0.4);
+    background: rgba(11, 15, 25, 0.55);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.03);
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, #FFF 0%, #FFD700 50%, #B8860B 100%);
+    background: linear-gradient(135deg, #FFF 0%, #3b82f6 50%, #8b5cf6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .text-gradient-blue {
-    background: linear-gradient(135deg, #FFF 0%, #1E90FF 50%, #0000FF 100%);
+    background: linear-gradient(135deg, #FFF 0%, #3b82f6 50%, #2563eb 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .text-gradient-mixed {
-    background: linear-gradient(135deg, #FFD700 0%, #FFF 50%, #1E90FF 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #FFF 50%, #8b5cf6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -82,9 +82,9 @@
 .glow-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(100px);
   pointer-events: none;
-  opacity: 0.12;
+  opacity: 0.15;
   z-index: 0;
 }
 
@@ -107,11 +107,26 @@
   bottom: 0;
   left: 15px;
   width: 2px;
-  background: linear-gradient(to bottom, #FFD700, #1E90FF, transparent);
+  background: linear-gradient(to bottom, #3b82f6, #8b5cf6, transparent);
 }
 @media (min-width: 768px) {
   .timeline-line::before {
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+/* Premium responsive Hero background mountain image styling */
+.hero-bg {
+  background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.92) 0%, rgba(3, 7, 18, 0.75) 60%, #030712 100%), url('./assets/mountain_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 1024px) {
+  .hero-bg {
+    background-image: linear-gradient(to right, #030712 35%, rgba(3, 7, 18, 0.8) 65%, rgba(3, 7, 18, 0.15) 100%), url('./assets/mountain_bg.png');
+    background-position: right center;
   }
 }

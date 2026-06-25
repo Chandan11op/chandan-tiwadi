@@ -70,21 +70,21 @@ export default function App() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                  className="absolute inset-0 border-2 border-dashed border-accent/25 border-t-accent rounded-full shadow-[0_0_15px_rgba(255,215,0,0.15)]"
+                  className="absolute inset-0 border-2 border-dashed border-accent/25 border-t-accent rounded-full shadow-[0_0_15px_rgba(59,130,246,0.15)]"
                 />
                 
                 {/* Ring 2 - Electric Blue Orbit */}
                 <motion.div
                   animate={{ rotate: -360 }}
                   transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
-                  className="absolute inset-3 border border-dotted border-secondaryAccent/45 border-b-secondaryAccent rounded-full shadow-[0_0_15px_rgba(30,144,255,0.2)]"
+                  className="absolute inset-3 border border-dotted border-secondaryAccent/45 border-b-secondaryAccent rounded-full shadow-[0_0_15px_rgba(139,92,246,0.25)]"
                 />
 
                 {/* Ring 3 - Innermost Glowing Accent */}
                 <motion.div
                   animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.6, 0.3] }}
                   transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                  className="absolute inset-8 border border-accent/10 rounded-full bg-primary/30 backdrop-blur-sm shadow-[inset_0_0_20px_rgba(255,215,0,0.08)]"
+                  className="absolute inset-8 border border-accent/10 rounded-full bg-primary/30 backdrop-blur-sm shadow-[inset_0_0_20px_rgba(59,130,246,0.08)]"
                 />
 
                 {/* Percentage Display */}
@@ -169,7 +169,7 @@ export default function App() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-6 right-6 z-50 px-5 py-3.5 rounded-2xl bg-primary/90 border border-accent/30 text-gray-100 shadow-[0_0_20px_rgba(255,215,0,0.15)] flex items-center gap-3 backdrop-blur-md"
+            className="fixed bottom-6 right-6 z-50 px-5 py-3.5 rounded-2xl bg-primary/90 border border-accent/30 text-gray-100 shadow-[0_0_20px_rgba(59,130,246,0.15)] flex items-center gap-3 backdrop-blur-md"
           >
             <div className="w-2 h-2 rounded-full bg-accent animate-ping" />
             <span className="text-sm font-semibold tracking-wide">{toast.message}</span>

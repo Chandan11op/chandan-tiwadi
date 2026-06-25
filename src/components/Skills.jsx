@@ -1,10 +1,49 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Layout, Cpu, Database, Wrench, Sparkles, BookOpen } from 'lucide-react';
+import { Layout, Cpu, Database, Wrench, Sparkles, BookOpen, Globe, Shield, MessageSquare, Code2 } from 'lucide-react';
+import { FaHtml5, FaCss3Alt, FaReact, FaNodeJs, FaGithub, FaGitAlt } from 'react-icons/fa';
+import { SiJavascript, SiVite, SiTailwindcss, SiExpress, SiMysql, SiMongodb, SiSupabase, SiPostman, SiVercel, SiOpenai, SiGoogle } from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
 
 export default function Skills() {
   const skillsData = portfolioData.skills;
+
+  // Specific skill item icon mapping
+  const getSkillIcon = (name) => {
+    const normalized = name.toLowerCase();
+    if (normalized.includes('html5') || normalized.includes('html')) return <FaHtml5 className="w-4 h-4 text-[#E34F26]" />;
+    if (normalized.includes('css3') || normalized.includes('css')) return <FaCss3Alt className="w-4 h-4 text-[#1572B6]" />;
+    if (normalized.includes('javascript') || normalized.includes('js')) return <SiJavascript className="w-4 h-4 text-[#F7DF1E] rounded-sm" />;
+    if (normalized.includes('react')) return <FaReact className="w-4 h-4 text-[#61DAFB]" />;
+    if (normalized.includes('vite')) return <SiVite className="w-4 h-4 text-[#646CFF]" />;
+    if (normalized.includes('tailwind')) return <SiTailwindcss className="w-4 h-4 text-[#06B6D4]" />;
+    if (normalized.includes('node')) return <FaNodeJs className="w-4 h-4 text-[#339933]" />;
+    if (normalized.includes('express')) return <SiExpress className="w-4 h-4 text-white" />;
+    if (normalized.includes('mysql')) return <SiMysql className="w-4 h-4 text-[#4479A1]" />;
+    if (normalized.includes('mongodb')) return <SiMongodb className="w-4 h-4 text-[#47A248]" />;
+    if (normalized.includes('supabase')) return <SiSupabase className="w-4 h-4 text-[#3ECF8E]" />;
+    if (normalized.includes('git') && !normalized.includes('github')) return <FaGitAlt className="w-4 h-4 text-[#F05032]" />;
+    if (normalized.includes('github')) return <FaGithub className="w-4 h-4 text-white" />;
+    if (normalized.includes('vs code')) return <Code2 className="w-4 h-4 text-[#007ACC]" />;
+    if (normalized.includes('postman')) return <SiPostman className="w-4 h-4 text-[#FF6C37]" />;
+    if (normalized.includes('vercel')) return <SiVercel className="w-4 h-4 text-white" />;
+    if (normalized.includes('chatgpt')) return <SiOpenai className="w-4 h-4 text-[#10A37F]" />;
+    if (normalized.includes('gemini')) return <SiGoogle className="w-4 h-4 text-[#4285F4]" />;
+    if (normalized.includes('claude')) return <Sparkles className="w-4 h-4 text-[#D97706]" />;
+    if (normalized.includes('cursor')) return <Cpu className="w-4 h-4 text-[#8b5cf6]" />;
+    if (normalized.includes('antigravity')) return <Sparkles className="w-4 h-4 text-[#3b82f6]" />;
+    
+    // Concept fallbacks
+    if (normalized.includes('api') || normalized.includes('rest')) return <Code2 className="w-4 h-4 text-accent" />;
+    if (normalized.includes('responsive') || normalized.includes('design')) return <Layout className="w-4 h-4 text-accent" />;
+    if (normalized.includes('structure') || normalized.includes('dbms') || normalized.includes('database')) return <Database className="w-4 h-4 text-accent" />;
+    if (normalized.includes('network')) return <Globe className="w-4 h-4 text-accent" />;
+    if (normalized.includes('auth') || normalized.includes('shield')) return <Shield className="w-4 h-4 text-accent" />;
+    if (normalized.includes('comm') || normalized.includes('real-time')) return <MessageSquare className="w-4 h-4 text-accent" />;
+    if (normalized.includes('software')) return <Code2 className="w-4 h-4 text-accent" />;
+    
+    return <Code2 className="w-4 h-4 text-accent" />;
+  };
 
   // Category Icon helper
   const getCategoryIcon = (category) => {
@@ -68,7 +107,7 @@ export default function Skills() {
             whileInView={{ width: '80px' }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-[0_0_8px_#FFD700]"
+            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
           />
         </div>
 
@@ -85,7 +124,7 @@ export default function Skills() {
               key={idx}
               variants={cardVariants}
               whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-gold-glow transition-all duration-300 flex flex-col justify-start"
+              className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-blue-glow transition-all duration-300 flex flex-col justify-start"
             >
               {/* Category Header */}
               <div className="flex items-center gap-3.5 mb-6 pb-4 border-b border-white/5">
@@ -103,8 +142,9 @@ export default function Skills() {
                   <motion.span
                     key={sIdx}
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-300 bg-primary/60 border border-glassBorder hover:border-accent/40 hover:text-accent hover:shadow-[0_0_12px_rgba(255,215,0,0.15)] transition-all duration-300 cursor-default"
+                    className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-300 bg-primary/60 border border-glassBorder hover:border-accent/40 hover:text-accent hover:shadow-[0_0_12px_rgba(59,130,246,0.15)] transition-all duration-300 cursor-default flex items-center gap-2"
                   >
+                    {getSkillIcon(skill)}
                     {skill}
                   </motion.span>
                 ))}

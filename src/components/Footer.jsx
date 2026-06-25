@@ -47,17 +47,17 @@ export default function Footer() {
         {/* Scroll To Top Button */}
         <button
           onClick={handleScrollToTop}
-          className="p-3 rounded-full bg-primary border border-glassBorder hover:border-accent text-gray-400 hover:text-accent hover:-translate-y-1 hover:shadow-gold-glow transition-all duration-300 mb-8 cursor-pointer"
+          className="p-3 rounded-full bg-primary border border-glassBorder hover:border-accent text-gray-400 hover:text-accent hover:-translate-y-1 hover:shadow-blue-glow transition-all duration-300 mb-8 cursor-pointer"
           aria-label="Scroll to top"
         >
           <ArrowUp className="w-5 h-5 animate-pulse" />
         </button>
-
+ 
         {/* Brand Logo / Initials */}
         <h3 className="text-2xl font-black text-accent tracking-wider mb-6 font-sans">
-          Chandan<span className="text-gray-100">.</span>
+          Chandan Tiwari
         </h3>
-
+ 
         {/* Repeated Links */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-8">
           {navLinks.map((link) => (
@@ -71,7 +71,7 @@ export default function Footer() {
             </a>
           ))}
         </div>
-
+ 
         {/* Social Icons */}
         <div className="flex gap-5 items-center mb-8">
           {[
@@ -104,14 +104,14 @@ export default function Footer() {
             </a>
           ))}
         </div>
-
+ 
         {/* Copyright and Credits */}
         <div className="text-center space-y-1.5 border-t border-white/5 pt-6 w-full max-w-md">
           <p className="text-xs text-gray-400 font-semibold tracking-wide">
             Built with ❤️ by <span className="text-accent">{personal.name}</span>
           </p>
           <p className="text-[10px] text-gray-500 font-medium tracking-wide">
-            &copy; 2025 Chandan Tiwadi. All rights reserved.
+            &copy; 2026 Chandan Tiwari. All rights reserved.
           </p>
         </div>
       </div>

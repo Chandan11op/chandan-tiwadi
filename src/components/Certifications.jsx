@@ -20,7 +20,7 @@ export default function Certifications() {
       case 'c':
         return <Cpu className="w-6 h-6 text-secondaryAccent" />;
       default:
-        return <Award className="w-6 h-6 text-yellow-500" />;
+        return <Award className="w-6 h-6 text-accent" />;
     }
   };
 
@@ -66,7 +66,7 @@ export default function Certifications() {
             whileInView={{ width: '80px' }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-[0_0_8px_#FFD700]"
+            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
           />
         </div>
 
@@ -83,7 +83,7 @@ export default function Certifications() {
               key={idx}
               variants={cardVariants}
               whileHover={{ y: -5, scale: 1.02, transition: { duration: 0.2 } }}
-              className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-gold-glow transition-all duration-300 flex items-start gap-4"
+              className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-blue-glow transition-all duration-300 flex items-start gap-4"
             >
               {/* Badge Icon wrapper */}
               <div className="p-3 rounded-2xl bg-primary/80 border border-glassBorder shadow-inner shrink-0">

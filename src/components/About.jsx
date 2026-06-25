@@ -1,143 +1,174 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Briefcase, Award, FolderGit } from 'lucide-react';
+import { User, Mail, MapPin, GraduationCap, Download } from 'lucide-react';
+import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiNextdotjs } from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
-import profileImg from '../assets/portfolio_image.png';
+import resumePdf from '../assets/Chandan Tiwadi.pdf';
 
 export default function About() {
-  const { bio, location, stats } = portfolioData.personalInfo;
+  const { bio, location, email, name } = portfolioData.personalInfo;
 
-  // Stat Icons Map helper
-  const getIcon = (label) => {
-    switch (label.toLowerCase()) {
-      case 'projects built':
-        return <FolderGit className="w-5 h-5 text-secondaryAccent" />;
-      case 'paid client project':
-        return <Briefcase className="w-5 h-5 text-accent" />;
-      case 'certifications':
-        return <Award className="w-5 h-5 text-accent" />;
-      default:
-        return <Briefcase className="w-5 h-5 text-green-400" />;
-    }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
-  };
+  const techStack = [
+    { name: 'React', icon: <FaReact className="w-7 h-7 text-[#61DAFB]" /> },
+    { name: 'Node.js', icon: <FaNodeJs className="w-7 h-7 text-[#339933]" /> },
+    { name: 'MongoDB', icon: <SiMongodb className="w-7 h-7 text-[#47A248]" /> },
+    { name: 'Tailwind CSS', icon: <SiTailwindcss className="w-7 h-7 text-[#06B6D4]" /> },
+    { name: 'JavaScript', icon: <SiJavascript className="w-7 h-7 text-[#F7DF1E] rounded" /> },
+    { name: 'HTML5', icon: <FaHtml5 className="w-7 h-7 text-[#E34F26]" /> },
+    { name: 'CSS3', icon: <FaCss3Alt className="w-7 h-7 text-[#1572B6]" /> },
+    { name: 'Git & GitHub', icon: <FaGithub className="w-7 h-7 text-white" /> }
+  ];
 
   return (
-    <section id="About" className="relative py-24 md:py-32 bg-darkBg overflow-hidden">
-      {/* Background decoration */}
-      <div className="glow-orb w-[300px] h-[300px] bg-primary top-1/2 left-0 -translate-y-1/2" />
+    <section id="About" className="relative py-24 bg-[#030712] overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Section Heading */}
-        <div className="text-center mb-16 md:mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column: About Me Card */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-5xl font-extrabold tracking-tight inline-block"
+            className="lg:col-span-6 p-8 rounded-2xl glass-card border border-glassBorder shadow-card-glow text-left"
           >
-            About <span className="text-gradient-gold">Me</span>
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '80px' }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-[0_0_8px_#FFD700]"
-          />
-        </div>
+            <h2 className="text-3xl font-extrabold text-white mb-2 font-sans relative inline-block">
+              About Me
+              <span className="absolute bottom-0 left-0 w-12 h-[3px] bg-accent rounded-full mt-1" />
+            </h2>
+            <div className="h-4" />
 
-        {/* Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left: Profile Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-5 flex justify-center relative group"
-          >
-            {/* Background design elements */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-secondaryAccent/20 rounded-3xl blur-2xl group-hover:scale-105 transition-transform duration-500 -z-10" />
-            
-            {/* Outer border glow frame */}
-            <div className="p-2.5 rounded-3xl bg-gradient-to-tr from-accent via-primary/50 to-secondaryAccent border border-glassBorder shadow-2xl relative">
-              <img
-                src={profileImg}
-                alt="Chandan Gopal Tiwadi Profile"
-                className="w-full max-w-[320px] md:max-w-[360px] aspect-square object-cover rounded-2xl shadow-inner border border-primary/20 transform group-hover:scale-[1.01] transition-transform duration-500"
-                loading="lazy"
-              />
-            </div>
-            
-            {/* Small location tag overlay */}
-            <div className="absolute -bottom-4 right-4 md:right-10 px-4 py-2 rounded-xl bg-primary/90 border border-glassBorder shadow-lg flex items-center gap-2 backdrop-blur-md">
-              <MapPin className="w-4 h-4 text-accent animate-bounce" />
-              <span className="text-xs font-semibold text-gray-200">{location}</span>
-            </div>
-          </motion.div>
-
-          {/* Right: Text & Stats */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            className="lg:col-span-7 flex flex-col justify-center text-left"
-          >
-            <motion.h3
-              variants={itemVariants}
-              className="text-2xl md:text-3xl font-bold text-gray-100 mb-6"
-            >
-              Passionate Web Developer & <span className="text-accent">AI Enthusiast</span>
-            </motion.h3>
-
-            <div className="space-y-4 text-gray-300 text-sm md:text-base leading-relaxed mb-10">
+            <div className="space-y-4 text-gray-300 text-sm md:text-base leading-relaxed mb-8">
               {bio.map((para, idx) => (
-                <motion.p key={idx} variants={itemVariants}>
-                  {para}
-                </motion.p>
+                <p key={idx}>{para}</p>
               ))}
             </div>
 
-            {/* Stats Cards Grid */}
-            <motion.div
-              variants={itemVariants}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4"
-            >
-              {stats.map((stat, idx) => (
-                <div
-                  key={idx}
-                  className="glass-card p-4 rounded-2xl flex flex-col justify-center items-center text-center border border-glassBorder hover:border-accent/30 hover:-translate-y-1 hover:shadow-gold-glow transition-all duration-300 group"
-                >
-                  <div className="p-2.5 rounded-full bg-primary/80 mb-3 border border-glassBorder group-hover:scale-110 transition-transform">
-                    {getIcon(stat.label)}
-                  </div>
-                  <span className="text-xl md:text-2xl font-black text-accent mb-1">
-                    {stat.value}
-                  </span>
-                  <span className="text-[10px] md:text-xs uppercase tracking-wider text-gray-400 font-semibold leading-tight">
-                    {stat.label}
-                  </span>
+            {/* Personal details info list */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <div className="p-2 rounded-lg bg-accent/10 text-accent">
+                  <User className="w-4 h-4" />
                 </div>
-              ))}
-            </motion.div>
+                <div>
+                  <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Name</p>
+                  <p className="text-sm font-bold text-white">{name}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <div className="p-2 rounded-lg bg-accentPurple/10 text-accentPurple">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Email</p>
+                  <p className="text-sm font-bold text-white truncate max-w-[170px]">{email}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <div className="p-2 rounded-lg bg-accentPurple/10 text-accentPurple">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Location</p>
+                  <p className="text-sm font-bold text-white">{location}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <div className="p-2 rounded-lg bg-accent/10 text-accent">
+                  <GraduationCap className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Education</p>
+                  <p className="text-sm font-bold text-white">B.Tech in IT</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Download Resume CV Button */}
+            <a
+              href={resumePdf}
+              download="Chandan_Tiwari_Resume.pdf"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 text-accent font-bold text-xs hover:bg-accent hover:text-white transition-all duration-300 shadow-blue-glow"
+            >
+              <Download className="w-4 h-4" />
+              Download CV
+            </a>
           </motion.div>
+
+          {/* Right Column: Tech Stack & Connections */}
+          <div className="lg:col-span-6 space-y-8 text-left">
+            {/* Tech Stack Cards Grid */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="p-8 rounded-2xl glass-card border border-glassBorder shadow-card-glow"
+            >
+              <h2 className="text-2xl font-extrabold text-white mb-6 font-sans relative inline-block">
+                Tech Stack
+                <span className="absolute bottom-0 left-0 w-12 h-[3px] bg-accentPurple rounded-full mt-1" />
+              </h2>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {techStack.map((tech, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl bg-[#070b13] border border-white/5 hover:border-accent/30 flex flex-col items-center justify-center text-center group hover:-translate-y-1 hover:shadow-blue-glow transition-all duration-300"
+                  >
+                    <div className="mb-2 group-hover:scale-110 transition-transform">
+                      {tech.icon}
+                    </div>
+                    <span className="text-[11px] font-bold text-gray-300">
+                      {tech.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Let's Connect Social Row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="p-8 rounded-2xl glass-card border border-glassBorder shadow-card-glow"
+            >
+              <h3 className="text-xl font-bold text-white mb-4 font-sans">
+                Let's Connect
+              </h3>
+              <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                I'm always open to discussing new opportunities and exciting projects.
+              </p>
+
+              <div className="flex items-center gap-4">
+                {[
+                  { icon: <FaLinkedin className="w-5 h-5" />, href: portfolioData.personalInfo.linkedin, label: 'LinkedIn' },
+                  { icon: <FaGithub className="w-5 h-5" />, href: portfolioData.personalInfo.github, label: 'GitHub' },
+                  { icon: <FaTwitter className="w-5 h-5" />, href: 'https://twitter.com', label: 'Twitter' },
+                  { icon: <Mail className="w-5 h-5" />, href: `mailto:${email}`, label: 'Email' }
+                ].map((social, idx) => (
+                  <a
+                    key={idx}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="p-3 rounded-xl bg-[#070b13] border border-white/5 hover:border-accent/40 text-gray-300 hover:text-white hover:shadow-blue-glow transition-all duration-300 flex items-center justify-center"
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

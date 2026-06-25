@@ -10,11 +10,11 @@ export default function Projects() {
   // Render glow classes based on highlightColor
   const getGlowStyles = (color) => {
     switch (color) {
-      case 'gold':
+      case 'gold': // Changed to purple/indigo styling for the new theme
         return {
-          cardClass: 'border-accent/30 hover:border-accent/60 shadow-[0_0_15px_rgba(255,215,0,0.08)] hover:shadow-[0_0_25px_rgba(255,215,0,0.3)]',
-          badgeClass: 'bg-accent/15 text-accent border-accent/20',
-          techBadgeClass: 'border-accent/10 text-accent/90 hover:border-accent/30'
+          cardClass: 'border-accentPurple/30 hover:border-accentPurple/60 shadow-[0_0_15px_rgba(139,92,246,0.08)] hover:shadow-[0_0_25px_rgba(139,92,246,0.3)]',
+          badgeClass: 'bg-accentPurple/15 text-accentPurple border-accentPurple/20',
+          techBadgeClass: 'border-accentPurple/10 text-accentPurple/90 hover:border-accentPurple/30'
         };
       case 'blue':
         return {
@@ -24,9 +24,9 @@ export default function Projects() {
         };
       case 'electric-blue':
         return {
-          cardClass: 'border-secondaryAccent/30 hover:border-secondaryAccent/60 shadow-[0_0_15px_rgba(30,144,255,0.08)] hover:shadow-[0_0_25px_rgba(30,144,255,0.3)]',
-          badgeClass: 'bg-secondaryAccent/15 text-secondaryAccent border-secondaryAccent/20',
-          techBadgeClass: 'border-secondaryAccent/10 text-secondaryAccent/90 hover:border-secondaryAccent/30'
+          cardClass: 'border-accent/30 hover:border-accent/60 shadow-[0_0_15px_rgba(59,130,246,0.08)] hover:shadow-[0_0_25px_rgba(59,130,246,0.3)]',
+          badgeClass: 'bg-accent/15 text-accent border-accent/20',
+          techBadgeClass: 'border-accent/10 text-accent/90 hover:border-accent/30'
         };
       default:
         return {
@@ -78,7 +78,7 @@ export default function Projects() {
             whileInView={{ width: '80px' }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-[0_0_8px_#FFD700]"
+            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
           />
         </div>
 
@@ -157,7 +157,7 @@ export default function Projects() {
                         href={project.links.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-xs md:text-sm font-bold text-accent hover:text-yellow-400 transition-colors duration-200 group/link"
+                        className="flex items-center gap-2 text-xs md:text-sm font-bold text-accent hover:text-accentPurple transition-colors duration-200 group/link"
                       >
                         <ExternalLink className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                         <span>Live Demo</span>

@@ -47,7 +47,7 @@ export default function Education() {
             whileInView={{ width: '80px' }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-[0_0_8px_#FFD700]"
+            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
           />
         </div>
 
@@ -67,12 +67,12 @@ export default function Education() {
                 className="relative"
               >
                 {/* Timeline node circle */}
-                <span className="absolute -left-[32px] md:-left-[34px] top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-primary border-2 border-accent shadow-gold-glow z-20">
+                <span className="absolute -left-[32px] md:-left-[34px] top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-primary border-2 border-accent shadow-blue-glow z-20">
                   <GraduationCap className="h-4.5 w-4.5 text-accent" />
                 </span>
 
                 {/* Card body */}
-                <div className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-gold-glow transition-all duration-300">
+                <div className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-blue-glow transition-all duration-300">
                   {/* Card Header */}
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
                     <h3 className="text-xl font-bold text-gray-100">
