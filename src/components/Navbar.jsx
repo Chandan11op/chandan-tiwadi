@@ -82,12 +82,14 @@ export default function Navbar() {
           onClick={(e) => handleLinkClick(e, '#Hero')}
           className="flex items-center gap-3 group transition-transform duration-200"
         >
-          {/* Initials Logo */}
-          <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/40 flex items-center justify-center font-bold text-sm tracking-tight text-white shadow-blue-glow group-hover:scale-105 transition-all duration-300">
-            CT
-          </div>
+          {/* Profile Image Logo */}
+          <img
+            src={profileImg}
+            alt="Chandan Tiwadi"
+            className="w-10 h-10 rounded-full object-cover border border-accent/40 shadow-blue-glow group-hover:scale-105 transition-all duration-300"
+          />
           <span className="text-lg font-extrabold tracking-tight text-gray-100 group-hover:text-accent transition-colors duration-300 font-sans">
-            Chandan Tiwari
+            Chandan Tiwadi
           </span>
         </a>
 

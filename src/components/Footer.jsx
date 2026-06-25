@@ -55,7 +55,7 @@ export default function Footer() {
  
         {/* Brand Logo / Initials */}
         <h3 className="text-2xl font-black text-accent tracking-wider mb-6 font-sans">
-          Chandan Tiwari
+          Chandan Tiwadi
         </h3>
  
         {/* Repeated Links */}
@@ -111,7 +111,7 @@ export default function Footer() {
             Built with ❤️ by <span className="text-accent">{personal.name}</span>
           </p>
           <p className="text-[10px] text-gray-500 font-medium tracking-wide">
-            &copy; 2026 Chandan Tiwari. All rights reserved.
+            &copy; 2026 Chandan Tiwadi. All rights reserved.
           </p>
         </div>
       </div>

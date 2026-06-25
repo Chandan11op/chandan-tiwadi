@@ -85,7 +85,7 @@ export default function About() {
                 </div>
                 <div>
                   <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Education</p>
-                  <p className="text-sm font-bold text-white">B.Tech in IT</p>
+                  <p className="text-sm font-bold text-white">BSc in IT</p>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function About() {
             {/* Download Resume CV Button */}
             <a
               href={resumePdf}
-              download="Chandan_Tiwari_Resume.pdf"
+              download="Chandan_Tiwadi_Resume.pdf"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 text-accent font-bold text-xs hover:bg-accent hover:text-white transition-all duration-300 shadow-blue-glow"
             >
               <Download className="w-4 h-4" />
