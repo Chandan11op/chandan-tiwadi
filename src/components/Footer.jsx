@@ -52,12 +52,12 @@ export default function Footer() {
         >
           <ArrowUp className="w-5 h-5 animate-pulse" />
         </button>
- 
+
         {/* Brand Logo / Initials */}
         <h3 className="text-2xl font-black text-accent tracking-wider mb-6 font-sans">
           Chandan Tiwadi
         </h3>
- 
+
         {/* Repeated Links */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-8">
           {navLinks.map((link) => (
@@ -71,7 +71,7 @@ export default function Footer() {
             </a>
           ))}
         </div>
- 
+
         {/* Social Icons */}
         <div className="flex gap-5 items-center mb-8">
           {[
@@ -104,7 +104,7 @@ export default function Footer() {
             </a>
           ))}
         </div>
- 
+
         {/* Copyright and Credits */}
         <div className="text-center space-y-1.5 border-t border-white/5 pt-6 w-full max-w-md">
           <p className="text-xs text-gray-400 font-semibold tracking-wide">

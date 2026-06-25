@@ -18,11 +18,11 @@ export default function Navbar() {
     { label: 'Contact', href: '#Contact' }
   ];
 
-  // Handle scroll to show/hide navbar
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-      
+
       // If menu is open, don't hide navbar
       if (!isOpen) {
         setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 50);
@@ -57,7 +57,7 @@ export default function Navbar() {
       const navbarHeight = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-      
+
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
@@ -68,13 +68,11 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform ${
-        visible ? 'translate-y-0' : '-translate-y-full'
-      } ${
-        prevScrollPos > 10
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform ${visible ? 'translate-y-0' : '-translate-y-full'
+        } ${prevScrollPos > 10
           ? 'bg-primary/95 backdrop-blur-md border-b border-glassBorder shadow-lg shadow-black/25 py-4'
           : 'bg-transparent py-6'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
         <a
@@ -102,9 +100,8 @@ export default function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className={`relative py-2 font-medium text-sm transition-colors duration-200 hover:text-accent ${
-                  isActive ? 'text-accent font-semibold' : 'text-gray-300'
-                }`}
+                className={`relative py-2 font-medium text-sm transition-colors duration-200 hover:text-accent ${isActive ? 'text-accent font-semibold' : 'text-gray-300'
+                  }`}
               >
                 {link.label}
                 {isActive && (
@@ -135,9 +132,8 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       <div
-        className={`md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-primary/98 backdrop-blur-lg border-t border-glassBorder transition-all duration-300 z-40 flex flex-col justify-center items-center space-y-8 px-6 ${
-          isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
-        }`}
+        className={`md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-primary/98 backdrop-blur-lg border-t border-glassBorder transition-all duration-300 z-40 flex flex-col justify-center items-center space-y-8 px-6 ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
+          }`}
         style={{ height: 'calc(100vh - 73px)' }}
       >
         {navLinks.map((link) => {
@@ -147,9 +143,8 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               onClick={(e) => handleLinkClick(e, link.href)}
-              className={`text-xl font-semibold tracking-wide transition-colors duration-200 ${
-                isActive ? 'text-accent border-b-2 border-accent pb-1' : 'text-gray-300 hover:text-accent'
-              }`}
+              className={`text-xl font-semibold tracking-wide transition-colors duration-200 ${isActive ? 'text-accent border-b-2 border-accent pb-1' : 'text-gray-300 hover:text-accent'
+                }`}
             >
               {link.label}
             </a>

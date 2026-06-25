@@ -5,7 +5,8 @@ import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaGithub, FaLinkedin, FaTwitter 
 import { SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiNextdotjs } from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
 import resumePdf from '../assets/Chandan Tiwadi.pdf';
-
+<>
+</>
 export default function About() {
   const { bio, location, email, name } = portfolioData.personalInfo;
 
