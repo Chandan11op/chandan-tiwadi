@@ -21,6 +21,7 @@ export const portfolioData = {
     github: "https://github.com/Chandan11op",
     linkedin: "https://www.linkedin.com/in/chandan-tiwadi/",
     instagram: "https://www.instagram.com/chandan_tiwadii/",
+    twitter: "https://x.com/ChandanTiwadi11",
     portfolioUrl: "https://first-basic-portfolio.vercel.app/",
     resumeUrl: "#", // Placeholder or self-generated link
     stats: [

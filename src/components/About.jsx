@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, MapPin, GraduationCap, Download } from 'lucide-react';
-import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiNextdotjs } from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
 import resumePdf from '../assets/Chandan Tiwadi.pdf';
@@ -153,7 +154,8 @@ export default function About() {
                 {[
                   { icon: <FaLinkedin className="w-5 h-5" />, href: portfolioData.personalInfo.linkedin, label: 'LinkedIn' },
                   { icon: <FaGithub className="w-5 h-5" />, href: portfolioData.personalInfo.github, label: 'GitHub' },
-                  { icon: <FaTwitter className="w-5 h-5" />, href: 'https://twitter.com', label: 'Twitter' },
+                  { icon: <FaXTwitter className="w-5 h-5" />, href: portfolioData.personalInfo.twitter, label: 'Twitter' },
+                  { icon: <FaInstagram className="w-5 h-5" />, href: portfolioData.personalInfo.instagram, label: 'Instagram' },
                   { icon: <Mail className="w-5 h-5" />, href: `mailto:${email}`, label: 'Email' }
                 ].map((social, idx) => (
                   <a

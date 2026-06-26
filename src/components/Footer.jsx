@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail, ArrowUp } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { portfolioData } from '../data/portfolioData';
 
 export default function Footer() {
@@ -77,6 +78,7 @@ export default function Footer() {
           {[
             { icon: <FaGithub className="w-5 h-5" />, href: personal.github, label: 'GitHub' },
             { icon: <FaLinkedin className="w-5 h-5" />, href: personal.linkedin, label: 'LinkedIn' },
+            { icon: <FaXTwitter className="w-5 h-5" />, href: personal.twitter, label: 'Twitter' },
             { icon: <FaInstagram className="w-5 h-5" />, href: personal.instagram, label: 'Instagram' },
             { icon: <Mail className="w-5 h-5" />, href: `mailto:${personal.email}`, label: 'Email' }
           ].map((social, idx) => (
