@@ -125,19 +125,22 @@ export const portfolioData = {
       degree: "B.Sc. Information Technology",
       period: "2024 – Present | Third Year",
       details: "SGPA: S1: 8.36 | S2: 8.68 | S3: 7.64 | S4: 7.36",
-      relevantCourses: ["Web Development", "Software Engineering", "Computer Networks", "Data Structures", "Java", "DBMS", "IoT"]
+      relevantCourses: ["Web Development", "Software Engineering", "Computer Networks", "Data Structures", "Java", "DBMS", "IoT"],
+      image: "/Galley/Education/kpb-hinduja-college-of-commerce-mumbai-361976.webp"
     },
     {
       institution: "Durgadevi Saraf Junior College, Mumbai",
       degree: "HSC (12th)",
       period: "2022 – 2024",
-      details: "Percentage: 79.17%"
+      details: "Percentage: 79.17%",
+      image: "/Galley/Education/durgadevi-saraf-junior-college.avif"
     },
     {
       institution: "St. Agnes English High School, Mumbai",
       degree: "SSC (10th)",
       period: "2012 – 2022",
-      details: "Percentage: 75.75%"
+      details: "Percentage: 75.75%",
+      image: "/Galley/Education/St_Agnes_English_High_School.jpg"
     }
   ],
   certifications: [
@@ -145,31 +148,50 @@ export const portfolioData = {
       title: "JavaScript Bootcamp",
       issuer: "LetsUpgrade",
       year: "2025",
-      badgeIcon: "js"
+      badgeIcon: "js",
+      image: "/Galley/certificates/JavaScriptLU.png"
     },
     {
       title: "Python for Beginners",
       issuer: "Simplilearn",
       year: "2024",
-      badgeIcon: "python"
+      badgeIcon: "python",
+      image: "/Galley/certificates/python certificate.png"
     },
     {
       title: "Website UI/UX Designing using ChatGPT",
       issuer: "Simplilearn",
       year: "2024",
-      badgeIcon: "ui"
+      badgeIcon: "ui",
+      image: "/Galley/certificates/website Designing certificate.png"
     },
     {
       title: "HTML Certification",
       issuer: "STP Computer Education",
       year: "2024",
-      badgeIcon: "html"
+      badgeIcon: "html",
+      image: "/Galley/certificates/HTML&CSS.png"
     },
     {
       title: "C Programming Basics",
       issuer: "Simplilearn",
       year: "2024",
-      badgeIcon: "c"
+      badgeIcon: "c",
+      image: "/Galley/certificates/chandan c certificate.png"
+    },
+    {
+      title: "Artificial Intelligence & Machine Learning",
+      issuer: "LetsUpgrade",
+      year: "2024",
+      badgeIcon: "ai",
+      image: "/Galley/certificates/Chandan  Tiwadi_AIML.png"
+    },
+    {
+      title: "Certificate of Completion",
+      issuer: "LetsUpgrade",
+      year: "2024",
+      badgeIcon: "award",
+      image: "/Galley/certificates/Chandan Tiwadi  Certificate.png"
     }
   ]
 };
