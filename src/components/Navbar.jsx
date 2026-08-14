@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
-import profileImg from '../assets/portfolio_image.png';
+import profileImg from '../assets/portfolio_image.jpg';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
