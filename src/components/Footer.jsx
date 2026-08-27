@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mail, ArrowUp } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { portfolioData } from '../data/portfolioData';
 
@@ -105,6 +105,19 @@ export default function Footer() {
               {social.icon}
             </a>
           ))}
+        </div>
+
+        {/* WhatsApp CTA */}
+        <div className="mb-8">
+          <a
+            href={`https://wa.me/${personal.phone.replace(/[\s+()-]/g, '')}?text=Hey%20Chandan%20Tiwadi`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary border border-glassBorder hover:border-[#25D366] text-gray-400 hover:text-[#25D366] hover:-translate-y-1 transition-all duration-300 font-semibold text-sm"
+          >
+            <FaWhatsapp className="w-5 h-5" />
+            Chat Now on WhatsApp
+          </a>
         </div>
 
         {/* Copyright and Credits */}
