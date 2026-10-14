@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, Terminal, Layers, Globe, Cpu, FileCode2, ZoomIn, Brain } from 'lucide-react';
+import { Award, Terminal, Layers, Globe, Cpu, FileCode2, ZoomIn, Brain, X } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicCertificates } from '../services/publicData';
+import CinematicSmoke from './CinematicSmoke';
 
 export default function Certifications() {
   const [certificationsData, setCertificationsData] = useState(portfolioData.certifications);
@@ -22,19 +23,19 @@ export default function Certifications() {
   const getBadgeIcon = (icon) => {
     switch (icon) {
       case 'js':
-        return <FileCode2 className="w-6 h-6 text-accent" />;
+        return <FileCode2 className="w-5 h-5 text-[#8C97E6]" />;
       case 'python':
-        return <Terminal className="w-6 h-6 text-secondaryAccent" />;
+        return <Terminal className="w-5 h-5 text-[#4D5BC9]" />;
       case 'ui':
-        return <Layers className="w-6 h-6 text-blue-400" />;
+        return <Layers className="w-5 h-5 text-[#8C97E6]" />;
       case 'html':
-        return <Globe className="w-6 h-6 text-accent" />;
+        return <Globe className="w-5 h-5 text-[#4D5BC9]" />;
       case 'c':
-        return <Cpu className="w-6 h-6 text-secondaryAccent" />;
+        return <Cpu className="w-5 h-5 text-[#8C97E6]" />;
       case 'ai':
-        return <Brain className="w-6 h-6 text-purple-400" />;
+        return <Brain className="w-5 h-5 text-[#4D5BC9]" />;
       default:
-        return <Award className="w-6 h-6 text-accent" />;
+        return <Award className="w-5 h-5 text-[#8C97E6]" />;
     }
   };
 
@@ -43,13 +44,13 @@ export default function Certifications() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15
+        staggerChildren: 0.1
       }
     }
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, scale: 0.95, y: 20 },
+    hidden: { opacity: 0, scale: 0.96, y: 20 },
     visible: {
       opacity: 1,
       scale: 1,
@@ -59,29 +60,25 @@ export default function Certifications() {
   };
 
   return (
-    <section id="Certifications" className="relative py-24 md:py-32 bg-darkBg overflow-hidden">
-      {/* Background decoration */}
-      <div className="glow-orb w-[300px] h-[300px] bg-primary bottom-10 left-10" />
+    <section id="Certifications" className="relative py-28 md:py-36 bg-black overflow-hidden border-t border-white/[0.04]">
+      {/* Background Volumetric Smoke */}
+      <CinematicSmoke intensity="subtle" align="left" className="opacity-70" />
+      <div className="absolute top-1/3 right-1/4 w-[450px] h-[450px] bg-[#2C3480]/15 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
         {/* Section Heading */}
-        <div className="text-center mb-16 md:mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-5xl font-extrabold tracking-tight inline-block"
-          >
-            My <span className="text-gradient-gold">Certifications</span>
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '80px' }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
-          />
+        <div className="mb-16 md:mb-20 text-center">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#8C97E6] font-bold block mb-2">
+            VALIDATED COMPETENCY
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
+            Professional <span className="text-gradient-cobalt">Certifications</span>
+          </h2>
+          <div className="w-16 h-1 bg-[#2C3480] mx-auto rounded-full mt-3 shadow-[0_0_12px_#2C3480]" />
+          <p className="text-sm md:text-base text-gray-400 mt-4 max-w-lg mx-auto font-normal leading-relaxed">
+            Industry and institutional credentials verifying competence across software engineering, web development, and algorithms.
+          </p>
         </div>
 
         {/* Certifications Grid */}
@@ -89,45 +86,49 @@ export default function Certifications() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, margin: '-80px' }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-center"
         >
           {certificationsData.map((cert, idx) => (
             <motion.div
               key={idx}
               variants={cardVariants}
-              whileHover={{ y: -5, scale: 1.02, transition: { duration: 0.2 } }}
-              className="glass-card rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-blue-glow transition-all duration-300 overflow-hidden flex flex-col cursor-pointer"
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_8px_32px_rgba(44,52,128,0.3)] transition-all duration-300 overflow-hidden flex flex-col cursor-pointer group text-left"
               onClick={() => setSelectedImage({ src: cert.image, title: cert.title })}
             >
               {cert.image && (
-                <div className="relative w-full h-48 overflow-hidden border-b border-glassBorder group shrink-0">
+                <div className="relative w-full h-52 overflow-hidden border-b border-white/[0.06] bg-black/60 shrink-0">
                   <img 
                     src={cert.image} 
                     alt={cert.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                    <ZoomIn className="w-8 h-8 text-white" />
+                    <div className="p-3 rounded-full bg-[#2C3480]/80 border border-white/20 text-white shadow-[0_0_20px_#2C3480]">
+                      <ZoomIn className="w-5 h-5" />
+                    </div>
                   </div>
                 </div>
               )}
 
-              <div className="p-6 md:p-8 flex items-start gap-4 flex-1">
-                {/* Badge Icon wrapper */}
-                <div className="p-3 rounded-2xl bg-primary/80 border border-glassBorder shadow-inner shrink-0">
+              <div className="p-6 sm:p-7 flex items-start gap-4 flex-1">
+                {/* Badge Icon */}
+                <div className="p-3 rounded-2xl bg-[#2C3480]/20 border border-[#2C3480]/40 shrink-0">
                   {getBadgeIcon(cert.badgeIcon)}
                 </div>
 
-                {/* Certification detail */}
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-accent tracking-widest uppercase bg-accent/10 px-2 py-0.5 rounded border border-accent/20">
-                    {cert.year}
-                  </span>
-                  <h3 className="text-lg font-bold text-gray-100 leading-snug pt-1.5">
+                {/* Certification Detail */}
+                <div className="space-y-1.5 flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[10px] font-bold text-[#8C97E6] tracking-widest uppercase bg-[#2C3480]/25 px-2.5 py-0.5 rounded-full border border-[#2C3480]/50 font-mono">
+                      {cert.year}
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug group-hover:text-[#8C97E6] transition-colors font-sans">
                     {cert.title}
                   </h3>
-                  <p className="text-sm text-gray-400 font-semibold">
+                  <p className="text-xs sm:text-sm text-gray-400 font-medium">
                     {cert.issuer}
                   </p>
                 </div>
@@ -135,6 +136,7 @@ export default function Certifications() {
             </motion.div>
           ))}
         </motion.div>
+
       </div>
 
       {/* Lightbox Modal */}
@@ -144,30 +146,31 @@ export default function Certifications() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 cursor-pointer"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 cursor-pointer"
             onClick={() => setSelectedImage(null)}
           >
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.92, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative max-w-4xl max-h-[85vh] overflow-hidden rounded-2xl border border-white/20 bg-darkBg/60 p-2 shadow-2xl"
+              className="relative max-w-4xl max-h-[85vh] overflow-hidden rounded-3xl border border-white/20 bg-black/90 p-4 shadow-[0_0_50px_rgba(44,52,128,0.5)]"
               onClick={(e) => e.stopPropagation()}
             >
               <img 
                 src={selectedImage.src} 
                 alt={selectedImage.title} 
-                className="max-w-full max-h-[75vh] rounded-xl object-contain mx-auto"
+                className="max-w-full max-h-[75vh] rounded-2xl object-contain mx-auto"
               />
-              <div className="text-center mt-3 text-sm text-gray-300 font-semibold px-4">
+              <div className="text-center mt-3 text-sm text-gray-300 font-semibold px-4 font-sans">
                 {selectedImage.title}
               </div>
               <button 
-                className="absolute top-4 right-4 text-white bg-black/60 hover:bg-black/80 w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors border border-white/10"
+                className="absolute top-5 right-5 text-white bg-black/80 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors border border-white/20 cursor-pointer"
                 onClick={() => setSelectedImage(null)}
+                aria-label="Close certificate lightbox"
               >
-                ✕
+                <X className="w-5 h-5" />
               </button>
             </motion.div>
           </motion.div>

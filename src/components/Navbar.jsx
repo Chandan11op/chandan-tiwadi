@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Download } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
-import profileImg from '../assets/portfolio_image.jpg';
+import frontPortrait from '../assets/portfolio/front.png';
 import resumePdf from '../assets/Chandan Tiwadi.pdf';
 import { getPublicActiveResume } from '../services/publicData';
 
@@ -9,8 +9,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [activeSection, setActiveSection] = useState('');
-
+  const [activeSection, setActiveSection] = useState('Hero');
   const [activeResumeUrl, setActiveResumeUrl] = useState(resumePdf);
 
   useEffect(() => {
@@ -32,19 +31,22 @@ export default function Navbar() {
     { label: 'Contact', href: '#Contact' }
   ];
 
-
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
 
-      // If menu is open, don't hide navbar
       if (!isOpen) {
         setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 50);
       }
       setPrevScrollPos(currentScrollPos);
 
       // Track active section
-      const scrollPosition = currentScrollPos + 160; // offset for navbar height
+      const scrollPosition = currentScrollPos + 180;
+      if (currentScrollPos < 200) {
+        setActiveSection('Hero');
+        return;
+      }
+
       for (const link of navLinks) {
         const sectionId = link.href.substring(1);
         const element = document.getElementById(sectionId);
@@ -58,7 +60,7 @@ export default function Navbar() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [prevScrollPos, isOpen]);
 
@@ -82,31 +84,41 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform ${visible ? 'translate-y-0' : '-translate-y-full'
-        } ${prevScrollPos > 10
-          ? 'bg-primary/95 backdrop-blur-md border-b border-glassBorder shadow-lg shadow-black/25 py-4'
-          : 'bg-transparent py-6'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform ${
+        visible ? 'translate-y-0' : '-translate-y-full'
+      } ${
+        prevScrollPos > 15
+          ? 'bg-black/85 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.8)] py-3.5'
+          : 'bg-transparent py-5'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+        {/* Brand / Logo */}
         <a
           href="#Hero"
           onClick={(e) => handleLinkClick(e, '#Hero')}
-          className="flex items-center gap-3 group transition-transform duration-200"
+          className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2C3480] rounded-xl p-1"
+          aria-label="Chandan Tiwadi Portfolio Home"
         >
-          {/* Profile Image Logo */}
-          <img
-            src={profileImg}
-            alt="Chandan Tiwadi"
-            className="w-10 h-10 rounded-full object-cover border border-accent/40 shadow-blue-glow group-hover:scale-105 transition-all duration-300"
-          />
-          <span className="text-lg font-extrabold tracking-tight text-gray-100 group-hover:text-accent transition-colors duration-300 font-sans">
-            Chandan Tiwadi
-          </span>
+          <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#2C3480]/60 bg-black shadow-[0_0_15px_rgba(44,52,128,0.4)] group-hover:border-[#3E49A8] group-hover:shadow-[0_0_20px_rgba(62,73,168,0.6)] transition-all duration-300">
+            <img
+              src={frontPortrait}
+              alt="Chandan Tiwadi"
+              className="w-full h-full object-cover object-top scale-110 group-hover:scale-120 transition-transform duration-300"
+            />
+          </div>
+          <div className="flex flex-col text-left">
+            <span className="text-base font-extrabold tracking-tight text-white group-hover:text-white transition-colors duration-200 font-sans">
+              Chandan Tiwadi
+            </span>
+            <span className="text-[10px] tracking-widest uppercase font-mono text-[#8C97E6] -mt-0.5">
+              Software Engineer
+            </span>
+          </div>
         </a>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex space-x-8 items-center font-sans">
+        <div className="hidden md:flex space-x-7 items-center font-sans">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.substring(1);
             return (
@@ -114,44 +126,47 @@ export default function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className={`relative py-2 font-medium text-sm transition-colors duration-200 hover:text-accent ${isActive ? 'text-accent font-semibold' : 'text-gray-300'
-                  }`}
+                className={`relative py-1.5 text-xs font-semibold tracking-wider uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#2C3480] ${
+                  isActive ? 'text-white' : 'text-gray-400 hover:text-white'
+                }`}
               >
                 {link.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-accent rounded-full animate-pulse shadow-blue-glow" />
+                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#2C3480] rounded-full shadow-[0_0_10px_#2C3480]" />
                 )}
               </a>
             );
           })}
+
           {/* Download CV Action */}
           <a
             href={activeResumeUrl}
             download="Chandan_Tiwadi_Resume.pdf"
             target={activeResumeUrl !== resumePdf ? "_blank" : undefined}
             rel="noopener noreferrer"
-            className="px-5 py-2 rounded-full border border-accent/40 text-gray-200 font-semibold text-sm hover:bg-accent hover:text-white hover:border-accent hover:shadow-blue-glow-hover transition-all duration-300 flex items-center gap-1.5 bg-accent/5"
+            className="px-4 py-2 rounded-xl border border-[#2C3480]/60 text-white font-bold text-xs hover:bg-[#2C3480] hover:border-[#3E49A8] hover:shadow-[0_0_20px_rgba(44,52,128,0.5)] transition-all duration-300 flex items-center gap-1.5 bg-[#2C3480]/15"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>Download CV</span>
+            <Download className="w-3.5 h-3.5 text-[#8C97E6]" />
+            <span>Resume</span>
           </a>
         </div>
 
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-gray-300 hover:text-accent focus:outline-none"
+          className="md:hidden p-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-[#2C3480] focus:outline-none focus:ring-2 focus:ring-[#2C3480]"
           aria-label="Toggle navigation menu"
         >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {/* Mobile Drawer */}
       <div
-        className={`md:hidden fixed top-[73px] left-0 right-0 bottom-0 bg-primary/98 backdrop-blur-lg border-t border-glassBorder transition-all duration-300 z-40 flex flex-col justify-center items-center space-y-8 px-6 ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
-          }`}
-        style={{ height: 'calc(100vh - 73px)' }}
+        className={`md:hidden fixed top-[65px] left-0 right-0 bottom-0 bg-black/95 backdrop-blur-2xl border-t border-white/10 transition-all duration-300 z-40 flex flex-col justify-center items-center space-y-7 px-6 ${
+          isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
+        }`}
+        style={{ height: 'calc(100vh - 65px)' }}
       >
         {navLinks.map((link) => {
           const isActive = activeSection === link.href.substring(1);
@@ -160,8 +175,9 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               onClick={(e) => handleLinkClick(e, link.href)}
-              className={`text-xl font-semibold tracking-wide transition-colors duration-200 ${isActive ? 'text-accent border-b-2 border-accent pb-1' : 'text-gray-300 hover:text-accent'
-                }`}
+              className={`text-lg font-bold tracking-widest uppercase transition-colors duration-200 ${
+                isActive ? 'text-white border-b-2 border-[#2C3480] pb-1' : 'text-gray-400 hover:text-white'
+              }`}
             >
               {link.label}
             </a>
@@ -172,10 +188,10 @@ export default function Navbar() {
           download="Chandan_Tiwadi_Resume.pdf"
           target={activeResumeUrl !== resumePdf ? "_blank" : undefined}
           rel="noopener noreferrer"
-          className="px-8 py-3 rounded-full border border-accent/40 text-gray-200 font-semibold text-base hover:bg-accent hover:text-white transition-all duration-300 w-full text-center max-w-xs bg-accent/5 flex items-center justify-center gap-2"
+          className="px-6 py-3 rounded-xl border border-[#2C3480] text-white font-bold text-sm hover:bg-[#2C3480] transition-all duration-300 w-full text-center max-w-xs bg-[#2C3480]/20 flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(44,52,128,0.3)]"
         >
-          <Download className="w-4 h-4" />
-          <span>Download CV</span>
+          <Download className="w-4 h-4 text-[#8C97E6]" />
+          <span>Download Resume</span>
         </a>
       </div>
     </nav>

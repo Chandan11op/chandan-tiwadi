@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Calendar, Code2, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ExternalLink, Calendar, Code2, ChevronDown, ChevronUp, Sparkles, ArrowRight } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicProjects } from '../services/publicData';
+import CinematicSmoke from './CinematicSmoke';
 
 export default function Projects() {
   const [projectsData, setProjectsData] = useState(portfolioData.projects);
@@ -16,9 +17,7 @@ export default function Projects() {
         setProjectsData(data);
       }
     });
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, []);
 
   const toggleExpand = (id) => {
@@ -28,48 +27,18 @@ export default function Projects() {
     }));
   };
 
-  // Render glow classes based on highlightColor
-  const getGlowStyles = (color) => {
-    switch (color) {
-      case 'gold': // Changed to purple/indigo styling for the new theme
-        return {
-          cardClass: 'border-accentPurple/30 hover:border-accentPurple/60 shadow-[0_0_15px_rgba(139,92,246,0.08)] hover:shadow-[0_0_25px_rgba(139,92,246,0.3)]',
-          badgeClass: 'bg-accentPurple/15 text-accentPurple border-accentPurple/20',
-          techBadgeClass: 'border-accentPurple/10 text-accentPurple/90 hover:border-accentPurple/30'
-        };
-      case 'blue':
-        return {
-          cardClass: 'border-blue-500/30 hover:border-blue-500/60 shadow-[0_0_15px_rgba(30,144,255,0.08)] hover:shadow-[0_0_25px_rgba(30,144,255,0.3)]',
-          badgeClass: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
-          techBadgeClass: 'border-blue-500/10 text-blue-400/90 hover:border-blue-500/30'
-        };
-      case 'electric-blue':
-        return {
-          cardClass: 'border-accent/40 hover:border-accent/80 shadow-[0_0_20px_rgba(59,130,246,0.12)] hover:shadow-[0_0_30px_rgba(59,130,246,0.45)]',
-          badgeClass: 'bg-accent/20 text-accent border-accent/40 shadow-blue-glow',
-          techBadgeClass: 'border-accent/20 text-accent hover:border-accent/40'
-        };
-      default:
-        return {
-          cardClass: 'border-white/5 hover:border-white/20 shadow-[0_0_10px_rgba(255,255,255,0.02)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]',
-          badgeClass: 'bg-white/5 text-gray-300 border-white/10',
-          techBadgeClass: 'border-white/5 text-gray-300 hover:border-white/20'
-        };
-    }
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15
+        staggerChildren: 0.12
       }
     }
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
@@ -78,41 +47,40 @@ export default function Projects() {
   };
 
   return (
-    <section id="Projects" className="relative py-24 md:py-32 bg-darkBg overflow-hidden">
-      {/* Background orbs */}
-      <div className="glow-orb w-[400px] h-[400px] bg-primary top-1/3 left-1/4" />
-      
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+    <section id="Projects" className="relative py-28 md:py-36 bg-black overflow-hidden border-t border-white/[0.04]">
+      {/* Background Volumetric Smoke */}
+      <CinematicSmoke intensity="subtle" align="left" className="opacity-70" />
+      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-[#2C3480]/15 rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
         {/* Section Heading */}
-        <div className="text-center mb-16 md:mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-5xl font-extrabold tracking-tight inline-block"
-          >
-            My <span className="text-gradient-gold">Projects</span>
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '80px' }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
-          />
+        <div className="mb-16 md:mb-20 text-left">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#8C97E6] font-bold block mb-2">
+            PROVEN IMPLEMENTATIONS
+          </span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
+                Featured <span className="text-gradient-cobalt">Projects</span>
+              </h2>
+              <div className="w-16 h-1 bg-[#2C3480] rounded-full mt-3 shadow-[0_0_12px_#2C3480]" />
+            </div>
+            <p className="text-sm md:text-base text-gray-400 max-w-md font-normal leading-relaxed">
+              Real-world systems, client solutions, and modern software architectures built for performance, security, and scalability.
+            </p>
+          </div>
         </div>
 
-        {/* Projects Grid */}
+        {/* Projects Grid: Spacious 2-Column Desktop Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, margin: '-80px' }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch"
         >
           {projectsData.map((project) => {
-            const glowStyles = getGlowStyles(project.highlightColor);
             const isExpanded = Boolean(expandedIds[project.id]);
             const isLongDescription = project.description && project.description.length > 130;
 
@@ -121,31 +89,32 @@ export default function Projects() {
                 key={project.id}
                 variants={cardVariants}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className={`glass-card p-6 md:p-8 rounded-3xl border transition-all duration-300 flex flex-col justify-between h-full ${glowStyles.cardClass}`}
+                className="p-7 sm:p-9 rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_12px_36px_rgba(44,52,128,0.35)] transition-all duration-300 flex flex-col justify-between h-full group"
               >
                 <div className="flex-1 flex flex-col">
                   {/* Card Header & Badge */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-                    <span className={`px-4 py-1.5 rounded-full text-xs font-bold border w-fit ${glowStyles.badgeClass}`}>
-                      {project.badge}
+                    <span className="px-3.5 py-1.5 rounded-full text-xs font-bold border border-[#2C3480]/60 bg-[#2C3480]/20 text-[#8C97E6] w-fit shadow-[0_0_15px_rgba(44,52,128,0.25)] flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3 text-[#8C97E6]" />
+                      <span>{project.badge}</span>
                     </span>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
-                      <Calendar className="w-4 h-4 text-accent/70" />
+                      <Calendar className="w-3.5 h-3.5 text-[#8C97E6]" />
                       <span>{project.period}</span>
                     </div>
                   </div>
 
                   {/* Title & Type */}
-                  <h3 className="text-2xl font-extrabold text-gray-100 mb-1 group-hover:text-accent transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-1.5 group-hover:text-[#8C97E6] transition-colors font-sans">
                     {project.title}
                   </h3>
-                  <p className="text-xs font-semibold text-gray-400 tracking-wider uppercase mb-4 flex items-center gap-1.5">
-                    <Code2 className="w-3.5 h-3.5 text-accent" />
-                    {project.type}
+                  <p className="text-xs font-semibold text-gray-400 tracking-wider uppercase mb-5 flex items-center gap-1.5 font-mono">
+                    <Code2 className="w-3.5 h-3.5 text-[#4D5BC9]" />
+                    <span>{project.type}</span>
                   </p>
 
                   {/* Description with Expand / View More */}
-                  <div className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
+                  <div className="text-gray-300 text-sm sm:text-base leading-relaxed mb-6 font-normal">
                     <p className={`transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>
                       {project.description}
                     </p>
@@ -153,7 +122,7 @@ export default function Projects() {
                       <button
                         type="button"
                         onClick={() => toggleExpand(project.id)}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:text-accentPurple transition-colors mt-2 cursor-pointer"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-[#8C97E6] hover:text-white transition-colors mt-2 cursor-pointer"
                       >
                         <span>{isExpanded ? 'View Less' : 'View More'}</span>
                         {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -168,7 +137,7 @@ export default function Projects() {
                     {project.tech.map((techItem, index) => (
                       <span
                         key={index}
-                        className={`px-3 py-1 rounded-full text-xs font-medium border bg-primary/40 transition-colors duration-200 ${glowStyles.techBadgeClass}`}
+                        className="px-3 py-1 rounded-xl text-xs font-medium border border-white/10 bg-white/[0.03] text-gray-300 group-hover:border-[#2C3480]/50 transition-colors duration-200"
                       >
                         {techItem}
                       </span>
@@ -176,15 +145,15 @@ export default function Projects() {
                   </div>
 
                   {/* Project Links */}
-                  <div className="flex items-center gap-4 pt-4 border-t border-white/5 mt-auto">
+                  <div className="flex items-center gap-3 pt-5 border-t border-white/[0.06] mt-auto">
                     {project.links.github && (
                       <a
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-xs md:text-sm font-bold text-gray-300 hover:text-accent transition-colors duration-200 group/link"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-white/30 text-gray-300 hover:text-white transition-all duration-200 text-xs font-bold"
                       >
-                        <FaGithub className="w-4 h-4 group-hover/link:rotate-6 transition-transform" />
+                        <FaGithub className="w-4 h-4" />
                         <span>Source Code</span>
                       </a>
                     )}
@@ -193,10 +162,10 @@ export default function Projects() {
                         href={project.links.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-xs md:text-sm font-bold text-accent hover:text-accentPurple transition-colors duration-200 group/link"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#2C3480] border border-[#4D5BC9]/50 hover:bg-[#3E49A8] text-white hover:shadow-[0_0_20px_rgba(62,73,168,0.5)] transition-all duration-200 text-xs font-bold shadow-[0_0_12px_rgba(44,52,128,0.3)] ml-auto"
                       >
-                        <ExternalLink className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                         <span>Live Demo</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     )}
                   </div>
@@ -205,6 +174,7 @@ export default function Projects() {
             );
           })}
         </motion.div>
+
       </div>
     </section>
   );

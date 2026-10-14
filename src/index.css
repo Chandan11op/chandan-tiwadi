@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,99 +7,220 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #030712;
-    color: #F3F4F6;
+    background-color: #000000;
+    color: #FFFFFF;
     font-family: 'Outfit', 'Inter', system-ui, sans-serif;
   }
   
   body {
     overflow-x: hidden;
+    background-color: #000000;
+    color: #FFFFFF;
+  }
+
+  ::selection {
+    background-color: #2C3480;
+    color: #FFFFFF;
   }
   
-  /* Scrollbar Customization */
+  /* Scrollbar Customization: Pure Black & Cobalt */
   ::-webkit-scrollbar {
     width: 8px;
   }
   
   ::-webkit-scrollbar-track {
-    background: #030712;
+    background: #000000;
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #0b0f19;
+    background: #141838;
     border-radius: 4px;
-    border: 1px solid rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(44, 52, 128, 0.4);
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: #3b82f6;
+    background: #2C3480;
+    box-shadow: 0 0 12px rgba(44, 52, 128, 0.8);
   }
 }
 
 @layer components {
-  /* Premium Glassmorphism Card style */
+  /* Cinematic Black & Cobalt Glassmorphism */
   .glass-card {
-    background: rgba(11, 15, 25, 0.65);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(99, 102, 241, 0.08);
+    background: rgba(6, 8, 16, 0.78);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .glass-card-blue {
-    background: rgba(11, 15, 25, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(59, 130, 246, 0.15);
+  .glass-card-cobalt {
+    background: rgba(8, 11, 24, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(44, 52, 128, 0.45);
+    box-shadow: 0 0 35px rgba(44, 52, 128, 0.25);
   }
 
-  .glass-card-neutral {
-    background: rgba(11, 15, 25, 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-  }
-
-  .text-gradient-gold {
-    background: linear-gradient(135deg, #FFF 0%, #3b82f6 50%, #8b5cf6 100%);
+  /* Editorial Gradient Typography */
+  .text-gradient-cobalt {
+    background: linear-gradient(135deg, #FFFFFF 15%, #C2C9FF 50%, #8C97E6 75%, #2C3480 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .text-gradient-blue {
-    background: linear-gradient(135deg, #FFF 0%, #3b82f6 50%, #2563eb 100%);
+    background: linear-gradient(135deg, #FFFFFF 20%, #A4ADFF 65%, #2C3480 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .text-gradient-mixed {
-    background: linear-gradient(135deg, #3b82f6 0%, #FFF 50%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #FFFFFF 20%, #C2C9FF 60%, #2C3480 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #FFFFFF 20%, #C2C9FF 65%, #2C3480 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Volumetric Cobalt Rim Glow */
+  .cobalt-rim-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(75px);
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(circle, rgba(62, 73, 168, 0.65) 0%, rgba(44, 52, 128, 0.35) 45%, transparent 75%);
+  }
+
+  /* Soft Feathering Vignette for Portrait integration */
+  .portrait-bottom-vignette {
+    mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
+    -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 98%);
+  }
 }
 
-/* Background glowing blur points */
-.glow-orb {
+/* =========================================================================
+   REAL, VISIBLE VOLUMETRIC SMOKE SYSTEM
+   Multi-layered, organic billowing smoke clouds with luminous cobalt cores
+   ========================================================================= */
+
+.billowing-smoke-container {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
+  inset: 0;
+  overflow: hidden;
   pointer-events: none;
-  opacity: 0.15;
   z-index: 0;
 }
 
-/* Custom typewriter cursor */
-.typewriter-cursor::after {
-  content: '|';
-  animation: blink 0.8s infinite;
+/* Layer 1: Massive Deep Cobalt Plume */
+.smoke-plume-primary {
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  background: radial-gradient(circle at 45% 45%, rgba(62, 73, 168, 0.5) 0%, rgba(44, 52, 128, 0.3) 45%, rgba(0, 0, 0, 0) 72%);
+  filter: blur(48px);
+  animation: smokeBillow1 18s ease-in-out infinite alternate;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+/* Layer 2: Glowing Blue-White Vapor Cloud */
+.smoke-plume-vapor {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 55% 45% 35% 65% / 50% 60% 40% 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(164, 173, 255, 0.38) 0%, rgba(62, 73, 168, 0.22) 50%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(52px);
+  animation: smokeBillow2 14s ease-in-out infinite alternate;
 }
 
-/* Timeline Custom Styles */
+/* Layer 3: Secondary Swirling Plume */
+.smoke-plume-secondary {
+  position: absolute;
+  width: 580px;
+  height: 580px;
+  border-radius: 60% 40% 55% 45% / 40% 55% 45% 60%;
+  background: radial-gradient(circle at 55% 45%, rgba(44, 52, 128, 0.45) 0%, rgba(30, 36, 92, 0.25) 50%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(55px);
+  animation: smokeBillow3 22s ease-in-out infinite alternate;
+}
+
+/* Core Volumetric Light Bloom */
+.smoke-light-bloom {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 113, 223, 0.45) 0%, rgba(44, 52, 128, 0.25) 45%, transparent 70%);
+  filter: blur(40px);
+  animation: smokePulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes smokeBillow1 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(30px, -25px) scale(1.15) rotate(45deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-25px, 20px) scale(0.92) rotate(90deg);
+    opacity: 0.55;
+  }
+}
+
+@keyframes smokeBillow2 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(-35px, 25px) scale(1.18) rotate(-40deg);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(25px, -30px) scale(0.95) rotate(-80deg);
+    opacity: 0.4;
+  }
+}
+
+@keyframes smokeBillow3 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(25px, 35px) scale(1.12) rotate(60deg);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate(-30px, -20px) scale(0.9) rotate(120deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes smokePulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.45;
+  }
+}
+
+/* Timeline Custom Styles with Cobalt Gradient */
 .timeline-line::before {
   content: '';
   position: absolute;
@@ -107,8 +228,9 @@
   bottom: 0;
   left: 15px;
   width: 2px;
-  background: linear-gradient(to bottom, #3b82f6, #8b5cf6, transparent);
+  background: linear-gradient(to bottom, #2C3480, rgba(44, 52, 128, 0.4), transparent);
 }
+
 @media (min-width: 768px) {
   .timeline-line::before {
     left: 50%;
@@ -116,17 +238,26 @@
   }
 }
 
-/* Premium responsive Hero background mountain image styling */
-.hero-bg {
-  background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.92) 0%, rgba(3, 7, 18, 0.75) 60%, #030712 100%), url('./assets/mountain_bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+/* Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 
-@media (min-width: 1024px) {
-  .hero-bg {
-    background-image: linear-gradient(to right, #030712 35%, rgba(3, 7, 18, 0.8) 65%, rgba(3, 7, 18, 0.15) 100%), url('./assets/mountain_bg.png');
-    background-position: right center;
+  .smoke-plume-primary,
+  .smoke-plume-vapor,
+  .smoke-plume-secondary,
+  .smoke-light-bloom {
+    animation: none !important;
+    opacity: 0.45 !important;
   }
 }

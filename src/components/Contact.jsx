@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Globe, Send, CheckCircle2, Loader2 } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
+import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react';
+import { FaGithub, FaWhatsapp } from 'react-icons/fa';
 import { portfolioData } from '../data/portfolioData';
+import CinematicSmoke from './CinematicSmoke';
 
 export default function Contact() {
   const personal = portfolioData.personalInfo;
@@ -46,67 +47,65 @@ export default function Contact() {
   };
 
   const contactDetails = [
-    { icon: <Mail className="w-5 h-5 text-accent" />, label: 'Email', value: personal.email, href: `mailto:${personal.email}` },
-    { icon: <Phone className="w-5 h-5 text-secondaryAccent" />, label: 'Phone', value: personal.phone, href: `tel:${personal.phone.replace(/\s+/g, '')}` },
-    { icon: <MapPin className="w-5 h-5 text-accent" />, label: 'Location', value: personal.location, href: null },
-    { icon: <FaGithub className="w-5 h-5 text-secondaryAccent" />, label: 'GitHub', value: 'Chandan11op', href: personal.github }
+    { icon: <Mail className="w-5 h-5 text-[#8C97E6]" />, label: 'Email', value: personal.email, href: `mailto:${personal.email}` },
+    { icon: <Phone className="w-5 h-5 text-[#4D5BC9]" />, label: 'Phone', value: personal.phone, href: `tel:${personal.phone.replace(/\s+/g, '')}` },
+    { icon: <MapPin className="w-5 h-5 text-[#8C97E6]" />, label: 'Location', value: personal.location, href: null },
+    { icon: <FaGithub className="w-5 h-5 text-[#4D5BC9]" />, label: 'GitHub', value: 'Chandan11op', href: personal.github }
   ];
 
   return (
-    <section id="Contact" className="relative py-24 md:py-32 bg-primary/20 overflow-hidden">
-      {/* Background decoration */}
-      <div className="glow-orb w-[400px] h-[400px] bg-secondaryAccent top-1/4 right-0 translate-x-1/2" />
-      <div className="glow-orb w-[300px] h-[300px] bg-primary bottom-0 left-0 -translate-x-1/3 -translate-y-1/3" />
+    <section id="Contact" className="relative py-28 md:py-36 bg-black overflow-hidden border-t border-white/[0.04]">
+      {/* Background Volumetric Smoke */}
+      <CinematicSmoke intensity="subtle" align="right" className="opacity-70" />
+      <div className="absolute top-1/3 left-1/4 w-[450px] h-[450px] bg-[#2C3480]/15 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
         {/* Section Heading */}
-        <div className="text-center mb-16 md:mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-5xl font-extrabold tracking-tight inline-block"
-          >
-            Let's <span className="text-gradient-gold">Connect</span>
-          </motion.h2>
-          <p className="text-sm md:text-base text-gray-400 mt-3 font-medium tracking-wide">
-            Open to Full Stack Developer Internships & Entry-Level Roles
-          </p>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '80px' }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
-          />
+        <div className="mb-16 md:mb-20 text-left">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#8C97E6] font-bold block mb-2">
+            INITIATE COMMUNICATION
+          </span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
+                Let's <span className="text-gradient-cobalt">Connect</span>
+              </h2>
+              <div className="w-16 h-1 bg-[#2C3480] rounded-full mt-3 shadow-[0_0_12px_#2C3480]" />
+            </div>
+            <p className="text-sm md:text-base text-gray-400 max-w-md font-normal leading-relaxed">
+              Available for full-stack engineering roles, technical contracting, and software development inquiries.
+            </p>
+          </div>
         </div>
 
-        {/* Content grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left: Contact details cards */}
+        {/* 2-Column Balanced Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          
+          {/* Left Column: Direct Contact Details & WhatsApp (5 cols) */}
           <motion.div
-            initial={{ opacity: 0, x: -35 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
+            viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-5 space-y-6"
+            className="lg:col-span-5 space-y-6 text-left"
           >
-            <div className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder space-y-6">
-              <h3 className="text-xl font-bold text-gray-100 pb-3 border-b border-white/5">
-                Contact Information
+            <div className="p-7 sm:p-9 rounded-3xl glass-card border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.85)] space-y-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-white font-sans pb-3 border-b border-white/[0.06]">
+                Direct Coordinates
               </h3>
-              <div className="space-y-4">
+
+              <div className="space-y-3.5">
                 {contactDetails.map((detail, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-4 p-3 rounded-2xl bg-primary/40 border border-white/5 hover:border-accent/20 hover:shadow-blue-glow transition-all duration-300 group"
+                    className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#2C3480]/50 hover:bg-[#2C3480]/10 transition-all duration-300 group"
                   >
-                    <div className="p-3 rounded-xl bg-primary/80 border border-glassBorder group-hover:scale-105 transition-transform shrink-0">
+                    <div className="p-3 rounded-xl bg-[#2C3480]/20 border border-[#2C3480]/40 group-hover:scale-105 transition-transform shrink-0">
                       {detail.icon}
                     </div>
                     <div className="flex flex-col min-w-0">
-                      <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
+                      <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider font-mono">
                         {detail.label}
                       </span>
                       {detail.href ? (
@@ -126,12 +125,12 @@ export default function Contact() {
                           }}
                           target={detail.label === 'Phone' ? '_self' : '_blank'}
                           rel="noopener noreferrer"
-                          className="text-sm md:text-base font-bold text-gray-200 hover:text-accent transition-colors truncate"
+                          className="text-sm sm:text-base font-bold text-white hover:text-[#8C97E6] transition-colors truncate"
                         >
                           {detail.value}
                         </a>
                       ) : (
-                        <span className="text-sm md:text-base font-bold text-gray-200 truncate">
+                        <span className="text-sm sm:text-base font-bold text-white truncate">
                           {detail.value}
                         </span>
                       )}
@@ -139,18 +138,32 @@ export default function Contact() {
                   </div>
                 ))}
               </div>
+
+              {/* Instant WhatsApp Quick Action */}
+              <div className="pt-4 border-t border-white/[0.06]">
+                <a
+                  href={`https://wa.me/${personal.phone.replace(/[\s+()-]/g, '')}?text=Hey%20Chandan%20Tiwadi`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3.5 px-5 rounded-2xl bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] hover:bg-[#25D366]/20 transition-all duration-300 flex items-center justify-center gap-2.5 text-xs font-bold"
+                >
+                  <FaWhatsapp className="w-4 h-4" />
+                  <span>Start a Chat on WhatsApp</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </motion.div>
 
-          {/* Right: Interactive form */}
+          {/* Right Column: Interactive Web3Forms Form (7 cols) */}
           <motion.div
-            initial={{ opacity: 0, x: 35 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
+            viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6 }}
             className="lg:col-span-7"
           >
-            <div className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder relative overflow-hidden">
+            <div className="p-7 sm:p-9 rounded-3xl glass-card border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.85)] relative overflow-hidden text-left">
               <AnimatePresence mode="wait">
                 {formStatus === 'success' ? (
                   <motion.div
@@ -158,25 +171,25 @@ export default function Contact() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="flex flex-col items-center justify-center text-center py-10"
+                    className="flex flex-col items-center justify-center text-center py-12"
                   >
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                      className="p-4 rounded-full bg-accent/15 border border-accent/20 text-accent mb-6"
+                      className="p-4 rounded-full bg-[#2C3480]/20 border border-[#2C3480] text-[#8C97E6] mb-6 shadow-[0_0_25px_#2C3480]"
                     >
                       <CheckCircle2 className="w-12 h-12" />
                     </motion.div>
-                    <h3 className="text-2xl font-extrabold text-gray-100 mb-2">
-                      Message Sent Successfully!
+                    <h3 className="text-2xl sm:text-3xl font-black text-white mb-2 font-sans">
+                      Message Transmitted
                     </h3>
                     <p className="text-sm text-gray-400 max-w-sm leading-relaxed mb-8">
-                      Thank you! Chandan has received your message and will get back to you shortly.
+                      Thank you! Chandan has received your message and will respond to your inquiry shortly.
                     </p>
                     <button
                       onClick={() => setFormStatus('idle')}
-                      className="px-6 py-2.5 rounded-full border border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-all duration-300 hover:shadow-blue-glow"
+                      className="px-6 py-3 rounded-xl border border-[#2C3480] text-white font-bold text-xs hover:bg-[#2C3480] transition-all duration-300"
                     >
                       Send Another Message
                     </button>
@@ -194,13 +207,13 @@ export default function Contact() {
                     <input type="hidden" name="access_key" value="d656db94-098e-4b86-8370-2dd1e667f37b" />
                     <input type="hidden" name="autoresponse" value="Thank you for reaching out! I appreciate you contacting me. I have received your message and will get back to you shortly.&#10;&#10;Best regards,&#10;Chandan" />
 
-                    <h3 className="text-xl font-bold text-gray-100 pb-3 border-b border-white/5">
-                      Send a Message
+                    <h3 className="text-xl sm:text-2xl font-bold text-white font-sans pb-3 border-b border-white/[0.06]">
+                      Send a Direct Message
                     </h3>
                     
                     {/* Name input */}
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="name" className="text-xs font-bold text-gray-400 uppercase tracking-wide">
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="name" className="text-xs font-bold text-gray-400 uppercase tracking-wider font-mono">
                         Your Name
                       </label>
                       <input
@@ -211,14 +224,14 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         disabled={formStatus === 'submitting'}
-                        placeholder="John Doe"
-                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-blue-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium"
+                        placeholder="e.g. Alex Morgan"
+                        className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#4D5BC9] focus:shadow-[0_0_20px_rgba(77,91,201,0.3)] transition-all duration-300 disabled:opacity-50 text-sm font-medium"
                       />
                     </div>
 
                     {/* Email input */}
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="email" className="text-xs font-bold text-gray-400 uppercase tracking-wide">
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="email" className="text-xs font-bold text-gray-400 uppercase tracking-wider font-mono">
                         Email Address
                       </label>
                       <input
@@ -229,14 +242,14 @@ export default function Contact() {
                         onChange={handleChange}
                         required
                         disabled={formStatus === 'submitting'}
-                        placeholder="john@example.com"
-                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-blue-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium"
+                        placeholder="e.g. alex@company.com"
+                        className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#4D5BC9] focus:shadow-[0_0_20px_rgba(77,91,201,0.3)] transition-all duration-300 disabled:opacity-50 text-sm font-medium"
                       />
                     </div>
 
                     {/* Message input */}
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="message" className="text-xs font-bold text-gray-400 uppercase tracking-wide">
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="message" className="text-xs font-bold text-gray-400 uppercase tracking-wider font-mono">
                         Your Message
                       </label>
                       <textarea
@@ -247,13 +260,13 @@ export default function Contact() {
                         required
                         rows="5"
                         disabled={formStatus === 'submitting'}
-                        placeholder="Type your message details here..."
-                        className="w-full px-4 py-3 rounded-xl bg-primary/40 border border-glassBorder text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:shadow-blue-glow transition-all duration-300 disabled:opacity-50 text-sm font-medium resize-none"
+                        placeholder="Describe your project, team opportunity, or inquiry..."
+                        className="w-full px-4 py-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#4D5BC9] focus:shadow-[0_0_20px_rgba(77,91,201,0.3)] transition-all duration-300 disabled:opacity-50 text-sm font-medium resize-none"
                       />
                     </div>
 
                     {formStatus === 'error' && (
-                      <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold">
+                      <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold">
                         Failed to send message. Please try again or email directly to {personal.email}.
                       </div>
                     )}
@@ -262,17 +275,17 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={formStatus === 'submitting'}
-                      className="w-full py-4 rounded-xl bg-accent text-white font-bold text-sm hover:bg-accent/80 hover:shadow-blue-glow-hover transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 cursor-pointer"
+                      className="w-full py-4 rounded-xl bg-[#2C3480] border border-[#4D5BC9]/50 text-white font-bold text-sm hover:bg-[#3E49A8] hover:shadow-[0_0_30px_rgba(62,73,168,0.6)] transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-50 cursor-pointer shadow-[0_0_15px_rgba(44,52,128,0.3)]"
                     >
                       {formStatus === 'submitting' ? (
                         <>
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          <span>Sending Message...</span>
+                          <Loader2 className="w-4 h-4 animate-spin text-[#8C97E6]" />
+                          <span>Transmitting Message...</span>
                         </>
                       ) : (
                         <>
-                          <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                          <span>Send Message</span>
+                          <span>Transmit Message</span>
+                          <Send className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-[#8C97E6]" />
                         </>
                       )}
                     </button>
@@ -282,6 +295,7 @@ export default function Contact() {
             </div>
           </motion.div>
         </div>
+
       </div>
     </section>
   );

@@ -14,11 +14,8 @@ import {
   Server, 
   Cloud, 
   Rocket, 
-  Terminal, 
-  Layers, 
-  Workflow, 
-  HardDrive, 
-  Boxes 
+  Boxes,
+  Workflow
 } from 'lucide-react';
 import { 
   FaHtml5, 
@@ -65,6 +62,8 @@ import {
 } from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicSkills } from '../services/publicData';
+import rightPortrait from '../assets/portfolio/right.png';
+import CinematicSmoke from './CinematicSmoke';
 
 export default function Skills() {
   const [skillsData, setSkillsData] = useState(portfolioData.skills);
@@ -102,7 +101,7 @@ export default function Skills() {
     if (n.includes('python')) return <FaPython className="w-4 h-4 text-[#3776AB]" />;
     if (n.includes('java') && !n.includes('javascript')) return <FaJava className="w-4 h-4 text-[#EA2D2E]" />;
     if (n.includes('graphql')) return <SiGraphql className="w-4 h-4 text-[#E10098]" />;
-    if (n.includes('prisma')) return <SiPrisma className="w-4 h-4 text-[#2D3748]" />;
+    if (n.includes('prisma')) return <SiPrisma className="w-4 h-4 text-[#4A5568]" />;
 
     // Databases
     if (n.includes('mysql')) return <SiMysql className="w-4 h-4 text-[#4479A1]" />;
@@ -134,36 +133,36 @@ export default function Skills() {
     if (n.includes('chatgpt') || n.includes('openai')) return <SiOpenai className="w-4 h-4 text-[#10A37F]" />;
     if (n.includes('gemini') || n.includes('google')) return <SiGoogle className="w-4 h-4 text-[#4285F4]" />;
     if (n.includes('claude') || n.includes('anthropic')) return <SiAnthropic className="w-4 h-4 text-[#D97706]" />;
-    if (n.includes('cursor')) return <Cpu className="w-4 h-4 text-[#8b5cf6]" />;
-    if (n.includes('antigravity')) return <Sparkles className="w-4 h-4 text-[#3b82f6]" />;
+    if (n.includes('cursor')) return <Cpu className="w-4 h-4 text-[#8C97E6]" />;
+    if (n.includes('antigravity')) return <Sparkles className="w-4 h-4 text-[#4D5BC9]" />;
     if (n.includes('grok')) return <Sparkles className="w-4 h-4 text-[#1DA1F2]" />;
-    if (n.includes('codex') || n.includes('copilot')) return <Code2 className="w-4 h-4 text-[#2496ED]" />;
+    if (n.includes('copilot') || n.includes('codex')) return <Code2 className="w-4 h-4 text-[#2496ED]" />;
 
     // Core Concepts & Technical Principles
-    if (n.includes('data structure') || n.includes('dsa') || n.includes('algorithm')) return <Boxes className="w-4 h-4 text-accent" />;
-    if (n.includes('network')) return <Globe className="w-4 h-4 text-blue-400" />;
+    if (n.includes('data structure') || n.includes('dsa') || n.includes('algorithm')) return <Boxes className="w-4 h-4 text-[#8C97E6]" />;
+    if (n.includes('network')) return <Globe className="w-4 h-4 text-[#4D5BC9]" />;
     if (n.includes('dbms') || n.includes('database')) return <Database className="w-4 h-4 text-[#3ECF8E]" />;
-    if (n.includes('software') || n.includes('engineering')) return <Workflow className="w-4 h-4 text-accentPurple" />;
+    if (n.includes('software') || n.includes('engineering')) return <Workflow className="w-4 h-4 text-[#8C97E6]" />;
     if (n.includes('auth') || n.includes('shield') || n.includes('security')) return <Shield className="w-4 h-4 text-emerald-400" />;
     if (n.includes('comm') || n.includes('real-time') || n.includes('socket')) return <MessageSquare className="w-4 h-4 text-cyan-400" />;
-    if (n.includes('api') || n.includes('rest')) return <Server className="w-4 h-4 text-accent" />;
-    if (n.includes('responsive')) return <Layout className="w-4 h-4 text-accent" />;
-    if (n.includes('deploy') || n.includes('host')) return <Rocket className="w-4 h-4 text-purple-400" />;
+    if (n.includes('api') || n.includes('rest')) return <Server className="w-4 h-4 text-[#8C97E6]" />;
+    if (n.includes('responsive')) return <Layout className="w-4 h-4 text-[#8C97E6]" />;
+    if (n.includes('deploy') || n.includes('host')) return <Rocket className="w-4 h-4 text-[#4D5BC9]" />;
     
-    return <Code2 className="w-4 h-4 text-accent" />;
+    return <Code2 className="w-4 h-4 text-[#8C97E6]" />;
   };
 
-  // Category Icon helper matching your categories
+  // Category Icon helper with cobalt and clean accents
   const getCategoryIcon = (category) => {
     const c = category.toLowerCase().trim();
-    if (c.includes('frontend')) return <Layout className="w-6 h-6 text-accent" />;
-    if (c.includes('backend')) return <Cpu className="w-6 h-6 text-secondaryAccent" />;
-    if (c.includes('database')) return <Database className="w-6 h-6 text-blue-400" />;
-    if (c.includes('tool') || c.includes('platform')) return <Wrench className="w-6 h-6 text-accent" />;
-    if (c.includes('ai') || c.includes('ide')) return <Sparkles className="w-6 h-6 text-amber-400" />;
-    if (c.includes('concept') || c.includes('core')) return <BookOpen className="w-6 h-6 text-secondaryAccent" />;
-    if (c.includes('deploy') || c.includes('host') || c.includes('cloud')) return <Server className="w-6 h-6 text-emerald-400" />;
-    return <Boxes className="w-6 h-6 text-accent" />;
+    if (c.includes('frontend')) return <Layout className="w-5 h-5 text-[#8C97E6]" />;
+    if (c.includes('backend')) return <Cpu className="w-5 h-5 text-[#4D5BC9]" />;
+    if (c.includes('database')) return <Database className="w-5 h-5 text-[#8C97E6]" />;
+    if (c.includes('tool') || c.includes('platform')) return <Wrench className="w-5 h-5 text-[#4D5BC9]" />;
+    if (c.includes('ai') || c.includes('ide')) return <Sparkles className="w-5 h-5 text-[#8C97E6]" />;
+    if (c.includes('concept') || c.includes('core')) return <BookOpen className="w-5 h-5 text-[#4D5BC9]" />;
+    if (c.includes('deploy') || c.includes('host') || c.includes('cloud')) return <Server className="w-5 h-5 text-[#8C97E6]" />;
+    return <Boxes className="w-5 h-5 text-[#8C97E6]" />;
   };
 
   const containerVariants = {
@@ -171,13 +170,13 @@ export default function Skills() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.08
       }
     }
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 25 },
     visible: {
       opacity: 1,
       y: 0,
@@ -186,73 +185,132 @@ export default function Skills() {
   };
 
   return (
-    <section id="Skills" className="relative py-24 md:py-32 bg-primary/20 overflow-hidden">
-      {/* Background radial gradient decoration */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,144,255,0.05)_0%,transparent_70%)]" />
-      <div className="glow-orb w-[350px] h-[350px] bg-secondaryAccent bottom-0 right-0 translate-y-1/3 translate-x-1/3" />
+    <section id="Skills" className="relative py-28 md:py-36 bg-black overflow-hidden border-t border-white/[0.04]">
+      {/* Background Atmospheric Smoke */}
+      <CinematicSmoke intensity="subtle" align="right" className="opacity-70" />
+      <div className="absolute top-1/4 left-1/3 w-[450px] h-[450px] bg-[#2C3480]/15 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Section Heading */}
-        <div className="text-center mb-16 md:mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-5xl font-extrabold tracking-tight inline-block"
-          >
-            Technical <span className="text-gradient-gold">Skills</span>
-          </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: '80px' }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-[3px] bg-accent mx-auto mt-4 rounded-full shadow-blue-glow"
-          />
-        </div>
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
+        {/* NARRATIVE PERSPECTIVE BANNER (Right-Facing Portrait) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7 }}
+          className="mb-16 md:mb-20 p-7 sm:p-9 lg:p-10 rounded-3xl glass-card border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.85)] relative overflow-hidden"
+        >
+          {/* Internal Glow */}
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#2C3480]/20 rounded-full blur-[90px] pointer-events-none" />
 
-        {/* Skills Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left Side: Right-Facing Portrait (4 cols) */}
+            <div className="lg:col-span-4 flex justify-center items-end relative select-none">
+              <div className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[3/4] flex items-end justify-center">
+                {/* Cobalt Rim Light behind portrait */}
+                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[240px] h-[300px] rounded-full bg-[#2C3480]/40 blur-[55px] pointer-events-none" />
+                
+                {/* Portrait: right.png (Facing right into technical skills) */}
+                <img
+                  src={rightPortrait}
+                  alt="Chandan Tiwadi - Profile View (Facing Right Towards Technical Skills)"
+                  loading="lazy"
+                  decoding="async"
+                  className="relative z-10 w-full h-full object-contain object-bottom drop-shadow-[0_15px_35px_rgba(0,0,0,0.9)] filter contrast-[1.03] brightness-[1.01]"
+                />
+
+                {/* Bottom Fade */}
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20" />
+
+                {/* Badge */}
+                <div className="absolute bottom-2 z-30 px-3 py-1 rounded-full bg-black/85 border border-white/10 backdrop-blur-md flex items-center gap-2 pointer-events-none shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4D5BC9] animate-pulse shadow-[0_0_8px_#4D5BC9]" />
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-gray-300">
+                    TECHNICAL FOCUS
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side: Editorial Journey & Heading (8 cols) */}
+            <div className="lg:col-span-8 flex flex-col items-start text-left">
+              <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#8C97E6] font-bold block mb-2">
+                PERSPECTIVE 03 • ENGINEERING CAPABILITIES
+              </span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
+                Technical <span className="text-gradient-cobalt">Mastery</span>
+              </h2>
+              <div className="w-16 h-1 bg-[#2C3480] rounded-full mt-3 mb-5 shadow-[0_0_12px_#2C3480]" />
+
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl mb-6 font-normal">
+                A disciplined software engineering foundation rooted in clean architecture, type safety, modular frontend composition, and performant RESTful APIs. Continuously evolving with modern full-stack workflows and emerging AI developer ecosystems.
+              </p>
+
+              {/* Architectural Highlights Pills */}
+              <div className="flex flex-wrap gap-2.5">
+                {[
+                  'Frontend Architecture',
+                  'REST & Backend Services',
+                  'Database Schema Design',
+                  'AI-Augmented Workflows',
+                  'Cloud & Serverless Hosting'
+                ].map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-300 bg-white/[0.03] border border-white/10 flex items-center gap-2"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#8C97E6]" />
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </motion.div>
+
+        {/* Spacious 3-Column Skills Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, margin: '-60px' }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
         >
           {skillsData.map((skillGroup, idx) => (
             <motion.div
               key={idx}
               variants={cardVariants}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="glass-card p-6 md:p-8 rounded-3xl border border-glassBorder hover:border-accent/20 hover:shadow-blue-glow transition-all duration-300 flex flex-col justify-start"
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="p-6 sm:p-7 rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/70 hover:shadow-[0_8px_30px_rgba(44,52,128,0.3)] transition-all duration-300 flex flex-col justify-start"
             >
               {/* Category Header */}
-              <div className="flex items-center gap-3.5 mb-6 pb-4 border-b border-white/5">
-                <div className="p-3 rounded-2xl bg-primary/80 border border-glassBorder shadow-inner">
+              <div className="flex items-center gap-3.5 mb-5 pb-4 border-b border-white/[0.06]">
+                <div className="p-2.5 rounded-xl bg-[#2C3480]/20 border border-[#2C3480]/40 text-[#8C97E6]">
                   {getCategoryIcon(skillGroup.category)}
                 </div>
-                <h3 className="text-lg md:text-xl font-bold text-gray-100 tracking-wide">
+                <h3 className="text-lg font-bold text-white tracking-wide font-sans">
                   {skillGroup.category}
                 </h3>
               </div>
 
-              {/* Skills Badges list */}
-              <div className="flex flex-wrap gap-2.5">
+              {/* Skills Badges List */}
+              <div className="flex flex-wrap gap-2">
                 {skillGroup.items.map((skill, sIdx) => (
-                  <motion.span
+                  <span
                     key={sIdx}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-300 bg-primary/60 border border-glassBorder hover:border-accent/40 hover:text-accent hover:shadow-[0_0_12px_rgba(59,130,246,0.15)] transition-all duration-300 cursor-default flex items-center gap-2"
+                    className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300 bg-white/[0.02] border border-white/10 hover:border-[#2C3480]/60 hover:text-white hover:bg-[#2C3480]/15 transition-all duration-200 cursor-default flex items-center gap-2"
                   >
                     {getSkillIcon(skill)}
-                    {skill}
-                  </motion.span>
+                    <span>{skill}</span>
+                  </span>
                 ))}
               </div>
             </motion.div>
           ))}
         </motion.div>
+
       </div>
     </section>
   );
