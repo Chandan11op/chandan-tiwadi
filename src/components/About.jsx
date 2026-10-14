@@ -169,8 +169,9 @@ export default function About() {
           >
             <div className="relative w-full max-w-[420px] sm:max-w-[460px] aspect-[3/4] flex items-end justify-center select-none">
               
-              {/* Dedicated Portrait Volumetric Smoke & Blue-White Vapor */}
-              <CinematicSmoke variant="portrait" />
+              {/* Cobalt Volumetric Fog Bloom behind Portrait */}
+              <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[360px] h-[440px] rounded-full bg-[#2C3480]/40 blur-[75px] pointer-events-none" />
+              <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[260px] h-[320px] rounded-full bg-[#4D5BC9]/30 blur-[60px] pointer-events-none" />
 
               {/* Portrait: left.png (Chandan looking to the left across into his bio) */}
               <img
@@ -253,10 +254,8 @@ export default function About() {
             ))}
           </div>
         </motion.div>
-      </div>
 
-      {/* Atmospheric Section Transition Wisp */}
-      <CinematicSmoke variant="transition" />
+      </div>
     </section>
   );
 }

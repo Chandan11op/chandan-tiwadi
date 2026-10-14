@@ -208,8 +208,8 @@ export default function Skills() {
             {/* Left Side: Right-Facing Portrait (4 cols) */}
             <div className="lg:col-span-4 flex justify-center items-end relative select-none">
               <div className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[3/4] flex items-end justify-center">
-                {/* Dedicated Portrait Volumetric Smoke & Blue-White Vapor */}
-                <CinematicSmoke variant="portrait" />
+                {/* Cobalt Rim Light behind portrait */}
+                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[240px] h-[300px] rounded-full bg-[#2C3480]/40 blur-[55px] pointer-events-none" />
                 
                 {/* Portrait: right.png (Facing right into technical skills) */}
                 <img
@@ -310,10 +310,8 @@ export default function Skills() {
             </motion.div>
           ))}
         </motion.div>
-      </div>
 
-      {/* Atmospheric Section Transition Wisp */}
-      <CinematicSmoke variant="transition" />
+      </div>
     </section>
   );
 }

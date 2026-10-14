@@ -112,249 +112,115 @@
    Multi-layered, organic billowing smoke clouds with luminous cobalt cores
    ========================================================================= */
 
-/* =========================================================================
-   REAL, HIGH-VISIBILITY VOLUMETRIC SMOKE SYSTEM
-   Multi-tiered, screen-blended organic drifting cobalt smoke & vapor plumes
-   ========================================================================= */
-
 .billowing-smoke-container {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
-/* Tier 1: Ambient Background Atmosphere Plumes */
+/* Layer 1: Massive Deep Cobalt Plume */
 .smoke-plume-primary {
   position: absolute;
-  width: 750px;
-  height: 750px;
+  width: 650px;
+  height: 650px;
   border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-  background: radial-gradient(circle at 45% 45%, rgba(68, 88, 220, 0.85) 0%, rgba(44, 52, 128, 0.65) 45%, rgba(20, 24, 75, 0.3) 65%, transparent 80%);
-  filter: blur(36px);
-  mix-blend-mode: screen;
-  animation: smokeBillow1 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+  background: radial-gradient(circle at 45% 45%, rgba(62, 73, 168, 0.5) 0%, rgba(44, 52, 128, 0.3) 45%, rgba(0, 0, 0, 0) 72%);
+  filter: blur(48px);
+  animation: smokeBillow1 18s ease-in-out infinite alternate;
 }
 
+/* Layer 2: Glowing Blue-White Vapor Cloud */
 .smoke-plume-vapor {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 55% 45% 35% 65% / 50% 60% 40% 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(164, 173, 255, 0.38) 0%, rgba(62, 73, 168, 0.22) 50%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(52px);
+  animation: smokeBillow2 14s ease-in-out infinite alternate;
+}
+
+/* Layer 3: Secondary Swirling Plume */
+.smoke-plume-secondary {
   position: absolute;
   width: 580px;
   height: 580px;
-  border-radius: 55% 45% 35% 65% / 50% 60% 40% 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(210, 225, 255, 0.75) 0%, rgba(110, 128, 245, 0.55) 35%, rgba(44, 52, 128, 0.3) 60%, transparent 75%);
-  filter: blur(32px);
-  mix-blend-mode: screen;
-  animation: smokeBillow2 7.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
-}
-
-.smoke-plume-secondary {
-  position: absolute;
-  width: 680px;
-  height: 680px;
   border-radius: 60% 40% 55% 45% / 40% 55% 45% 60%;
-  background: radial-gradient(circle at 55% 45%, rgba(55, 72, 195, 0.75) 0%, rgba(44, 52, 128, 0.5) 45%, rgba(25, 30, 80, 0.25) 65%, transparent 78%);
-  filter: blur(38px);
-  mix-blend-mode: screen;
-  animation: smokeBillow3 11s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+  background: radial-gradient(circle at 55% 45%, rgba(44, 52, 128, 0.45) 0%, rgba(30, 36, 92, 0.25) 50%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(55px);
+  animation: smokeBillow3 22s ease-in-out infinite alternate;
 }
 
+/* Core Volumetric Light Bloom */
 .smoke-light-bloom {
   position: absolute;
-  width: 480px;
-  height: 480px;
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(140, 160, 255, 0.6) 0%, rgba(68, 88, 220, 0.4) 40%, rgba(44, 52, 128, 0.2) 65%, transparent 75%);
-  filter: blur(28px);
-  mix-blend-mode: screen;
-  animation: smokePulse 5.5s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(99, 113, 223, 0.45) 0%, rgba(44, 52, 128, 0.25) 45%, transparent 70%);
+  filter: blur(40px);
+  animation: smokePulse 8s ease-in-out infinite alternate;
 }
 
-/* Tier 2: Dedicated Portrait Silhouette Smoke */
-.smoke-portrait-stage {
-  position: absolute;
-  inset: -15%;
-  pointer-events: none;
-  z-index: 5;
-  overflow: visible;
-}
-
-.smoke-portrait-core {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 380px;
-  height: 460px;
-  border-radius: 48% 52% 65% 35% / 45% 48% 52% 55%;
-  background: radial-gradient(ellipse at 50% 40%, rgba(77, 91, 201, 0.8) 0%, rgba(44, 52, 128, 0.6) 45%, transparent 75%);
-  filter: blur(28px);
-  mix-blend-mode: screen;
-  animation: portraitSmokeCore 6.5s ease-in-out infinite alternate;
-}
-
-.smoke-portrait-wisps-left {
-  position: absolute;
-  top: 20%;
-  left: 5%;
-  width: 280px;
-  height: 340px;
-  border-radius: 60% 40% 30% 70% / 55% 35% 65% 45%;
-  background: radial-gradient(ellipse at 40% 50%, rgba(180, 200, 255, 0.65) 0%, rgba(77, 91, 201, 0.45) 45%, transparent 75%);
-  filter: blur(24px);
-  mix-blend-mode: screen;
-  animation: portraitSmokeLeft 8s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
-}
-
-.smoke-portrait-wisps-right {
-  position: absolute;
-  top: 22%;
-  right: 5%;
-  width: 290px;
-  height: 350px;
-  border-radius: 35% 65% 70% 30% / 40% 60% 40% 60%;
-  background: radial-gradient(ellipse at 60% 50%, rgba(140, 160, 255, 0.65) 0%, rgba(44, 52, 128, 0.5) 50%, transparent 75%);
-  filter: blur(24px);
-  mix-blend-mode: screen;
-  animation: portraitSmokeRight 7.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
-}
-
-/* Tier 3: Transition Fog Stream */
-.smoke-transition-stream {
-  position: absolute;
-  left: -20%;
-  right: -20%;
-  height: 180px;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(77, 91, 201, 0.45) 0%, rgba(44, 52, 128, 0.25) 50%, transparent 80%);
-  filter: blur(35px);
-  mix-blend-mode: screen;
-  animation: transitionStream 10s ease-in-out infinite alternate;
-}
-
-/* Dynamic Smoke Keyframes */
 @keyframes smokeBillow1 {
   0% {
-    transform: translate(0, 0) scale(0.96) rotate(0deg);
-    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-    opacity: 0.75;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.55;
   }
   50% {
-    transform: translate(45px, -35px) scale(1.15) rotate(25deg);
-    border-radius: 58% 42% 40% 60% / 55% 48% 52% 45%;
-    opacity: 0.95;
+    transform: translate(30px, -25px) scale(1.15) rotate(45deg);
+    opacity: 0.8;
   }
   100% {
-    transform: translate(-30px, 25px) scale(1.02) rotate(50deg);
-    border-radius: 48% 52% 60% 40% / 40% 60% 40% 60%;
-    opacity: 0.75;
+    transform: translate(-25px, 20px) scale(0.92) rotate(90deg);
+    opacity: 0.55;
   }
 }
 
 @keyframes smokeBillow2 {
   0% {
     transform: translate(0, 0) scale(1) rotate(0deg);
-    border-radius: 55% 45% 35% 65% / 50% 60% 40% 50%;
-    opacity: 0.65;
+    opacity: 0.4;
   }
   50% {
-    transform: translate(-50px, 35px) scale(1.2) rotate(-22deg);
-    border-radius: 40% 60% 65% 35% / 45% 55% 45% 55%;
-    opacity: 0.9;
+    transform: translate(-35px, 25px) scale(1.18) rotate(-40deg);
+    opacity: 0.65;
   }
   100% {
-    transform: translate(35px, -40px) scale(0.95) rotate(-45deg);
-    border-radius: 65% 35% 45% 55% / 60% 40% 60% 40%;
-    opacity: 0.65;
+    transform: translate(25px, -30px) scale(0.95) rotate(-80deg);
+    opacity: 0.4;
   }
 }
 
 @keyframes smokeBillow3 {
   0% {
-    transform: translate(0, 0) scale(0.98) rotate(0deg);
-    opacity: 0.7;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.5;
   }
   50% {
-    transform: translate(40px, 45px) scale(1.12) rotate(35deg);
-    opacity: 0.95;
+    transform: translate(25px, 35px) scale(1.12) rotate(60deg);
+    opacity: 0.75;
   }
   100% {
-    transform: translate(-45px, -25px) scale(0.92) rotate(70deg);
-    opacity: 0.7;
+    transform: translate(-30px, -20px) scale(0.9) rotate(120deg);
+    opacity: 0.5;
   }
 }
 
 @keyframes smokePulse {
   0% {
-    transform: scale(0.92);
-    opacity: 0.6;
+    transform: scale(0.95);
+    opacity: 0.45;
   }
   50% {
-    transform: scale(1.18);
-    opacity: 0.95;
-  }
-  100% {
-    transform: scale(0.92);
-    opacity: 0.6;
-  }
-}
-
-@keyframes portraitSmokeCore {
-  0% {
-    transform: translateX(-50%) translateY(0) scale(0.95);
+    transform: scale(1.12);
     opacity: 0.75;
   }
-  50% {
-    transform: translateX(-50%) translateY(-25px) scale(1.12);
-    opacity: 0.95;
-  }
   100% {
-    transform: translateX(-50%) translateY(10px) scale(0.98);
-    opacity: 0.75;
-  }
-}
-
-@keyframes portraitSmokeLeft {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(0.95);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translate(-30px, -20px) rotate(-15deg) scale(1.15);
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate(15px, 15px) rotate(-5deg) scale(0.92);
-    opacity: 0.6;
-  }
-}
-
-@keyframes portraitSmokeRight {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(0.95);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translate(30px, -25px) rotate(18deg) scale(1.18);
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate(-15px, 15px) rotate(8deg) scale(0.92);
-    opacity: 0.6;
-  }
-}
-
-@keyframes transitionStream {
-  0% {
-    transform: translateX(-40px) scaleY(0.9);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateX(40px) scaleY(1.15);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateX(-40px) scaleY(0.9);
-    opacity: 0.5;
+    transform: scale(0.95);
+    opacity: 0.45;
   }
 }
 
@@ -394,12 +260,8 @@
   .smoke-plume-primary,
   .smoke-plume-vapor,
   .smoke-plume-secondary,
-  .smoke-light-bloom,
-  .smoke-portrait-core,
-  .smoke-portrait-wisps-left,
-  .smoke-portrait-wisps-right,
-  .smoke-transition-stream {
+  .smoke-light-bloom {
     animation: none !important;
-    opacity: 0.75 !important;
+    opacity: 0.45 !important;
   }
 }
