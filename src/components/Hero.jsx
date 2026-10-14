@@ -167,9 +167,8 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative w-full max-w-[420px] sm:max-w-[460px] lg:max-w-[500px] aspect-[3/4] flex items-end justify-center select-none"
             >
-              {/* Volumetric Rim Light Glow behind Head & Shoulders */}
-              <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[380px] h-[450px] rounded-full bg-[#2C3480]/45 blur-[70px] pointer-events-none" />
-              <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[280px] h-[340px] rounded-full bg-[#4D5BC9]/35 blur-[55px] pointer-events-none" />
+              {/* Dedicated Portrait Volumetric Smoke & Blue-White Vapor */}
+              <CinematicSmoke variant="portrait" />
 
               {/* Front Portrait Image */}
               <img
@@ -239,6 +238,9 @@ export default function Hero() {
           </a>
         </div>
       </div>
+
+      {/* Atmospheric Section Transition Wisp */}
+      <CinematicSmoke variant="transition" />
     </section>
   );
 }
