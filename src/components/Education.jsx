@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GraduationCap, BookOpen, Calendar, ZoomIn } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { getPublicEducation } from '../services/publicData';
 
 export default function Education() {
-  const educationData = portfolioData.education;
+  const [educationData, setEducationData] = useState(portfolioData.education);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublicEducation().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setEducationData(data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },

@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Award, Terminal, Layers, Globe, Cpu, FileCode2, ZoomIn, Brain } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { getPublicCertificates } from '../services/publicData';
 
 export default function Certifications() {
-  const certificationsData = portfolioData.certifications;
+  const [certificationsData, setCertificationsData] = useState(portfolioData.certifications);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublicCertificates().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setCertificationsData(data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   // Icon selector based on badgeIcon value
   const getBadgeIcon = (icon) => {

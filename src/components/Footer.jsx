@@ -1,11 +1,21 @@
-import React from 'react';
-import { Mail, ArrowUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Mail, ArrowUp, Edit3 } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { portfolioData } from '../data/portfolioData';
+import { getPublicProfile } from '../services/publicData';
 
 export default function Footer() {
-  const personal = portfolioData.personalInfo;
+  const [personal, setPersonal] = useState(portfolioData.personalInfo);
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublicProfile().then((data) => {
+      if (isMounted && data) setPersonal(data);
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   const handleScrollToTop = (e) => {
     e.preventDefault();
@@ -107,8 +117,8 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* WhatsApp CTA */}
-        <div className="mb-8">
+        {/* Contact CTA & Edit Portal Option */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
           <a
             href={`https://wa.me/${personal.phone.replace(/[\s+()-]/g, '')}?text=Hey%20Chandan%20Tiwadi`}
             target="_blank"
@@ -118,6 +128,16 @@ export default function Footer() {
             <FaWhatsapp className="w-5 h-5" />
             Chat Now on WhatsApp
           </a>
+
+          {/* Edit Portfolio Admin Option */}
+          <Link
+            to="/admin-portal"
+            title="Edit Portfolio (Admin Login)"
+            className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-primary border border-glassBorder hover:border-accent text-gray-400 hover:text-accent hover:-translate-y-1 transition-all duration-300 text-xs font-semibold"
+          >
+            <Edit3 className="w-4 h-4" />
+            <span>Edit</span>
+          </Link>
         </div>
 
         {/* Copyright and Credits */}

@@ -1,10 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MessageSquare, Code2, Rocket, Brain, Server } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { getPublicProfile, getPublicProjects, getPublicCertificates } from '../services/publicData';
 
 export default function Hero() {
-  const personal = portfolioData.personalInfo;
+  const [personal, setPersonal] = useState(portfolioData.personalInfo);
+  const [dynamicStats, setDynamicStats] = useState(portfolioData.personalInfo.stats);
+
+  useEffect(() => {
+    let isMounted = true;
+    Promise.all([
+      getPublicProfile(),
+      getPublicProjects(),
+      getPublicCertificates()
+    ]).then(([profileData, projectsData, certsData]) => {
+      if (!isMounted) return;
+      if (profileData) setPersonal(profileData);
+
+      const totalBuilt = projectsData?.length || 0;
+      const clientCount = projectsData?.filter(p => p.type === 'Client Project' || p.badge?.toLowerCase().includes('client')).length || 0;
+      const certsCount = certsData?.length || 0;
+
+      setDynamicStats([
+        { value: `${totalBuilt}+`, label: "Projects Built" },
+        { value: `${clientCount}`, label: "Paid Client Project" },
+        { value: `${certsCount}+`, label: "Certifications" },
+        { value: profileData?.isAvailable !== false ? "Available" : "Busy", label: profileData?.availabilityText || "Currently Hiring" }
+      ]);
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   // Icon mapping for stats
   const getStatIcon = (index) => {
@@ -132,7 +158,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-2xl glass-card border border-glassBorder shadow-card-glow"
         >
-          {personal.stats.map((stat, idx) => (
+          {dynamicStats.map((stat, idx) => (
             <div
               key={idx}
               className="flex flex-col md:flex-row items-center md:items-start gap-4 p-4 rounded-xl hover:bg-white/[0.02] transition-colors duration-300 group"

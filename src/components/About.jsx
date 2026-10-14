@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, MapPin, GraduationCap, Download } from 'lucide-react';
 import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
@@ -6,10 +6,24 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { SiMongodb, SiTailwindcss, SiJavascript, SiTypescript, SiNextdotjs } from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
 import resumePdf from '../assets/Chandan Tiwadi.pdf';
-<>
-</>
+import { getPublicProfile, getPublicActiveResume } from '../services/publicData';
+
 export default function About() {
-  const { bio, location, email, name } = portfolioData.personalInfo;
+  const [personalInfo, setPersonalInfo] = useState(portfolioData.personalInfo);
+  const [activeResumeUrl, setActiveResumeUrl] = useState(resumePdf);
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublicProfile().then((profile) => {
+      if (isMounted && profile) setPersonalInfo(profile);
+    });
+    getPublicActiveResume().then((res) => {
+      if (isMounted && res && res.file_url) setActiveResumeUrl(res.file_url);
+    });
+    return () => { isMounted = false; };
+  }, []);
+
+  const { bio, location, email, name } = personalInfo;
 
   const techStack = [
     { name: 'React', icon: <FaReact className="w-7 h-7 text-[#61DAFB]" /> },
@@ -94,8 +108,10 @@ export default function About() {
 
             {/* Download Resume CV Button */}
             <a
-              href={resumePdf}
+              href={activeResumeUrl}
               download="Chandan_Tiwadi_Resume.pdf"
+              target={activeResumeUrl !== resumePdf ? "_blank" : undefined}
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent/10 border border-accent/30 text-accent font-bold text-xs hover:bg-accent hover:text-white transition-all duration-300 shadow-blue-glow"
             >
               <Download className="w-4 h-4" />

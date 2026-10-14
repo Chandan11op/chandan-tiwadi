@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import profileImg from '../assets/portfolio_image.jpg';
+import resumePdf from '../assets/Chandan Tiwadi.pdf';
+import { getPublicActiveResume } from '../services/publicData';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [activeSection, setActiveSection] = useState('');
+
+  const [activeResumeUrl, setActiveResumeUrl] = useState(resumePdf);
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublicActiveResume().then((res) => {
+      if (isMounted && res && res.file_url) {
+        setActiveResumeUrl(res.file_url);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   const navLinks = [
     { label: 'About', href: '#About' },
@@ -112,11 +126,14 @@ export default function Navbar() {
           })}
           {/* Download CV Action */}
           <a
-            href="#Contact"
-            onClick={(e) => handleLinkClick(e, '#Contact')}
+            href={activeResumeUrl}
+            download="Chandan_Tiwadi_Resume.pdf"
+            target={activeResumeUrl !== resumePdf ? "_blank" : undefined}
+            rel="noopener noreferrer"
             className="px-5 py-2 rounded-full border border-accent/40 text-gray-200 font-semibold text-sm hover:bg-accent hover:text-white hover:border-accent hover:shadow-blue-glow-hover transition-all duration-300 flex items-center gap-1.5 bg-accent/5"
           >
-            Download CV
+            <Download className="w-3.5 h-3.5" />
+            <span>Download CV</span>
           </a>
         </div>
 
@@ -151,11 +168,14 @@ export default function Navbar() {
           );
         })}
         <a
-          href="#Contact"
-          onClick={(e) => handleLinkClick(e, '#Contact')}
-          className="px-8 py-3 rounded-full border border-accent/40 text-gray-200 font-semibold text-lg hover:bg-accent hover:text-white transition-all duration-300 w-full text-center max-w-xs bg-accent/5"
+          href={activeResumeUrl}
+          download="Chandan_Tiwadi_Resume.pdf"
+          target={activeResumeUrl !== resumePdf ? "_blank" : undefined}
+          rel="noopener noreferrer"
+          className="px-8 py-3 rounded-full border border-accent/40 text-gray-200 font-semibold text-base hover:bg-accent hover:text-white transition-all duration-300 w-full text-center max-w-xs bg-accent/5 flex items-center justify-center gap-2"
         >
-          Download CV
+          <Download className="w-4 h-4" />
+          <span>Download CV</span>
         </a>
       </div>
     </nav>

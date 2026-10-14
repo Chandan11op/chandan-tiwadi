@@ -1,68 +1,169 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Layout, Cpu, Database, Wrench, Sparkles, BookOpen, Globe, Shield, MessageSquare, Code2 } from 'lucide-react';
-import { FaHtml5, FaCss3Alt, FaReact, FaNodeJs, FaGithub, FaGitAlt } from 'react-icons/fa';
-import { SiJavascript, SiVite, SiTailwindcss, SiExpress, SiMysql, SiMongodb, SiSupabase, SiPostman, SiVercel, SiOpenai, SiGoogle } from 'react-icons/si';
+import { 
+  Layout, 
+  Cpu, 
+  Database, 
+  Wrench, 
+  Sparkles, 
+  BookOpen, 
+  Globe, 
+  Shield, 
+  MessageSquare, 
+  Code2, 
+  Server, 
+  Cloud, 
+  Rocket, 
+  Terminal, 
+  Layers, 
+  Workflow, 
+  HardDrive, 
+  Boxes 
+} from 'lucide-react';
+import { 
+  FaHtml5, 
+  FaCss3Alt, 
+  FaReact, 
+  FaNodeJs, 
+  FaGithub, 
+  FaGitAlt, 
+  FaPython, 
+  FaJava, 
+  FaDocker, 
+  FaAws 
+} from 'react-icons/fa';
+import { 
+  SiJavascript, 
+  SiTypescript, 
+  SiVite, 
+  SiTailwindcss, 
+  SiExpress, 
+  SiMysql, 
+  SiMongodb, 
+  SiSupabase, 
+  SiPostman, 
+  SiVercel, 
+  SiOpenai, 
+  SiGoogle, 
+  SiNetlify, 
+  SiCloudflare, 
+  SiRender, 
+  SiGodaddy, 
+  SiHostinger, 
+  SiAnthropic, 
+  SiNextdotjs, 
+  SiPostgresql, 
+  SiRedis, 
+  SiFirebase, 
+  SiPrisma, 
+  SiGraphql, 
+  SiRedux, 
+  SiBootstrap, 
+  SiSass, 
+  SiFigma, 
+  SiLinux 
+} from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
+import { getPublicSkills } from '../services/publicData';
 
 export default function Skills() {
-  const skillsData = portfolioData.skills;
+  const [skillsData, setSkillsData] = useState(portfolioData.skills);
 
-  // Specific skill item icon mapping
+  useEffect(() => {
+    let isMounted = true;
+    getPublicSkills().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setSkillsData(data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
+
+  // Specific skill item icon mapping with automatic brand matching
   const getSkillIcon = (name) => {
-    const normalized = name.toLowerCase();
-    if (normalized.includes('html5') || normalized.includes('html')) return <FaHtml5 className="w-4 h-4 text-[#E34F26]" />;
-    if (normalized.includes('css3') || normalized.includes('css')) return <FaCss3Alt className="w-4 h-4 text-[#1572B6]" />;
-    if (normalized.includes('javascript') || normalized.includes('js')) return <SiJavascript className="w-4 h-4 text-[#F7DF1E] rounded-sm" />;
-    if (normalized.includes('react')) return <FaReact className="w-4 h-4 text-[#61DAFB]" />;
-    if (normalized.includes('vite')) return <SiVite className="w-4 h-4 text-[#646CFF]" />;
-    if (normalized.includes('tailwind')) return <SiTailwindcss className="w-4 h-4 text-[#06B6D4]" />;
-    if (normalized.includes('node')) return <FaNodeJs className="w-4 h-4 text-[#339933]" />;
-    if (normalized.includes('express')) return <SiExpress className="w-4 h-4 text-white" />;
-    if (normalized.includes('mysql')) return <SiMysql className="w-4 h-4 text-[#4479A1]" />;
-    if (normalized.includes('mongodb')) return <SiMongodb className="w-4 h-4 text-[#47A248]" />;
-    if (normalized.includes('supabase')) return <SiSupabase className="w-4 h-4 text-[#3ECF8E]" />;
-    if (normalized.includes('git') && !normalized.includes('github')) return <FaGitAlt className="w-4 h-4 text-[#F05032]" />;
-    if (normalized.includes('github')) return <FaGithub className="w-4 h-4 text-white" />;
-    if (normalized.includes('vs code')) return <Code2 className="w-4 h-4 text-[#007ACC]" />;
-    if (normalized.includes('postman')) return <SiPostman className="w-4 h-4 text-[#FF6C37]" />;
-    if (normalized.includes('vercel')) return <SiVercel className="w-4 h-4 text-white" />;
-    if (normalized.includes('chatgpt')) return <SiOpenai className="w-4 h-4 text-[#10A37F]" />;
-    if (normalized.includes('gemini')) return <SiGoogle className="w-4 h-4 text-[#4285F4]" />;
-    if (normalized.includes('claude')) return <Sparkles className="w-4 h-4 text-[#D97706]" />;
-    if (normalized.includes('cursor')) return <Cpu className="w-4 h-4 text-[#8b5cf6]" />;
-    if (normalized.includes('antigravity')) return <Sparkles className="w-4 h-4 text-[#3b82f6]" />;
-    
-    // Concept fallbacks
-    if (normalized.includes('api') || normalized.includes('rest')) return <Code2 className="w-4 h-4 text-accent" />;
-    if (normalized.includes('responsive') || normalized.includes('design')) return <Layout className="w-4 h-4 text-accent" />;
-    if (normalized.includes('structure') || normalized.includes('dbms') || normalized.includes('database')) return <Database className="w-4 h-4 text-accent" />;
-    if (normalized.includes('network')) return <Globe className="w-4 h-4 text-accent" />;
-    if (normalized.includes('auth') || normalized.includes('shield')) return <Shield className="w-4 h-4 text-accent" />;
-    if (normalized.includes('comm') || normalized.includes('real-time')) return <MessageSquare className="w-4 h-4 text-accent" />;
-    if (normalized.includes('software')) return <Code2 className="w-4 h-4 text-accent" />;
+    const n = name.toLowerCase().trim();
+
+    // Frontend & Web Tech
+    if (n.includes('html5') || n.includes('html')) return <FaHtml5 className="w-4 h-4 text-[#E34F26]" />;
+    if (n.includes('css3') || n.includes('css')) return <FaCss3Alt className="w-4 h-4 text-[#1572B6]" />;
+    if (n.includes('javascript') || n === 'js') return <SiJavascript className="w-4 h-4 text-[#F7DF1E] rounded-sm" />;
+    if (n.includes('typescript') || n === 'ts') return <SiTypescript className="w-4 h-4 text-[#3178C6] rounded-sm" />;
+    if (n.includes('react')) return <FaReact className="w-4 h-4 text-[#61DAFB]" />;
+    if (n.includes('next')) return <SiNextdotjs className="w-4 h-4 text-white" />;
+    if (n.includes('vite')) return <SiVite className="w-4 h-4 text-[#646CFF]" />;
+    if (n.includes('tailwind')) return <SiTailwindcss className="w-4 h-4 text-[#06B6D4]" />;
+    if (n.includes('redux')) return <SiRedux className="w-4 h-4 text-[#764ABC]" />;
+    if (n.includes('bootstrap')) return <SiBootstrap className="w-4 h-4 text-[#7952B3]" />;
+    if (n.includes('sass') || n.includes('scss')) return <SiSass className="w-4 h-4 text-[#CC6699]" />;
+
+    // Backend & Languages
+    if (n.includes('node')) return <FaNodeJs className="w-4 h-4 text-[#339933]" />;
+    if (n.includes('express')) return <SiExpress className="w-4 h-4 text-white" />;
+    if (n.includes('python')) return <FaPython className="w-4 h-4 text-[#3776AB]" />;
+    if (n.includes('java') && !n.includes('javascript')) return <FaJava className="w-4 h-4 text-[#EA2D2E]" />;
+    if (n.includes('graphql')) return <SiGraphql className="w-4 h-4 text-[#E10098]" />;
+    if (n.includes('prisma')) return <SiPrisma className="w-4 h-4 text-[#2D3748]" />;
+
+    // Databases
+    if (n.includes('mysql')) return <SiMysql className="w-4 h-4 text-[#4479A1]" />;
+    if (n.includes('mongodb') || n.includes('mongo')) return <SiMongodb className="w-4 h-4 text-[#47A248]" />;
+    if (n.includes('postgres') || n.includes('postgresql')) return <SiPostgresql className="w-4 h-4 text-[#4169E1]" />;
+    if (n.includes('redis')) return <SiRedis className="w-4 h-4 text-[#DC382D]" />;
+    if (n.includes('firebase')) return <SiFirebase className="w-4 h-4 text-[#FFCA28]" />;
+    if (n.includes('supabase')) return <SiSupabase className="w-4 h-4 text-[#3ECF8E]" />;
+
+    // Deployment, Cloud & Hosting
+    if (n.includes('vercel')) return <SiVercel className="w-4 h-4 text-white" />;
+    if (n.includes('netlify')) return <SiNetlify className="w-4 h-4 text-[#00C7B7]" />;
+    if (n.includes('cloudflare')) return <SiCloudflare className="w-4 h-4 text-[#F38020]" />;
+    if (n.includes('render')) return <SiRender className="w-4 h-4 text-[#46E3B7]" />;
+    if (n.includes('godaddy') || n.includes('go daddy')) return <SiGodaddy className="w-4 h-4 text-[#1BDBDB]" />;
+    if (n.includes('hostinger')) return <SiHostinger className="w-4 h-4 text-[#673DE6]" />;
+    if (n.includes('aws')) return <FaAws className="w-4 h-4 text-[#FF9900]" />;
+    if (n.includes('docker')) return <FaDocker className="w-4 h-4 text-[#2496ED]" />;
+    if (n.includes('linux')) return <SiLinux className="w-4 h-4 text-[#FCC624]" />;
+
+    // Tools, Git & IDEs
+    if (n.includes('git') && !n.includes('github')) return <FaGitAlt className="w-4 h-4 text-[#F05032]" />;
+    if (n.includes('github')) return <FaGithub className="w-4 h-4 text-white" />;
+    if (n.includes('postman')) return <SiPostman className="w-4 h-4 text-[#FF6C37]" />;
+    if (n.includes('figma')) return <SiFigma className="w-4 h-4 text-[#F24E1E]" />;
+    if (n.includes('vs code') || n.includes('vscode')) return <Code2 className="w-4 h-4 text-[#007ACC]" />;
+
+    // AI Dev Tools & LLMs
+    if (n.includes('chatgpt') || n.includes('openai')) return <SiOpenai className="w-4 h-4 text-[#10A37F]" />;
+    if (n.includes('gemini') || n.includes('google')) return <SiGoogle className="w-4 h-4 text-[#4285F4]" />;
+    if (n.includes('claude') || n.includes('anthropic')) return <SiAnthropic className="w-4 h-4 text-[#D97706]" />;
+    if (n.includes('cursor')) return <Cpu className="w-4 h-4 text-[#8b5cf6]" />;
+    if (n.includes('antigravity')) return <Sparkles className="w-4 h-4 text-[#3b82f6]" />;
+    if (n.includes('grok')) return <Sparkles className="w-4 h-4 text-[#1DA1F2]" />;
+    if (n.includes('codex') || n.includes('copilot')) return <Code2 className="w-4 h-4 text-[#2496ED]" />;
+
+    // Core Concepts & Technical Principles
+    if (n.includes('data structure') || n.includes('dsa') || n.includes('algorithm')) return <Boxes className="w-4 h-4 text-accent" />;
+    if (n.includes('network')) return <Globe className="w-4 h-4 text-blue-400" />;
+    if (n.includes('dbms') || n.includes('database')) return <Database className="w-4 h-4 text-[#3ECF8E]" />;
+    if (n.includes('software') || n.includes('engineering')) return <Workflow className="w-4 h-4 text-accentPurple" />;
+    if (n.includes('auth') || n.includes('shield') || n.includes('security')) return <Shield className="w-4 h-4 text-emerald-400" />;
+    if (n.includes('comm') || n.includes('real-time') || n.includes('socket')) return <MessageSquare className="w-4 h-4 text-cyan-400" />;
+    if (n.includes('api') || n.includes('rest')) return <Server className="w-4 h-4 text-accent" />;
+    if (n.includes('responsive')) return <Layout className="w-4 h-4 text-accent" />;
+    if (n.includes('deploy') || n.includes('host')) return <Rocket className="w-4 h-4 text-purple-400" />;
     
     return <Code2 className="w-4 h-4 text-accent" />;
   };
 
-  // Category Icon helper
+  // Category Icon helper matching your categories
   const getCategoryIcon = (category) => {
-    switch (category.toLowerCase()) {
-      case 'frontend':
-        return <Layout className="w-6 h-6 text-accent" />;
-      case 'backend':
-        return <Cpu className="w-6 h-6 text-secondaryAccent" />;
-      case 'databases':
-        return <Database className="w-6 h-6 text-blue-400" />;
-      case 'tools & platforms':
-        return <Wrench className="w-6 h-6 text-accent" />;
-      case 'ai dev tools':
-        return <Sparkles className="w-6 h-6 text-accent" />;
-      case 'core concepts':
-        return <BookOpen className="w-6 h-6 text-secondaryAccent" />;
-      default:
-        return <Cpu className="w-6 h-6 text-gray-300" />;
-    }
+    const c = category.toLowerCase().trim();
+    if (c.includes('frontend')) return <Layout className="w-6 h-6 text-accent" />;
+    if (c.includes('backend')) return <Cpu className="w-6 h-6 text-secondaryAccent" />;
+    if (c.includes('database')) return <Database className="w-6 h-6 text-blue-400" />;
+    if (c.includes('tool') || c.includes('platform')) return <Wrench className="w-6 h-6 text-accent" />;
+    if (c.includes('ai') || c.includes('ide')) return <Sparkles className="w-6 h-6 text-amber-400" />;
+    if (c.includes('concept') || c.includes('core')) return <BookOpen className="w-6 h-6 text-secondaryAccent" />;
+    if (c.includes('deploy') || c.includes('host') || c.includes('cloud')) return <Server className="w-6 h-6 text-emerald-400" />;
+    return <Boxes className="w-6 h-6 text-accent" />;
   };
 
   const containerVariants = {

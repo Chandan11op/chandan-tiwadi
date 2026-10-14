@@ -1,11 +1,32 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, Calendar, Code2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Calendar, Code2, ChevronDown, ChevronUp } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { portfolioData } from '../data/portfolioData';
+import { getPublicProjects } from '../services/publicData';
 
 export default function Projects() {
-  const projectsData = portfolioData.projects;
+  const [projectsData, setProjectsData] = useState(portfolioData.projects);
+  const [expandedIds, setExpandedIds] = useState({});
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublicProjects().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setProjectsData(data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const toggleExpand = (id) => {
+    setExpandedIds(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   // Render glow classes based on highlightColor
   const getGlowStyles = (color) => {
@@ -24,9 +45,9 @@ export default function Projects() {
         };
       case 'electric-blue':
         return {
-          cardClass: 'border-accent/30 hover:border-accent/60 shadow-[0_0_15px_rgba(59,130,246,0.08)] hover:shadow-[0_0_25px_rgba(59,130,246,0.3)]',
-          badgeClass: 'bg-accent/15 text-accent border-accent/20',
-          techBadgeClass: 'border-accent/10 text-accent/90 hover:border-accent/30'
+          cardClass: 'border-accent/40 hover:border-accent/80 shadow-[0_0_20px_rgba(59,130,246,0.12)] hover:shadow-[0_0_30px_rgba(59,130,246,0.45)]',
+          badgeClass: 'bg-accent/20 text-accent border-accent/40 shadow-blue-glow',
+          techBadgeClass: 'border-accent/20 text-accent hover:border-accent/40'
         };
       default:
         return {
@@ -88,25 +109,28 @@ export default function Projects() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch"
         >
           {projectsData.map((project) => {
             const glowStyles = getGlowStyles(project.highlightColor);
+            const isExpanded = Boolean(expandedIds[project.id]);
+            const isLongDescription = project.description && project.description.length > 130;
+
             return (
               <motion.div
                 key={project.id}
                 variants={cardVariants}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                className={`glass-card p-6 md:p-8 rounded-3xl border transition-all duration-300 flex flex-col justify-between ${glowStyles.cardClass}`}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className={`glass-card p-6 md:p-8 rounded-3xl border transition-all duration-300 flex flex-col justify-between h-full ${glowStyles.cardClass}`}
               >
-                <div>
+                <div className="flex-1 flex flex-col">
                   {/* Card Header & Badge */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
                     <span className={`px-4 py-1.5 rounded-full text-xs font-bold border w-fit ${glowStyles.badgeClass}`}>
                       {project.badge}
                     </span>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="w-4 h-4 text-accent/70" />
                       <span>{project.period}</span>
                     </div>
                   </div>
@@ -120,15 +144,27 @@ export default function Projects() {
                     {project.type}
                   </p>
 
-                  {/* Description */}
-                  <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                    {project.description}
-                  </p>
+                  {/* Description with Expand / View More */}
+                  <div className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
+                    <p className={`transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>
+                      {project.description}
+                    </p>
+                    {isLongDescription && (
+                      <button
+                        type="button"
+                        onClick={() => toggleExpand(project.id)}
+                        className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:text-accentPurple transition-colors mt-2 cursor-pointer"
+                      >
+                        <span>{isExpanded ? 'View Less' : 'View More'}</span>
+                        {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                <div>
+                <div className="pt-2">
                   {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-2 mb-6 min-h-[32px]">
                     {project.tech.map((techItem, index) => (
                       <span
                         key={index}
@@ -140,7 +176,7 @@ export default function Projects() {
                   </div>
 
                   {/* Project Links */}
-                  <div className="flex items-center gap-4 pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-4 pt-4 border-t border-white/5 mt-auto">
                     {project.links.github && (
                       <a
                         href={project.links.github}
