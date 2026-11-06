@@ -62,19 +62,25 @@ import {
 } from 'react-icons/si';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicSkills } from '../services/publicData';
+import SkillsSkeleton from './skeletons/SkillsSkeleton';
 import rightPortrait from '../assets/portfolio/right.png';
 import CinematicSmoke from './CinematicSmoke';
 
 export default function Skills() {
   const [skillsData, setSkillsData] = useState(portfolioData.skills);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
-    getPublicSkills().then((data) => {
-      if (isMounted && data && data.length > 0) {
-        setSkillsData(data);
-      }
-    });
+    getPublicSkills()
+      .then((data) => {
+        if (isMounted && data && data.length > 0) {
+          setSkillsData(data);
+        }
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
     return () => { isMounted = false; };
   }, []);
 
@@ -271,45 +277,53 @@ export default function Skills() {
         </motion.div>
 
         {/* Spacious 3-Column Skills Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
-        >
-          {skillsData.map((skillGroup, idx) => (
-            <motion.div
-              key={idx}
-              variants={cardVariants}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="p-6 sm:p-7 rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/70 hover:shadow-[0_8px_30px_rgba(44,52,128,0.3)] transition-all duration-300 flex flex-col justify-start"
-            >
-              {/* Category Header */}
-              <div className="flex items-center gap-3.5 mb-5 pb-4 border-b border-white/[0.06]">
-                <div className="p-2.5 rounded-xl bg-[#2C3480]/20 border border-[#2C3480]/40 text-[#8C97E6]">
-                  {getCategoryIcon(skillGroup.category)}
+        {loading ? (
+          <SkillsSkeleton count={6} />
+        ) : skillsData.length === 0 ? (
+          <div className="p-12 rounded-3xl glass-card border border-white/5 text-center text-gray-400">
+            <p className="text-base font-semibold">No skills records available.</p>
+          </div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          >
+            {skillsData.map((skillGroup, idx) => (
+              <motion.div
+                key={idx}
+                variants={cardVariants}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="p-6 sm:p-7 rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/70 hover:shadow-[0_8px_30px_rgba(44,52,128,0.3)] transition-all duration-300 flex flex-col justify-start"
+              >
+                {/* Category Header */}
+                <div className="flex items-center gap-3.5 mb-5 pb-4 border-b border-white/[0.06]">
+                  <div className="p-2.5 rounded-xl bg-[#2C3480]/20 border border-[#2C3480]/40 text-[#8C97E6]">
+                    {getCategoryIcon(skillGroup.category)}
+                  </div>
+                  <h3 className="text-lg font-bold text-white tracking-wide font-sans">
+                    {skillGroup.category}
+                  </h3>
                 </div>
-                <h3 className="text-lg font-bold text-white tracking-wide font-sans">
-                  {skillGroup.category}
-                </h3>
-              </div>
 
-              {/* Skills Badges List */}
-              <div className="flex flex-wrap gap-2">
-                {skillGroup.items.map((skill, sIdx) => (
-                  <span
-                    key={sIdx}
-                    className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300 bg-white/[0.02] border border-white/10 hover:border-[#2C3480]/60 hover:text-white hover:bg-[#2C3480]/15 transition-all duration-200 cursor-default flex items-center gap-2"
-                  >
-                    {getSkillIcon(skill)}
-                    <span>{skill}</span>
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+                {/* Skills Badges List */}
+                <div className="flex flex-wrap gap-2">
+                  {skillGroup.items.map((skill, sIdx) => (
+                    <span
+                      key={sIdx}
+                      className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-300 bg-white/[0.02] border border-white/10 hover:border-[#2C3480]/60 hover:text-white hover:bg-[#2C3480]/15 transition-all duration-200 cursor-default flex items-center gap-2"
+                    >
+                      {getSkillIcon(skill)}
+                      <span>{skill}</span>
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
       </div>
     </section>

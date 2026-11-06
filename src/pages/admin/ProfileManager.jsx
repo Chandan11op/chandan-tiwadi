@@ -125,9 +125,7 @@ export default function ProfileManager() {
         avatar_url: formData.avatar_url || null
       };
 
-      if (profile?.id) {
-        await updateAdminProfile(profile.id, payload);
-      }
+      await updateAdminProfile(profile?.id || 'main', payload);
       setSuccess('Profile updated successfully! Live portfolio will display these changes.');
     } catch (err) {
       setError(err.message || 'Failed to update profile');

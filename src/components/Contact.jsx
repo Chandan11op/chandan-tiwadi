@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2, ArrowUpRight } from 'lucide-react';
 import { FaGithub, FaWhatsapp } from 'react-icons/fa';
 import { portfolioData } from '../data/portfolioData';
+import { getPublicProfile } from '../services/publicData';
 import CinematicSmoke from './CinematicSmoke';
 
 export default function Contact() {
-  const personal = portfolioData.personalInfo;
+  const [personal, setPersonal] = useState(portfolioData.personalInfo);
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublicProfile().then((data) => {
+      if (isMounted && data) setPersonal(data);
+    });
+    return () => { isMounted = false; };
+  }, []);
   
   const [formData, setFormData] = useState({
     name: '',

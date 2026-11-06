@@ -1,365 +1,244 @@
-import { supabase } from '../lib/supabase';
-
-const sanitizeFileName = (name) => {
-  return name.replace(/[^a-zA-Z0-9.-]/g, '_');
-};
+import { apiRequest } from './apiClient';
 
 /**
- * Uploads a file to a Supabase storage bucket
+ * Uploads a file to Cloudinary via the Express backend
  * @param {File} file 
  * @param {'portfolio-media' | 'portfolio-docs'} bucket 
  * @param {string} folder 
- * @returns {Promise<{publicUrl: string, path: string}>}
+ * @returns {Promise<{publicUrl: string, path: string, public_id: string}>}
  */
-export const uploadFile = async (file, bucket = 'portfolio-media', folder = 'uploads') => {
-  if (!supabase) throw new Error("Supabase is not configured.");
+export const uploadFile = async (file, bucket = 'portfolio-media', folder = 'portfolio/general') => {
+  const isDocument = bucket === 'portfolio-docs' || file.type === 'application/pdf';
+  const endpoint = isDocument ? '/api/uploads/document' : '/api/uploads/image';
 
-  // Validation
-  const maxSizeBytes = bucket === 'portfolio-docs' ? 10 * 1024 * 1024 : 5 * 1024 * 1024; // 10MB doc, 5MB image
-  if (file.size > maxSizeBytes) {
-    throw new Error(`File is too large. Maximum size is ${maxSizeBytes / (1024 * 1024)}MB.`);
+  // Map bucket/folder name to structured Cloudinary folders
+  let cloudinaryFolder = folder;
+  if (!cloudinaryFolder.startsWith('portfolio/')) {
+    if (folder.includes('certificate')) cloudinaryFolder = 'portfolio/certificates';
+    else if (folder.includes('project')) cloudinaryFolder = 'portfolio/projects';
+    else if (folder.includes('profile')) cloudinaryFolder = 'portfolio/profile';
+    else if (folder.includes('resume')) cloudinaryFolder = 'portfolio/resumes';
+    else cloudinaryFolder = `portfolio/${folder}`;
   }
 
-  // Type validation
-  if (bucket === 'portfolio-docs' && file.type !== 'application/pdf') {
-    throw new Error('Only PDF documents are permitted for resume / documents.');
-  }
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('folder', cloudinaryFolder);
 
-  const fileExt = file.name.split('.').pop()?.toLowerCase();
-  const allowedExtensions = bucket === 'portfolio-docs' 
-    ? ['pdf']
-    : ['jpg', 'jpeg', 'png', 'webp', 'svg', 'gif', 'pdf'];
-
-  if (!allowedExtensions.includes(fileExt)) {
-    throw new Error(`Invalid file extension .${fileExt}. Allowed: ${allowedExtensions.join(', ')}`);
-  }
-
-  const timestamp = Date.now();
-  const safeName = sanitizeFileName(file.name);
-  const filePath = `${folder}/${timestamp}_${safeName}`;
-
-  const { data, error } = await supabase.storage
-    .from(bucket)
-    .upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: false
-    });
-
-  if (error) {
-    throw error;
-  }
-
-  const { data: publicUrlData } = supabase.storage
-    .from(bucket)
-    .getPublicUrl(data.path);
+  const res = await apiRequest(endpoint, {
+    method: 'POST',
+    body: formData,
+  });
 
   return {
-    publicUrl: publicUrlData.publicUrl,
-    path: data.path
+    publicUrl: res.data?.publicUrl || res.data?.url,
+    url: res.data?.url || res.data?.publicUrl,
+    path: res.data?.public_id || '',
+    public_id: res.data?.public_id || '',
   };
 };
 
 // CRUD Operations: Projects
 export const fetchAdminProjects = async () => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('projects')
-    .select('*')
-    .order('display_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/projects/all');
+  return res.data || [];
 };
 
 export const createProject = async (projectData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('projects')
-    .insert([projectData])
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/projects', {
+    method: 'POST',
+    body: JSON.stringify(projectData),
+  });
+  return res.data;
 };
 
 export const updateProject = async (id, projectData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('projects')
-    .update({ ...projectData, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest(`/api/projects/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(projectData),
+  });
+  return res.data;
 };
 
 export const deleteProject = async (id) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from('projects')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  await apiRequest(`/api/projects/${id}`, {
+    method: 'DELETE',
+  });
   return true;
 };
 
 // CRUD Operations: Profile
 export const fetchAdminProfile = async () => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('profile')
-    .select('*')
-    .limit(1)
-    .maybeSingle();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/profile');
+  return res.data;
 };
 
 export const updateAdminProfile = async (id, profileData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('profile')
-    .update({ ...profileData, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/profile', {
+    method: 'PUT',
+    body: JSON.stringify(profileData),
+  });
+  return res.data;
 };
 
 // CRUD Operations: Certificates
 export const fetchAdminCertificates = async () => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('certificates')
-    .select('*')
-    .order('display_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/certificates/all');
+  return res.data || [];
 };
 
 export const createCertificate = async (certData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('certificates')
-    .insert([certData])
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/certificates', {
+    method: 'POST',
+    body: JSON.stringify(certData),
+  });
+  return res.data;
 };
 
 export const updateCertificate = async (id, certData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('certificates')
-    .update({ ...certData, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest(`/api/certificates/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(certData),
+  });
+  return res.data;
 };
 
 export const deleteCertificate = async (id) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from('certificates')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  await apiRequest(`/api/certificates/${id}`, {
+    method: 'DELETE',
+  });
   return true;
 };
 
 // CRUD Operations: Resumes
 export const fetchAdminResumes = async () => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('resumes')
-    .select('*')
-    .order('upload_date', { ascending: false });
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/resume/all');
+  return res.data || [];
 };
 
 export const createResume = async (resumeData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  if (resumeData.is_active) {
-    // Deactivate previous active resumes first
-    await supabase.from('resumes').update({ is_active: false }).neq('id', '00000000-0000-0000-0000-000000000000');
-  }
-  const { data, error } = await supabase
-    .from('resumes')
-    .insert([resumeData])
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/resume', {
+    method: 'POST',
+    body: JSON.stringify(resumeData),
+  });
+  return res.data;
 };
 
 export const setActiveResume = async (id) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  // Set all inactive
-  await supabase.from('resumes').update({ is_active: false }).neq('id', id);
-  // Set target active
-  const { data, error } = await supabase
-    .from('resumes')
-    .update({ is_active: true, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest(`/api/resume/${id}/active`, {
+    method: 'PUT',
+  });
+  return res.data;
 };
 
 export const deleteResume = async (id) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from('resumes')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  await apiRequest(`/api/resume/${id}`, {
+    method: 'DELETE',
+  });
   return true;
 };
 
 // CRUD Operations: Skills
 export const fetchAdminSkills = async () => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('skills')
-    .select('*')
-    .order('display_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/skills/all');
+  return res.data || [];
 };
 
 export const createSkill = async (skillData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('skills')
-    .insert([skillData])
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/skills', {
+    method: 'POST',
+    body: JSON.stringify(skillData),
+  });
+  return res.data;
 };
 
 export const updateSkill = async (id, skillData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('skills')
-    .update(skillData)
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest(`/api/skills/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(skillData),
+  });
+  return res.data;
 };
 
 export const deleteSkill = async (id) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from('skills')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  await apiRequest(`/api/skills/${id}`, {
+    method: 'DELETE',
+  });
   return true;
 };
 
 export const deleteCategory = async (categoryName) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from('skills')
-    .delete()
-    .eq('category', categoryName);
-  if (error) throw error;
+  await apiRequest(`/api/skills/category/${encodeURIComponent(categoryName)}`, {
+    method: 'DELETE',
+  });
   return true;
 };
 
 // CRUD Operations: Education
 export const fetchAdminEducation = async () => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('education')
-    .select('*')
-    .order('display_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/education/all');
+  return res.data || [];
 };
 
 export const createEducation = async (eduData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('education')
-    .insert([eduData])
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/education', {
+    method: 'POST',
+    body: JSON.stringify(eduData),
+  });
+  return res.data;
 };
 
 export const updateEducation = async (id, eduData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('education')
-    .update(eduData)
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest(`/api/education/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(eduData),
+  });
+  return res.data;
 };
 
 export const deleteEducation = async (id) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from('education')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  await apiRequest(`/api/education/${id}`, {
+    method: 'DELETE',
+  });
   return true;
 };
 
 // CRUD Operations: Experience
 export const fetchAdminExperience = async () => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('experience')
-    .select('*')
-    .order('display_order', { ascending: true });
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/experience/all');
+  return res.data || [];
 };
 
 export const createExperience = async (expData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('experience')
-    .insert([expData])
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest('/api/experience', {
+    method: 'POST',
+    body: JSON.stringify(expData),
+  });
+  return res.data;
 };
 
 export const updateExperience = async (id, expData) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { data, error } = await supabase
-    .from('experience')
-    .update(expData)
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const res = await apiRequest(`/api/experience/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(expData),
+  });
+  return res.data;
 };
 
 export const deleteExperience = async (id) => {
-  if (!supabase) throw new Error("Supabase is not configured.");
-  const { error } = await supabase
-    .from('experience')
-    .delete()
-    .eq('id', id);
-  if (error) throw error;
+  await apiRequest(`/api/experience/${id}`, {
+    method: 'DELETE',
+  });
   return true;
+};
+
+// Overview & Health Operations
+export const fetchDashboardStats = async () => {
+  const res = await apiRequest('/api/stats');
+  return res.data;
+};
+
+export const checkBackendHealth = async () => {
+  const res = await apiRequest('/api/health');
+  return res;
 };

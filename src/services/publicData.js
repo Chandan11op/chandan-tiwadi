@@ -1,35 +1,59 @@
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { apiRequest } from './apiClient';
 import { portfolioData } from '../data/portfolioData';
 
 /**
  * Public Data Service
- * Safely fetches ONLY published content with public-safe projections.
- * Gracefully falls back to bundled portfolioData.js if Supabase is offline or unconfigured.
+ * Retrieves live portfolio content from MongoDB via the Express backend.
+ * Gracefully falls back to bundled static portfolioData.js if the backend is offline or warming up.
  */
 
+// Simple in-memory cache to prevent redundant requests
+const cache = {
+  profile: null,
+  projects: null,
+  skills: null,
+  certificates: null,
+  education: null,
+  resume: null,
+  timestamps: {},
+};
+
+const CACHE_TTL_MS = 60 * 1000; // 1 minute client cache
+
+export const invalidatePublicCache = () => {
+  cache.profile = null;
+  cache.projects = null;
+  cache.skills = null;
+  cache.certificates = null;
+  cache.education = null;
+  cache.resume = null;
+  cache.timestamps = {};
+};
+
+const isCacheValid = (key) => {
+  const ts = cache.timestamps[key];
+  return Boolean(cache[key] && ts && Date.now() - ts < CACHE_TTL_MS);
+};
+
 export const getPublicProfile = async () => {
-  if (!isSupabaseConfigured || !supabase) {
-    return portfolioData.personalInfo;
+  if (isCacheValid('profile')) {
+    return cache.profile;
   }
 
   try {
-    const { data, error } = await supabase
-      .from('profile')
-      .select('name, initials, headline, tagline, bio, email, phone, location, avatar_url, resume_url, github_url, linkedin_url, instagram_url, twitter_url, portfolio_url, is_available, availability_text, stats, hero_titles')
-      .limit(1)
-      .maybeSingle();
+    const res = await apiRequest('/api/profile');
+    const data = res?.data;
 
-    if (error || !data) {
-      console.warn('Falling back to local profile data:', error?.message);
+    if (!data) {
       return portfolioData.personalInfo;
     }
 
-    return {
+    const formatted = {
       name: data.name || portfolioData.personalInfo.name,
       initials: data.initials || portfolioData.personalInfo.initials,
       location: data.location || portfolioData.personalInfo.location,
       tagline: data.tagline || portfolioData.personalInfo.tagline,
-      bio: data.bio && data.bio.length > 0 ? data.bio : portfolioData.personalInfo.bio,
+      bio: Array.isArray(data.bio) && data.bio.length > 0 ? data.bio : portfolioData.personalInfo.bio,
       email: data.email || portfolioData.personalInfo.email,
       phone: data.phone || portfolioData.personalInfo.phone,
       github: data.github_url || portfolioData.personalInfo.github,
@@ -38,177 +62,127 @@ export const getPublicProfile = async () => {
       twitter: data.twitter_url || portfolioData.personalInfo.twitter,
       portfolioUrl: data.portfolio_url || portfolioData.personalInfo.portfolioUrl,
       resumeUrl: data.resume_url || portfolioData.personalInfo.resumeUrl,
-      stats: data.stats || portfolioData.personalInfo.stats,
-      heroTitles: data.hero_titles || portfolioData.heroTitles,
+      stats: data.stats && data.stats.length > 0 ? data.stats : portfolioData.personalInfo.stats,
+      heroTitles: data.hero_titles && data.hero_titles.length > 0 ? data.hero_titles : portfolioData.heroTitles,
       isAvailable: data.is_available,
-      availabilityText: data.availability_text
+      availabilityText: data.availability_text,
+      avatarUrl: data.avatar_url || null,
     };
+
+    cache.profile = formatted;
+    cache.timestamps['profile'] = Date.now();
+    return formatted;
   } catch (err) {
-    console.error('Profile fetch error:', err);
+    console.warn('Backend unavailable, using bundled fallback profile:', err.message);
     return portfolioData.personalInfo;
   }
 };
 
 export const getPublicProjects = async () => {
-  if (!isSupabaseConfigured || !supabase) {
-    return portfolioData.projects;
+  if (isCacheValid('projects')) {
+    return cache.projects;
   }
 
   try {
-    // Only published projects are returned by RLS and explicit filter
-    const { data, error } = await supabase
-      .from('projects')
-      .select('id, slug, title, project_type, badge, period, short_description, full_description, technologies, category, thumbnail_url, screenshots, live_url, github_url, show_github_link, is_featured, highlight_color, display_order')
-      .eq('is_published', true)
-      .order('display_order', { ascending: true });
+    const res = await apiRequest('/api/projects');
+    const data = res?.data;
 
-    if (error || !data || data.length === 0) {
-      console.warn('Falling back to local projects data:', error?.message);
+    if (!data || !Array.isArray(data) || data.length === 0) {
       return portfolioData.projects;
     }
 
-    // Map database fields to the portfolio component's expected format
-    // Strict visibility rules enforcement:
-    return data.map((item) => {
-      const isClientProject = item.project_type === 'Client Project';
-      
-      // Personal projects show github link only if show_github_link is true AND github_url exists
-      // Client projects show github link only if show_github_link is explicitly true
-      const canShowGithub = item.show_github_link && Boolean(item.github_url);
-
-      return {
-        id: item.slug || item.id,
-        title: item.title,
-        badge: item.badge || (isClientProject ? '💼 Client Project' : '🚀 Project'),
-        type: item.project_type || 'Full Stack',
-        period: item.period || '',
-        tech: item.technologies || [],
-        description: item.full_description || item.short_description || '',
-        highlightColor: item.highlight_color || 'default',
-        thumbnail: item.thumbnail_url || null,
-        links: {
-          live: item.live_url || null,
-          github: canShowGithub ? item.github_url : null,
-        }
-      };
-    });
+    cache.projects = data;
+    cache.timestamps['projects'] = Date.now();
+    return data;
   } catch (err) {
-    console.error('Projects fetch error:', err);
+    console.warn('Backend unavailable, using bundled fallback projects:', err.message);
     return portfolioData.projects;
   }
 };
 
 export const getPublicSkills = async () => {
-  if (!isSupabaseConfigured || !supabase) {
-    return portfolioData.skills;
+  if (isCacheValid('skills')) {
+    return cache.skills;
   }
 
   try {
-    const { data, error } = await supabase
-      .from('skills')
-      .select('name, category, display_order')
-      .order('display_order', { ascending: true });
+    const res = await apiRequest('/api/skills');
+    const data = res?.data;
 
-    if (error || !data || data.length === 0) {
+    if (!data || !Array.isArray(data) || data.length === 0) {
       return portfolioData.skills;
     }
 
-    // Group by category to match portfolioData format
-    const categoriesMap = {};
-    data.forEach((s) => {
-      if (!categoriesMap[s.category]) {
-        categoriesMap[s.category] = [];
-      }
-      categoriesMap[s.category].push(s.name);
-    });
-
-    return Object.keys(categoriesMap).map((cat) => ({
-      category: cat,
-      items: categoriesMap[cat],
-    }));
+    cache.skills = data;
+    cache.timestamps['skills'] = Date.now();
+    return data;
   } catch (err) {
-    console.error('Skills fetch error:', err);
+    console.warn('Backend unavailable, using bundled fallback skills:', err.message);
     return portfolioData.skills;
   }
 };
 
 export const getPublicCertificates = async () => {
-  if (!isSupabaseConfigured || !supabase) {
-    return portfolioData.certifications;
+  if (isCacheValid('certificates')) {
+    return cache.certificates;
   }
 
   try {
-    const { data, error } = await supabase
-      .from('certificates')
-      .select('title, issuer, year, badge_icon, file_url, verification_url, display_order')
-      .eq('is_published', true)
-      .order('display_order', { ascending: true });
+    const res = await apiRequest('/api/certificates');
+    const data = res?.data;
 
-    if (error || !data || data.length === 0) {
+    if (!data || !Array.isArray(data) || data.length === 0) {
       return portfolioData.certifications;
     }
 
-    return data.map((cert) => ({
-      title: cert.title,
-      issuer: cert.issuer,
-      year: cert.year || '',
-      badgeIcon: cert.badge_icon || 'award',
-      image: cert.file_url,
-      verificationUrl: cert.verification_url || null
-    }));
+    cache.certificates = data;
+    cache.timestamps['certificates'] = Date.now();
+    return data;
   } catch (err) {
-    console.error('Certificates fetch error:', err);
+    console.warn('Backend unavailable, using bundled fallback certificates:', err.message);
     return portfolioData.certifications;
   }
 };
 
 export const getPublicEducation = async () => {
-  if (!isSupabaseConfigured || !supabase) {
-    return portfolioData.education;
+  if (isCacheValid('education')) {
+    return cache.education;
   }
 
   try {
-    const { data, error } = await supabase
-      .from('education')
-      .select('institution, degree, period, details, relevant_courses, image_url, display_order')
-      .order('display_order', { ascending: true });
+    const res = await apiRequest('/api/education');
+    const data = res?.data;
 
-    if (error || !data || data.length === 0) {
+    if (!data || !Array.isArray(data) || data.length === 0) {
       return portfolioData.education;
     }
 
-    return data.map((edu) => ({
-      institution: edu.institution,
-      degree: edu.degree,
-      period: edu.period,
-      details: edu.details,
-      relevantCourses: edu.relevant_courses || [],
-      image: edu.image_url
-    }));
+    cache.education = data;
+    cache.timestamps['education'] = Date.now();
+    return data;
   } catch (err) {
-    console.error('Education fetch error:', err);
+    console.warn('Backend unavailable, using bundled fallback education:', err.message);
     return portfolioData.education;
   }
 };
 
 export const getPublicActiveResume = async () => {
-  if (!isSupabaseConfigured || !supabase) {
-    return null;
+  if (isCacheValid('resume')) {
+    return cache.resume;
   }
 
   try {
-    const { data, error } = await supabase
-      .from('resumes')
-      .select('title, file_url, version')
-      .eq('is_active', true)
-      .limit(1)
-      .maybeSingle();
+    const res = await apiRequest('/api/resume/active');
+    const data = res?.data;
 
-    if (error || !data) {
-      return null;
+    if (data && data.file_url) {
+      cache.resume = data;
+      cache.timestamps['resume'] = Date.now();
+      return data;
     }
-    return data;
+    return null;
   } catch (err) {
+    console.warn('Active resume endpoint error, fallback:', err.message);
     return null;
   }
 };

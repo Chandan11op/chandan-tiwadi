@@ -3,19 +3,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Award, Terminal, Layers, Globe, Cpu, FileCode2, ZoomIn, Brain, X } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicCertificates } from '../services/publicData';
+import CertificateSkeleton from './skeletons/CertificateSkeleton';
 import CinematicSmoke from './CinematicSmoke';
 
 export default function Certifications() {
   const [certificationsData, setCertificationsData] = useState(portfolioData.certifications);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
-    getPublicCertificates().then((data) => {
-      if (isMounted && data && data.length > 0) {
-        setCertificationsData(data);
-      }
-    });
+    getPublicCertificates()
+      .then((data) => {
+        if (isMounted && data && data.length > 0) {
+          setCertificationsData(data);
+        }
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
     return () => { isMounted = false; };
   }, []);
 
@@ -82,96 +88,107 @@ export default function Certifications() {
         </div>
 
         {/* Certifications Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-center"
-        >
-          {certificationsData.map((cert, idx) => (
-            <motion.div
-              key={idx}
-              variants={cardVariants}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_8px_32px_rgba(44,52,128,0.3)] transition-all duration-300 overflow-hidden flex flex-col cursor-pointer group text-left"
-              onClick={() => setSelectedImage({ src: cert.image, title: cert.title })}
-            >
-              {cert.image && (
-                <div className="relative w-full h-52 overflow-hidden border-b border-white/[0.06] bg-black/60 shrink-0">
-                  <img 
-                    src={cert.image} 
-                    alt={cert.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                    <div className="p-3 rounded-full bg-[#2C3480]/80 border border-white/20 text-white shadow-[0_0_20px_#2C3480]">
-                      <ZoomIn className="w-5 h-5" />
+        {loading ? (
+          <CertificateSkeleton count={6} />
+        ) : certificationsData.length === 0 ? (
+          <div className="p-12 rounded-3xl glass-card border border-white/5 text-center text-gray-400">
+            <p className="text-base font-semibold">No certifications currently available.</p>
+          </div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-center"
+          >
+            {certificationsData.map((cert, idx) => (
+              <motion.div
+                key={cert.id || idx}
+                variants={cardVariants}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className="rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_8px_32px_rgba(44,52,128,0.3)] transition-all duration-300 overflow-hidden flex flex-col cursor-pointer group text-left"
+                onClick={() => setSelectedImage({ src: cert.image || cert.file_url, title: cert.title })}
+              >
+                {(cert.image || cert.file_url) && (
+                  <div className="relative w-full h-52 overflow-hidden border-b border-white/[0.06] bg-black/60 shrink-0">
+                    <img 
+                      src={cert.image || cert.file_url} 
+                      alt={cert.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                      <div className="p-3 rounded-full bg-[#2C3480]/80 border border-white/20 text-white shadow-[0_0_20px_#2C3480]">
+                        <ZoomIn className="w-5 h-5" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="p-6 sm:p-7 flex items-start gap-4 flex-1">
-                {/* Badge Icon */}
-                <div className="p-3 rounded-2xl bg-[#2C3480]/20 border border-[#2C3480]/40 shrink-0">
-                  {getBadgeIcon(cert.badgeIcon)}
-                </div>
-
-                {/* Certification Detail */}
-                <div className="space-y-1.5 flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] font-bold text-[#8C97E6] tracking-widest uppercase bg-[#2C3480]/25 px-2.5 py-0.5 rounded-full border border-[#2C3480]/50 font-mono">
-                      {cert.year}
-                    </span>
+                <div className="p-6 sm:p-7 flex items-start gap-4 flex-1">
+                  {/* Badge Icon */}
+                  <div className="p-3 rounded-2xl bg-[#2C3480]/20 border border-[#2C3480]/40 shrink-0">
+                    {getBadgeIcon(cert.badgeIcon || cert.badge_icon)}
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug group-hover:text-[#8C97E6] transition-colors font-sans">
-                    {cert.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-400 font-medium">
-                    {cert.issuer}
-                  </p>
+
+                  {/* Certification Detail */}
+                  <div className="space-y-1.5 flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[10px] font-bold text-[#8C97E6] tracking-widest uppercase bg-[#2C3480]/25 px-2.5 py-0.5 rounded-full border border-[#2C3480]/50 font-mono">
+                        {cert.year}
+                      </span>
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug group-hover:text-[#8C97E6] transition-colors font-sans">
+                      {cert.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-400 font-medium">
+                      {cert.issuer}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
       </div>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox Modal for Certificate Previews */}
       <AnimatePresence>
         {selectedImage && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 cursor-pointer"
             onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
           >
-            <motion.div 
-              initial={{ scale: 0.92, opacity: 0 }}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.92, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative max-w-4xl max-h-[85vh] overflow-hidden rounded-3xl border border-white/20 bg-black/90 p-4 shadow-[0_0_50px_rgba(44,52,128,0.5)]"
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full max-h-[90vh] bg-black/95 rounded-3xl border border-white/20 p-2 sm:p-4 flex flex-col shadow-[0_0_50px_rgba(44,52,128,0.5)]"
             >
-              <img 
-                src={selectedImage.src} 
-                alt={selectedImage.title} 
-                className="max-w-full max-h-[75vh] rounded-2xl object-contain mx-auto"
-              />
-              <div className="text-center mt-3 text-sm text-gray-300 font-semibold px-4 font-sans">
-                {selectedImage.title}
+              <div className="flex justify-between items-center px-4 py-3 border-b border-white/10 mb-2">
+                <h4 className="text-sm sm:text-base font-bold text-white truncate max-w-md">
+                  {selectedImage.title}
+                </h4>
+                <button
+                  onClick={() => setSelectedImage(null)}
+                  className="p-1.5 rounded-full bg-white/10 text-gray-300 hover:text-white hover:bg-white/20 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <button 
-                className="absolute top-5 right-5 text-white bg-black/80 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors border border-white/20 cursor-pointer"
-                onClick={() => setSelectedImage(null)}
-                aria-label="Close certificate lightbox"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="relative flex-1 overflow-hidden rounded-2xl flex items-center justify-center bg-black/40">
+                <img
+                  src={selectedImage.src}
+                  alt={selectedImage.title}
+                  className="max-w-full max-h-[75vh] object-contain rounded-xl"
+                />
+              </div>
             </motion.div>
           </motion.div>
         )}

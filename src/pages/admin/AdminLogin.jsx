@@ -63,7 +63,7 @@ export default function AdminLogin() {
             <div>
               <p className="font-bold mb-1">Backend Configuration Required</p>
               <p className="text-amber-300/80">
-                Please set up your Supabase project credentials in <code>.env</code> to enable live authentication and database operations.
+                Please set up your <code>VITE_API_BASE_URL</code> environment variable to connect to your Express + MongoDB Atlas backend.
               </p>
             </div>
           </div>

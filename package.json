@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "npm run dev --prefix server",
+    "server:start": "npm start --prefix server",
+    "server:migrate": "npm run migrate --prefix server",
+    "server:admin": "npm run create-admin --prefix server",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "npm run build && wrangler dev",

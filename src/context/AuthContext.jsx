@@ -1,94 +1,106 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase, isSupabaseConfigured, ADMIN_EMAIL } from '../lib/supabase';
+import {
+  apiRequest,
+  getStoredToken,
+  getStoredUser,
+  setStoredAuth,
+  clearStoredAuth,
+  API_BASE_URL,
+} from '../services/apiClient';
 
 const AuthContext = createContext({
   user: null,
   session: null,
   isAdmin: false,
   loading: true,
-  isConfigured: false,
+  isConfigured: true,
   login: async () => {},
   logout: async () => {},
 });
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [session, setSession] = useState(null);
+  const [user, setUser] = useState(getStoredUser());
   const [loading, setLoading] = useState(true);
 
-  const checkIsAdmin = (email) => {
-    if (!email) return false;
-    return email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-  };
-
+  // Validate session against server on mount
   useEffect(() => {
-    if (!isSupabaseConfigured || !supabase) {
+    let isMounted = true;
+    const token = getStoredToken();
+
+    if (!token) {
       setLoading(false);
       return;
     }
 
-    // Check active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    }).catch(() => {
-      setLoading(false);
-    });
-
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    apiRequest('/api/auth/me')
+      .then((res) => {
+        if (!isMounted) return;
+        if (res?.data?.user) {
+          setUser(res.data.user);
+          setStoredAuth(token, res.data.user);
+        } else {
+          clearStoredAuth();
+          setUser(null);
+        }
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        clearStoredAuth();
+        setUser(null);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      });
 
     return () => {
-      subscription?.unsubscribe();
+      isMounted = false;
     };
   }, []);
 
   const login = async (email, password) => {
-    if (!isSupabaseConfigured || !supabase) {
-      throw new Error("Supabase is not configured yet. Please configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+    try {
+      const res = await apiRequest('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+
+      if (!res?.data?.token) {
+        throw new Error(res?.message || 'Login failed');
+      }
+
+      const { token, user: loggedInUser } = res.data;
+      setStoredAuth(token, loggedInUser);
+      setUser(loggedInUser);
+      return res.data;
+    } catch (err) {
+      clearStoredAuth();
+      setUser(null);
+      throw err;
     }
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      throw error;
-    }
-
-    // Verify authorized administrator email
-    if (!checkIsAdmin(data.user?.email)) {
-      await supabase.auth.signOut();
-      throw new Error("Access Denied: This account is not authorized to access the Admin Portal.");
-    }
-
-    return data;
   };
 
   const logout = async () => {
-    if (supabase) {
-      await supabase.auth.signOut();
+    try {
+      await apiRequest('/api/auth/logout', { method: 'POST' }).catch(() => {});
+    } finally {
+      clearStoredAuth();
+      setUser(null);
     }
-    setUser(null);
-    setSession(null);
   };
 
-  const isAdmin = Boolean(user && checkIsAdmin(user.email));
+  const isAdmin = Boolean(user && (user.role === 'admin' || user.email));
+  const isConfigured = Boolean(API_BASE_URL !== undefined);
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        session,
+        session: user ? { user } : null,
         isAdmin,
         loading,
-        isConfigured: isSupabaseConfigured,
+        isConfigured,
         login,
         logout,
       }}
