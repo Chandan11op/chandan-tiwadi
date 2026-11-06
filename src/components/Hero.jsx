@@ -96,7 +96,7 @@ export default function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8C97E6] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8C97E6]"></span>
                 </span>
-                <span>Available for Opportunities</span>
+                <span>{personal?.availabilityText || 'Available for Opportunities'}</span>
               </div>
 
               <span className="text-[11px] font-mono tracking-widest uppercase text-gray-400 hidden sm:inline">
@@ -109,11 +109,14 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[1.06] mb-6"
+              className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white font-sans leading-[1.08] mb-6"
             >
-              Turning Ideas Into{' '}
+              Chandan Tiwadi —{' '}
               <span className="text-gradient-cobalt block sm:inline">
-                Digital Experiences.
+                Full Stack Web Developer
+              </span>{' '}
+              <span className="text-2xl sm:text-3xl lg:text-4xl block text-gray-300 font-semibold mt-2 tracking-normal">
+                in Mumbai, India
               </span>
             </motion.h1>
 
@@ -124,7 +127,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-gray-300 text-base sm:text-lg max-w-xl mb-9 leading-relaxed font-normal"
             >
-              I'm <strong className="text-white font-semibold">Chandan Tiwadi</strong>, a developer passionate about building modern websites, applications, and technology-driven solutions with React, Node.js, and emerging AI technologies.
+              I am a professional <strong className="text-white font-semibold">Full Stack Web Developer</strong> based in Mumbai, specializing in modern web applications using <strong className="text-white font-semibold">React.js</strong>, <strong className="text-white font-semibold">Node.js</strong>, <strong className="text-white font-semibold">MongoDB</strong>, and cutting-edge <strong className="text-white font-semibold">AI-assisted engineering</strong>. From responsive frontend experiences to production backend APIs, I build secure, high-performance digital solutions designed to scale.
             </motion.p>
 
             {/* Primary Calls to Action */}
@@ -174,7 +177,9 @@ export default function Hero() {
               {/* Front Portrait Image */}
               <img
                 src={frontPortrait}
-                alt="Chandan Tiwadi - Full Stack Web Developer (Frontal Portrait)"
+                alt="Chandan Tiwadi - Full Stack Web Developer based in Mumbai"
+                width="450"
+                height="600"
                 loading="eager"
                 decoding="async"
                 className="relative z-10 w-full h-full object-contain object-bottom portrait-bottom-vignette drop-shadow-[0_20px_45px_rgba(0,0,0,0.9)] filter contrast-[1.03] brightness-[1.01]"

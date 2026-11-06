@@ -136,6 +136,7 @@ export default function Footer() {
           {/* Edit Portfolio Portal Shortcut */}
           <Link
             to="/admin-portal"
+            rel="nofollow"
             title="Edit Portfolio (Admin Login)"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/[0.03] border border-white/10 hover:border-[#2C3480] text-gray-400 hover:text-white transition-all duration-300 text-xs font-semibold"
           >

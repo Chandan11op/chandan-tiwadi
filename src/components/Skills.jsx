@@ -12,7 +12,6 @@ import {
   MessageSquare, 
   Code2, 
   Server, 
-  Cloud, 
   Rocket, 
   Boxes,
   Workflow
@@ -220,7 +219,9 @@ export default function Skills() {
                 {/* Portrait: right.png (Facing right into technical skills) */}
                 <img
                   src={rightPortrait}
-                  alt="Chandan Tiwadi - Profile View (Facing Right Towards Technical Skills)"
+                  alt="Chandan Tiwadi - Full Stack Web Developer Technical Skills and Core Capabilities"
+                  width="320"
+                  height="427"
                   loading="lazy"
                   decoding="async"
                   className="relative z-10 w-full h-full object-contain object-bottom drop-shadow-[0_15px_35px_rgba(0,0,0,0.9)] filter contrast-[1.03] brightness-[1.01]"
@@ -245,7 +246,7 @@ export default function Skills() {
                 PERSPECTIVE 03 • ENGINEERING CAPABILITIES
               </span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
-                Technical <span className="text-gradient-cobalt">Mastery</span>
+                Technical Skills &amp; <span className="text-gradient-cobalt">Technologies</span>
               </h2>
               <div className="w-16 h-1 bg-[#2C3480] rounded-full mt-3 mb-5 shadow-[0_0_12px_#2C3480]" />
 

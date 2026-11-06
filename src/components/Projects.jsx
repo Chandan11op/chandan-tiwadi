@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Calendar, Code2, ChevronDown, ChevronUp, Sparkles, ArrowRight } from 'lucide-react';
+import { ExternalLink, Calendar, Code2, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicProjects } from '../services/publicData';
@@ -68,7 +68,7 @@ export default function Projects() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
-                Featured <span className="text-gradient-cobalt">Projects</span>
+                Featured Projects &amp; <span className="text-gradient-cobalt">Web Development Portfolio</span>
               </h2>
               <div className="w-16 h-1 bg-[#2C3480] rounded-full mt-3 shadow-[0_0_12px_#2C3480]" />
             </div>

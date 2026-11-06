@@ -58,7 +58,7 @@ export default function Education() {
             ACADEMIC FOUNDATION
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
-            Academic <span className="text-gradient-cobalt">Milestones</span>
+            Education &amp; <span className="text-gradient-cobalt">Academic Background</span>
           </h2>
           <div className="w-16 h-1 bg-[#2C3480] mx-auto rounded-full mt-3 shadow-[0_0_12px_#2C3480]" />
           <p className="text-sm md:text-base text-gray-400 mt-4 max-w-lg mx-auto font-normal leading-relaxed">
@@ -102,7 +102,9 @@ export default function Education() {
                       >
                         <img 
                           src={edu.image || edu.image_url} 
-                          alt={edu.institution} 
+                          alt={`${edu.institution} - Education of Chandan Tiwadi`} 
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">

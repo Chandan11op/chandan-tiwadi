@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import CertificateSkeleton from '../../components/skeletons/CertificateSkeleton';
 import { 
   fetchAdminCertificates, 
   createCertificate, 
@@ -187,15 +188,15 @@ export default function CertificatesManager() {
       )}
 
       {/* Certificates Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {loading ? (
-          <div className="col-span-full p-12 text-center text-xs text-gray-500">Loading certificates...</div>
-        ) : certificates.length === 0 ? (
-          <div className="col-span-full p-12 text-center text-xs text-gray-500">
-            No certificates in database yet.
-          </div>
-        ) : (
-          certificates.map((cert) => (
+      {loading ? (
+        <CertificateSkeleton count={6} />
+      ) : certificates.length === 0 ? (
+        <div className="p-12 text-center text-xs text-gray-500 glass-card rounded-2xl border border-white/5">
+          No certificates in database yet.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {certificates.map((cert) => (
             <div key={cert.id} className="p-5 rounded-2xl glass-card border border-white/5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -268,9 +269,9 @@ export default function CertificatesManager() {
                 </div>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Modal */}
       {modalOpen && (

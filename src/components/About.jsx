@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, MapPin, GraduationCap, Download, ArrowUpRight } from 'lucide-react';
+import { User, Mail, MapPin, GraduationCap, Download } from 'lucide-react';
 import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiMongodb, SiTailwindcss, SiJavascript } from 'react-icons/si';
@@ -176,7 +176,9 @@ export default function About() {
               {/* Portrait: left.png (Chandan looking to the left across into his bio) */}
               <img
                 src={leftPortrait}
-                alt="Chandan Tiwadi - Profile View (Facing Left Towards Biography)"
+                alt="Chandan Tiwadi - Full Stack Web Developer Biography and Profile View"
+                width="420"
+                height="560"
                 loading="lazy"
                 decoding="async"
                 className="relative z-10 w-full h-full object-contain object-bottom drop-shadow-[0_20px_45px_rgba(0,0,0,0.9)] filter contrast-[1.03] brightness-[1.01]"

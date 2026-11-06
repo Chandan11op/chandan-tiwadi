@@ -114,7 +114,9 @@ export default function Certifications() {
                   <div className="relative w-full h-52 overflow-hidden border-b border-white/[0.06] bg-black/60 shrink-0">
                     <img 
                       src={cert.image || cert.file_url} 
-                      alt={cert.title} 
+                      alt={`${cert.title} - Certificate earned by Chandan Tiwadi`} 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">

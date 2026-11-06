@@ -1,0 +1,19 @@
+# Robots.txt for Chandan Tiwadi Portfolio (https://chandan-tiwadi.pages.dev)
+User-agent: *
+Allow: /
+Disallow: /admin-portal
+Disallow: /admin-portal/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin-portal
+Disallow: /admin-portal/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin-portal
+Disallow: /admin-portal/
+
+# XML Sitemap
+Sitemap: https://chandan-tiwadi.pages.dev/sitemap.xml
+

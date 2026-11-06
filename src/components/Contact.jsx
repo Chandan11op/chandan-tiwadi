@@ -78,7 +78,7 @@ export default function Contact() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white font-sans tracking-tight">
-                Let's <span className="text-gradient-cobalt">Connect</span>
+                Get in Touch with <span className="text-gradient-cobalt">Chandan Tiwadi</span>
               </h2>
               <div className="w-16 h-1 bg-[#2C3480] rounded-full mt-3 shadow-[0_0_12px_#2C3480]" />
             </div>

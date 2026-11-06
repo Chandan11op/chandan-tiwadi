@@ -53,13 +53,16 @@ export default function PublicPortfolio() {
 
   return (
     <div className="bg-black min-h-screen text-white overflow-x-hidden selection:bg-[#2C3480] selection:text-white font-sans">
-      <AnimatePresence mode="wait">
-        {isLoading ? (
+      {/* Cinematic Intro Loader Overlay */}
+      <AnimatePresence>
+        {isLoading && (
           <motion.div
             key="loader"
             initial={{ opacity: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, scale: 0.98, filter: "blur(12px)", transition: { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] } }}
             className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center overflow-hidden"
+            aria-live="polite"
+            aria-busy={isLoading}
           >
             {/* Background glowing effects */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-[#2C3480]/25 blur-[140px] pointer-events-none" />
@@ -143,28 +146,21 @@ export default function PublicPortfolio() {
               </div>
             </div>
           </motion.div>
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Navbar />
-            <main className="w-full">
-              {/* Every Section has its spacious, full, edge-to-edge container */}
-              <Hero />
-              <About />
-              <Skills />
-              <Projects />
-              <Education />
-              <Certifications />
-              <Contact />
-            </main>
-            <Footer />
-          </motion.div>
         )}
       </AnimatePresence>
+
+      <Navbar />
+      <main className="w-full">
+        {/* Every Section has its spacious, full, edge-to-edge container */}
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Education />
+        <Certifications />
+        <Contact />
+      </main>
+      <Footer />
 
       {/* Interactive Toast Notifications */}
       <AnimatePresence>

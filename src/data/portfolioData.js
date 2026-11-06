@@ -13,8 +13,8 @@ export const portfolioData = {
     location: "Mumbai, India",
     tagline: "Building real-world web apps with modern tech & AI tools.",
     bio: [
-      "I'm Chandan Tiwadi, a Third-Year B.Sc. IT student at K.P.B. Hinduja College, Mumbai, and a passionate Full Stack Web Developer. I build real-world web applications using React.js, Node.js, and modern databases — and I leverage AI tools like Claude, ChatGPT, and Antigravity IDE to develop faster and smarter.",
-      "I've delivered a paid freelance project, built a real-time chat app in just 2 days, and I'm currently developing an AI-enhanced e-commerce platform as my major project. I'm a quick learner who's always eager to pick up new technologies and build things that actually work."
+      "I am Chandan Tiwadi, a Third-Year B.Sc. Information Technology scholar at K.P.B. Hinduja College of Commerce in Mumbai, Maharashtra, and a dedicated Full Stack Web Developer. Specializing in modern JavaScript, React.js, Node.js, Express.js, and MongoDB, I architect responsive, high-performance web applications that bridge intuitive user interface design with reliable server-side engineering.",
+      "My technical journey combines rigorous academic computer science foundations with real-world client delivery. I have successfully engineered and delivered a production trading platform for a paid commercial client, built high-concurrency real-time WebSocket communication applications, and developed AI-assisted web architectures. By combining modern frameworks with AI developer tooling like Claude, ChatGPT, and Antigravity IDE, I solve complex software challenges with speed, precision, and clean code standards."
     ],
     email: "chandan110906@gmail.com",
     phone: "+91 8879753917",
@@ -70,8 +70,8 @@ export const portfolioData = {
       badge: "💼 Paid Client Project",
       type: "Full Stack Trading Web Application",
       period: "Jan 2025 – March 2025",
-      tech: ["JavaScript", "React.js", "Node.js", "Database Technologies"],
-      description: "Developed and delivered a production-ready full-stack trading platform for a real client as a paid freelance engagement. Handled trade workflows, user interactions, and client-specific requirements. Project details are confidential.",
+      tech: ["JavaScript", "React.js", "Node.js", "Database Technologies", "REST APIs"],
+      description: "Engineered and shipped a production-grade full-stack trading web application for a commercial client under a paid freelance contract. Built responsive financial dashboard views, real-time portfolio management flows, and robust backend API endpoints with comprehensive authentication. All proprietary business logic and client trade data are handled under strict confidentiality.",
       links: {
         live: "https://trade-web-clone.vercel.app/",
         github: "https://github.com/Chandan11op/Trade-Web"
@@ -84,8 +84,8 @@ export const portfolioData = {
       badge: "🚀 3rd Year Major Project — In Progress",
       type: "AI-Enhanced E-Commerce Platform",
       period: "2025 - Present",
-      tech: ["React.js", "Node.js", "MySQL", "AI Integration"],
-      description: "Currently building an intelligent e-commerce platform with AI-powered features including smart product recommendations, scalable authentication, and modern shopping UX. This is my flagship major academic project.",
+      tech: ["React.js", "Node.js", "MySQL", "Tailwind CSS", "AI Integration"],
+      description: "Architecting a modern, intelligent e-commerce platform featuring AI-driven product discovery, contextual recommendations, and dynamic shopping experiences. Incorporating relational schema design, secure token-based user sessions, and streamlined catalog indexing as a flagship Third-Year B.Sc. IT engineering initiative.",
       links: {
         github: "https://github.com/Chandan11op"
       },
@@ -97,8 +97,8 @@ export const portfolioData = {
       badge: "⚡ 2nd Year Mini Project",
       type: "Real-Time Chat Application",
       period: "2024",
-      tech: ["React.js", "Node.js", "Socket.IO", "Supabase"],
-      description: "Built a real-time messaging app inspired by WhatsApp using Socket.IO for instant communication and Supabase for backend. Completed in just 2 days using AI-powered development tools.",
+      tech: ["React.js", "Node.js", "Socket.IO", "Supabase", "Tailwind CSS"],
+      description: "Designed and implemented a real-time collaborative messaging application featuring instant bi-directional message synchronization via Socket.IO, persistent user auth, and reactive channel states. Engineered from concept to full deployment in two days utilizing advanced AI-augmented development workflows.",
       links: {
         github: "https://github.com/Chandan11op/QuickChat"
       },
@@ -109,12 +109,12 @@ export const portfolioData = {
       title: "Portfolio Website",
       badge: "🌐 Personal Project",
       type: "Personal Portfolio Website",
-      period: "2025",
-      tech: ["Vite", "React.js", "Tailwind CSS", "Framer Motion"],
-      description: "Designed and developed this very portfolio website you're viewing right now — built with React and Tailwind CSS for a premium developer brand experience.",
+      period: "2025 - 2026",
+      tech: ["Vite", "React.js", "Tailwind CSS", "Framer Motion", "Cloudflare Pages"],
+      description: "Engineered a high-performance, dark-themed personal portfolio showcasing software development work, academic milestones, and technical capabilities. Features custom volumetric smoke shaders, Framer Motion transitions, responsive layouts, pre-rendered semantic HTML, and JSON-LD structured data for optimal search discovery.",
       links: {
-        live: "https://first-basic-portfolio.vercel.app/",
-        github: "https://github.com/Chandan11op/portfolio"
+        live: "https://chandan-tiwadi.pages.dev/",
+        github: "https://github.com/Chandan11op/chandan-tiwadi"
       },
       highlightColor: "default"
     }

@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Download } from 'lucide-react';
-import { portfolioData } from '../data/portfolioData';
 import frontPortrait from '../assets/portfolio/front.png';
 import resumePdf from '../assets/Chandan Tiwadi.pdf';
 import { getPublicActiveResume } from '../services/publicData';
+
+const navLinks = [
+  { label: 'About', href: '#About' },
+  { label: 'Skills', href: '#Skills' },
+  { label: 'Projects', href: '#Projects' },
+  { label: 'Education', href: '#Education' },
+  { label: 'Certifications', href: '#Certifications' },
+  { label: 'Contact', href: '#Contact' }
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,15 +29,6 @@ export default function Navbar() {
     });
     return () => { isMounted = false; };
   }, []);
-
-  const navLinks = [
-    { label: 'About', href: '#About' },
-    { label: 'Skills', href: '#Skills' },
-    { label: 'Projects', href: '#Projects' },
-    { label: 'Education', href: '#Education' },
-    { label: 'Certifications', href: '#Certifications' },
-    { label: 'Contact', href: '#Contact' }
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,7 +102,9 @@ export default function Navbar() {
           <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#2C3480]/60 bg-black shadow-[0_0_15px_rgba(44,52,128,0.4)] group-hover:border-[#3E49A8] group-hover:shadow-[0_0_20px_rgba(62,73,168,0.6)] transition-all duration-300">
             <img
               src={frontPortrait}
-              alt="Chandan Tiwadi"
+              alt="Chandan Tiwadi - Full Stack Web Developer Logo"
+              width="36"
+              height="36"
               className="w-full h-full object-cover object-top scale-110 group-hover:scale-120 transition-transform duration-300"
             />
           </div>
