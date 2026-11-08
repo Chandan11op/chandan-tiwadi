@@ -60,3 +60,4 @@ export function getOptimizedImageUrl(url, options = {}) {
 
   return url;
 }
+
