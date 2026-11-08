@@ -1,5 +1,5 @@
 import { Project } from '../models/Project.js';
-import { deleteCloudinaryAsset } from '../utils/cloudinaryHelpers.js';
+import { deleteCloudinaryAsset, buildOptimizedCloudinaryUrl } from '../utils/cloudinaryHelpers.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 
 // Helper to normalize slug
@@ -21,6 +21,11 @@ export const getPublicProjects = async (req, res, next) => {
     // Format safely according to public confidentiality rules
     const formatted = projects.map((p) => {
       const canShowGithub = p.show_github_link && Boolean(p.github_url);
+      const optimizedThumbnail = buildOptimizedCloudinaryUrl(p.thumbnail_url);
+      const optimizedScreenshots = Array.isArray(p.screenshots)
+        ? p.screenshots.map((s) => buildOptimizedCloudinaryUrl(s))
+        : [];
+
       return {
         id: p.slug || p._id.toString(),
         _id: p._id.toString(),
@@ -37,9 +42,9 @@ export const getPublicProjects = async (req, res, next) => {
         category: p.category || 'Full Stack',
         highlightColor: p.highlight_color || 'default',
         highlight_color: p.highlight_color || 'default',
-        thumbnail: p.thumbnail_url || null,
-        thumbnail_url: p.thumbnail_url || null,
-        screenshots: p.screenshots || [],
+        thumbnail: optimizedThumbnail || null,
+        thumbnail_url: optimizedThumbnail || null,
+        screenshots: optimizedScreenshots,
         links: {
           live: p.live_url || null,
           github: canShowGithub ? p.github_url : null,

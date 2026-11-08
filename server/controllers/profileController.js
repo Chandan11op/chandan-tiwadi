@@ -1,4 +1,5 @@
 import { Profile } from '../models/Profile.js';
+import { buildOptimizedCloudinaryUrl } from '../utils/cloudinaryHelpers.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 
 export const getProfile = async (req, res, next) => {
@@ -28,7 +29,12 @@ export const getProfile = async (req, res, next) => {
       });
     }
 
-    return successResponse(res, profile, 'Profile fetched successfully');
+    const profileObj = profile.toObject ? profile.toObject() : { ...profile };
+    if (profileObj.avatar_url) {
+      profileObj.avatar_url = buildOptimizedCloudinaryUrl(profileObj.avatar_url);
+    }
+
+    return successResponse(res, profileObj, 'Profile fetched successfully');
   } catch (error) {
     next(error);
   }

@@ -4,6 +4,7 @@ import { ExternalLink, Calendar, Code2, ChevronDown, ChevronUp, Sparkles } from 
 import { FaGithub } from 'react-icons/fa';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicProjects } from '../services/publicData';
+import { getOptimizedImageUrl } from '../utils/imageOptimizer';
 import ProjectSkeleton from './skeletons/ProjectSkeleton';
 import CinematicSmoke from './CinematicSmoke';
 
@@ -106,8 +107,20 @@ export default function Projects() {
                   key={project.id}
                   variants={cardVariants}
                   whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                  className="p-7 sm:p-9 rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_12px_36px_rgba(44,52,128,0.35)] transition-all duration-300 flex flex-col justify-between h-full group"
+                  className="p-7 sm:p-9 rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_12px_36px_rgba(44,52,128,0.35)] transition-all duration-300 flex flex-col justify-between h-full group overflow-hidden"
                 >
+                  {(project.thumbnail || project.thumbnail_url || project.image) && (
+                    <div className="relative w-full h-44 -mx-7 -mt-7 sm:-mx-9 sm:-mt-9 mb-6 overflow-hidden rounded-t-3xl border-b border-white/[0.06] bg-black/60 shrink-0">
+                      <img
+                        src={getOptimizedImageUrl(project.thumbnail || project.thumbnail_url || project.image, { width: 800 })}
+                        alt={`${project.title} - Project preview by Chandan Tiwadi`}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+
                   <div className="flex-1 flex flex-col">
                     {/* Card Header & Badge */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">

@@ -1,5 +1,5 @@
 import { Certificate } from '../models/Certificate.js';
-import { deleteCloudinaryAsset } from '../utils/cloudinaryHelpers.js';
+import { deleteCloudinaryAsset, buildOptimizedCloudinaryUrl } from '../utils/cloudinaryHelpers.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 
 export const getPublicCertificates = async (req, res, next) => {
@@ -9,24 +9,27 @@ export const getPublicCertificates = async (req, res, next) => {
       createdAt: -1,
     });
 
-    const formatted = certs.map((cert) => ({
-      id: cert._id.toString(),
-      _id: cert._id.toString(),
-      title: cert.title,
-      issuer: cert.issuer,
-      year: cert.year || cert.issue_date || '',
-      issueDate: cert.issue_date,
-      credentialId: cert.credential_id,
-      badgeIcon: cert.badge_icon || 'award',
-      badge_icon: cert.badge_icon || 'award',
-      image: cert.file_url,
-      file_url: cert.file_url,
-      file_public_id: cert.file_public_id,
-      verificationUrl: cert.verification_url || null,
-      verification_url: cert.verification_url || null,
-      displayOrder: cert.display_order,
-      is_published: cert.is_published,
-    }));
+    const formatted = certs.map((cert) => {
+      const optimizedUrl = buildOptimizedCloudinaryUrl(cert.file_url);
+      return {
+        id: cert._id.toString(),
+        _id: cert._id.toString(),
+        title: cert.title,
+        issuer: cert.issuer,
+        year: cert.year || cert.issue_date || '',
+        issueDate: cert.issue_date,
+        credentialId: cert.credential_id,
+        badgeIcon: cert.badge_icon || 'Professional Certificate',
+        badge_icon: cert.badge_icon || 'Professional Certificate',
+        image: optimizedUrl,
+        file_url: optimizedUrl,
+        file_public_id: cert.file_public_id,
+        verificationUrl: cert.verification_url || null,
+        verification_url: cert.verification_url || null,
+        displayOrder: cert.display_order,
+        is_published: cert.is_published,
+      };
+    });
 
     return successResponse(res, formatted, 'Public certificates fetched successfully');
   } catch (error) {

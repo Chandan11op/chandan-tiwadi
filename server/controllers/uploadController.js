@@ -1,4 +1,8 @@
-import { uploadBufferToCloudinary, deleteCloudinaryAsset } from '../utils/cloudinaryHelpers.js';
+import { 
+  uploadBufferToCloudinary, 
+  deleteCloudinaryAsset, 
+  buildOptimizedCloudinaryUrl 
+} from '../utils/cloudinaryHelpers.js';
 import { isCloudinaryConfigured } from '../config/cloudinary.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 
@@ -35,19 +39,26 @@ export const uploadMedia = async (req, res, next) => {
     const result = await uploadBufferToCloudinary(req.file.buffer, {
       folder: destinationFolder,
       resource_type: resourceType,
+      is_document: isPdf,
     });
+
+    // Generate auto-compressed, auto-format delivery URL for fast loading
+    const optimizedDeliveryUrl = isPdf 
+      ? result.secure_url 
+      : buildOptimizedCloudinaryUrl(result.secure_url);
 
     return successResponse(
       res,
       {
-        publicUrl: result.secure_url,
-        url: result.secure_url,
+        publicUrl: optimizedDeliveryUrl,
+        url: optimizedDeliveryUrl,
+        originalUrl: result.secure_url,
         public_id: result.public_id,
         format: result.format,
         bytes: result.bytes,
         resource_type: result.resource_type,
       },
-      'File uploaded successfully to Cloudinary',
+      'File uploaded and compressed successfully for high-speed delivery',
       201
     );
   } catch (error) {

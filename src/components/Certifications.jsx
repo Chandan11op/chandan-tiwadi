@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Award, Cpu, ZoomIn, X, BookOpen, Zap } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicCertificates } from '../services/publicData';
+import { getOptimizedImageUrl } from '../utils/imageOptimizer';
 import CertificateSkeleton from './skeletons/CertificateSkeleton';
 import CinematicSmoke from './CinematicSmoke';
 
@@ -142,7 +143,7 @@ export default function Certifications() {
                   {(cert.image || cert.file_url) && (
                     <div className="relative w-full h-52 overflow-hidden border-b border-white/[0.06] bg-black/60 shrink-0">
                       <img 
-                        src={cert.image || cert.file_url} 
+                        src={getOptimizedImageUrl(cert.image || cert.file_url, { width: 800 })} 
                         alt={`${cert.title} - Certificate earned by Chandan Tiwadi`} 
                         loading="lazy"
                         decoding="async"
@@ -219,7 +220,7 @@ export default function Certifications() {
               </div>
               <div className="relative flex-1 overflow-hidden rounded-2xl flex items-center justify-center bg-black/40">
                 <img
-                  src={selectedImage.src}
+                  src={getOptimizedImageUrl(selectedImage.src, { width: 1920 })}
                   alt={selectedImage.title}
                   className="max-w-full max-h-[75vh] object-contain rounded-xl"
                 />

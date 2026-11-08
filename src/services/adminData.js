@@ -1,7 +1,11 @@
 import { apiRequest } from './apiClient';
+import { compressImageBeforeUpload } from '../utils/imageCompression';
 
 /**
- * Uploads a file to Cloudinary via the Express backend
+ * Uploads a file to Cloudinary via the Express backend.
+ * Automatically pre-compresses any uploaded raster image (PNG, JPG, WEBP, etc.)
+ * in the browser to eliminate slow upload times and large file payloads.
+ * 
  * @param {File} file 
  * @param {'portfolio-media' | 'portfolio-docs'} bucket 
  * @param {string} folder 
@@ -10,6 +14,9 @@ import { apiRequest } from './apiClient';
 export const uploadFile = async (file, bucket = 'portfolio-media', folder = 'portfolio/general') => {
   const isDocument = bucket === 'portfolio-docs' || file.type === 'application/pdf';
   const endpoint = isDocument ? '/api/uploads/document' : '/api/uploads/image';
+
+  // Automatically compress raster images before uploading
+  const fileToUpload = isDocument ? file : await compressImageBeforeUpload(file);
 
   // Map bucket/folder name to structured Cloudinary folders
   let cloudinaryFolder = folder;
@@ -22,7 +29,7 @@ export const uploadFile = async (file, bucket = 'portfolio-media', folder = 'por
   }
 
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', fileToUpload);
   formData.append('folder', cloudinaryFolder);
 
   const res = await apiRequest(endpoint, {

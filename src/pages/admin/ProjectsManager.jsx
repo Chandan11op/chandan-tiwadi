@@ -7,6 +7,7 @@ import {
   deleteProject,
   uploadFile 
 } from '../../services/adminData';
+import { getOptimizedImageUrl } from '../../utils/imageOptimizer';
 import { 
   Plus, 
   Search, 
@@ -642,10 +643,17 @@ export default function ProjectsManager() {
                     disabled={uploadingImage}
                     className="text-xs text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
                   />
-                  {uploadingImage && <span className="text-accent text-[11px] animate-pulse">Uploading...</span>}
+                  {uploadingImage && <span className="text-accent text-[11px] animate-pulse">⚡ Compressing & uploading image...</span>}
                 </div>
                 {formData.thumbnail_url && (
-                  <p className="text-[11px] text-emerald-400 mt-1 truncate">Image attached: {formData.thumbnail_url}</p>
+                  <div className="flex items-center gap-3 mt-2">
+                    <img
+                      src={getOptimizedImageUrl(formData.thumbnail_url, { width: 160 })}
+                      alt="Thumbnail preview"
+                      className="w-16 h-10 object-cover rounded-lg border border-white/10"
+                    />
+                    <p className="text-[11px] text-emerald-400 mt-1 truncate flex-1">Image attached: {formData.thumbnail_url}</p>
+                  </div>
                 )}
               </div>
 

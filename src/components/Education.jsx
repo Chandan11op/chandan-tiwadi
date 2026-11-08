@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { GraduationCap, BookOpen, Calendar, ZoomIn, X } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicEducation } from '../services/publicData';
+import { getOptimizedImageUrl } from '../utils/imageOptimizer';
 import EducationSkeleton from './skeletons/EducationSkeleton';
 import CinematicSmoke from './CinematicSmoke';
 
@@ -101,7 +102,7 @@ export default function Education() {
                         onClick={() => setSelectedImage({ src: edu.image || edu.image_url, title: edu.institution })}
                       >
                         <img 
-                          src={edu.image || edu.image_url} 
+                          src={getOptimizedImageUrl(edu.image || edu.image_url, { width: 600 })} 
                           alt={`${edu.institution} - Education of Chandan Tiwadi`} 
                           loading="lazy"
                           decoding="async"
@@ -184,7 +185,7 @@ export default function Education() {
               onClick={(e) => e.stopPropagation()}
             >
               <img 
-                src={selectedImage.src} 
+                src={getOptimizedImageUrl(selectedImage.src, { width: 1920 })} 
                 alt={selectedImage.title} 
                 className="max-w-full max-h-[75vh] rounded-2xl object-contain mx-auto"
               />

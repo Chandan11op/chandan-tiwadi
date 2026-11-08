@@ -4,6 +4,7 @@ import {
   updateAdminProfile, 
   uploadFile 
 } from '../../services/adminData';
+import { getOptimizedImageUrl } from '../../utils/imageOptimizer';
 import { 
   User, 
   Mail, 
@@ -204,6 +205,36 @@ export default function ProfileManager() {
               onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
               className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-accent"
             />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-gray-300 mb-1">Profile Avatar / Portrait</label>
+            <div className="flex items-center gap-4">
+              {formData.avatar_url && (
+                <img
+                  src={getOptimizedImageUrl(formData.avatar_url, { width: 160 })}
+                  alt="Avatar preview"
+                  className="w-12 h-12 rounded-xl object-cover border border-white/10"
+                />
+              )}
+              <div className="space-y-1 flex-1">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
+                  disabled={uploadingAvatar}
+                  className="text-xs text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
+                />
+                {uploadingAvatar && (
+                  <span className="text-accent text-[11px] animate-pulse block">
+                    ⚡ Compressing & uploading avatar...
+                  </span>
+                )}
+                {formData.avatar_url && (
+                  <p className="text-[10px] text-emerald-400 truncate">Attached: {formData.avatar_url}</p>
+                )}
+              </div>
+            </div>
           </div>
 
           <div>

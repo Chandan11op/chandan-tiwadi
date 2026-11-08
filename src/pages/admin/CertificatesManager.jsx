@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CertificateSkeleton from '../../components/skeletons/CertificateSkeleton';
+import { getOptimizedImageUrl } from '../../utils/imageOptimizer';
 import { 
   fetchAdminCertificates, 
   createCertificate, 
@@ -297,7 +298,7 @@ export default function CertificatesManager() {
                 {cert.file_url && (
                   <div className="mt-4 rounded-xl overflow-hidden border border-white/5 bg-black/40 h-28 flex items-center justify-center">
                     <img
-                      src={cert.file_url}
+                      src={getOptimizedImageUrl(cert.file_url, { width: 500 })}
                       alt={cert.title}
                       className="max-h-full max-w-full object-contain"
                       onError={(e) => { e.target.style.display = 'none'; }}
@@ -477,7 +478,7 @@ export default function CertificatesManager() {
                   disabled={uploadingImage}
                   className="text-xs text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
                 />
-                {uploadingImage && <span className="text-accent text-[11px] animate-pulse block mt-1">Uploading...</span>}
+                {uploadingImage && <span className="text-accent text-[11px] animate-pulse block mt-1">⚡ Compressing & uploading file...</span>}
                 {formData.file_url && (
                   <p className="text-[11px] text-emerald-400 mt-1 truncate">File: {formData.file_url}</p>
                 )}
