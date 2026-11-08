@@ -12,8 +12,8 @@ const getApiBaseUrl = () => {
   if (import.meta.env.DEV) {
     return 'http://localhost:5000';
   }
-  // In production, fallback to relative path or placeholder
-  return '';
+  // In production, fallback to deployed Render backend
+  return 'https://chandan-tiwadi-api.onrender.com';
 };
 
 export const API_BASE_URL = getApiBaseUrl();
