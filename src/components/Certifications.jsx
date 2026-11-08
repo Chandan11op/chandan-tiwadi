@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, Terminal, Layers, Globe, Cpu, FileCode2, ZoomIn, Brain, X } from 'lucide-react';
+import { Award, Cpu, ZoomIn, X, BookOpen, Zap } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { getPublicCertificates } from '../services/publicData';
 import CertificateSkeleton from './skeletons/CertificateSkeleton';
@@ -25,24 +25,51 @@ export default function Certifications() {
     return () => { isMounted = false; };
   }, []);
 
-  // Icon selector based on badgeIcon value
-  const getBadgeIcon = (icon) => {
-    switch (icon) {
-      case 'js':
-        return <FileCode2 className="w-5 h-5 text-[#8C97E6]" />;
-      case 'python':
-        return <Terminal className="w-5 h-5 text-[#4D5BC9]" />;
-      case 'ui':
-        return <Layers className="w-5 h-5 text-[#8C97E6]" />;
-      case 'html':
-        return <Globe className="w-5 h-5 text-[#4D5BC9]" />;
-      case 'c':
-        return <Cpu className="w-5 h-5 text-[#8C97E6]" />;
-      case 'ai':
-        return <Brain className="w-5 h-5 text-[#4D5BC9]" />;
-      default:
-        return <Award className="w-5 h-5 text-[#8C97E6]" />;
+  // Level and icon selector based on badge level value
+  const getBadgeDetails = (icon) => {
+    const raw = (icon || '').trim();
+    const lower = raw.toLowerCase();
+
+    if (lower === 'basic' || lower.includes('basic')) {
+      return {
+        label: raw || 'Basic',
+        pillClass: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+        icon: <BookOpen className="w-5 h-5 text-sky-400" />
+      };
     }
+    if (lower === 'intermediate' || lower.includes('intermediate') || lower === 'js' || lower === 'ui') {
+      return {
+        label: raw === 'js' || raw === 'ui' ? 'Intermediate' : (raw || 'Intermediate'),
+        pillClass: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
+        icon: <Cpu className="w-5 h-5 text-[#8C97E6]" />
+      };
+    }
+    if (lower === 'expert' || lower.includes('expert') || lower === 'ai' || lower.includes('advanced')) {
+      return {
+        label: raw === 'ai' ? 'Expert' : (raw || 'Expert'),
+        pillClass: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+        icon: <Zap className="w-5 h-5 text-amber-400" />
+      };
+    }
+    if (lower.includes('professional') || lower === 'award' || lower.includes('pro')) {
+      return {
+        label: raw === 'award' ? 'Professional Certificate' : (raw || 'Professional Certificate'),
+        pillClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+        icon: <Award className="w-5 h-5 text-emerald-400" />
+      };
+    }
+    if (lower === 'python' || lower === 'html' || lower === 'c') {
+      return {
+        label: 'Basic',
+        pillClass: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+        icon: <BookOpen className="w-5 h-5 text-sky-400" />
+      };
+    }
+    return {
+      label: raw || 'Certificate',
+      pillClass: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+      icon: <Award className="w-5 h-5 text-[#8C97E6]" />
+    };
   };
 
   const containerVariants = {
@@ -102,54 +129,60 @@ export default function Certifications() {
             viewport={{ once: true, margin: '-80px' }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-center"
           >
-            {certificationsData.map((cert, idx) => (
-              <motion.div
-                key={cert.id || idx}
-                variants={cardVariants}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_8px_32px_rgba(44,52,128,0.3)] transition-all duration-300 overflow-hidden flex flex-col cursor-pointer group text-left"
-                onClick={() => setSelectedImage({ src: cert.image || cert.file_url, title: cert.title })}
-              >
-                {(cert.image || cert.file_url) && (
-                  <div className="relative w-full h-52 overflow-hidden border-b border-white/[0.06] bg-black/60 shrink-0">
-                    <img 
-                      src={cert.image || cert.file_url} 
-                      alt={`${cert.title} - Certificate earned by Chandan Tiwadi`} 
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                      <div className="p-3 rounded-full bg-[#2C3480]/80 border border-white/20 text-white shadow-[0_0_20px_#2C3480]">
-                        <ZoomIn className="w-5 h-5" />
+            {certificationsData.map((cert, idx) => {
+              const badgeInfo = getBadgeDetails(cert.badge_icon || cert.badgeIcon);
+              return (
+                <motion.div
+                  key={cert.id || idx}
+                  variants={cardVariants}
+                  whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                  className="rounded-3xl glass-card border border-white/[0.08] hover:border-[#2C3480]/80 hover:shadow-[0_8px_32px_rgba(44,52,128,0.3)] transition-all duration-300 overflow-hidden flex flex-col cursor-pointer group text-left"
+                  onClick={() => setSelectedImage({ src: cert.image || cert.file_url, title: cert.title })}
+                >
+                  {(cert.image || cert.file_url) && (
+                    <div className="relative w-full h-52 overflow-hidden border-b border-white/[0.06] bg-black/60 shrink-0">
+                      <img 
+                        src={cert.image || cert.file_url} 
+                        alt={`${cert.title} - Certificate earned by Chandan Tiwadi`} 
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                        <div className="p-3 rounded-full bg-[#2C3480]/80 border border-white/20 text-white shadow-[0_0_20px_#2C3480]">
+                          <ZoomIn className="w-5 h-5" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                <div className="p-6 sm:p-7 flex items-start gap-4 flex-1">
-                  {/* Badge Icon */}
-                  <div className="p-3 rounded-2xl bg-[#2C3480]/20 border border-[#2C3480]/40 shrink-0">
-                    {getBadgeIcon(cert.badgeIcon || cert.badge_icon)}
-                  </div>
-
-                  {/* Certification Detail */}
-                  <div className="space-y-1.5 flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[10px] font-bold text-[#8C97E6] tracking-widest uppercase bg-[#2C3480]/25 px-2.5 py-0.5 rounded-full border border-[#2C3480]/50 font-mono">
-                        {cert.year}
-                      </span>
+                  <div className="p-6 sm:p-7 flex items-start gap-4 flex-1">
+                    {/* Badge Icon */}
+                    <div className="p-3 rounded-2xl bg-[#2C3480]/20 border border-[#2C3480]/40 shrink-0">
+                      {badgeInfo.icon}
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug group-hover:text-[#8C97E6] transition-colors font-sans">
-                      {cert.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-gray-400 font-medium">
-                      {cert.issuer}
-                    </p>
+
+                    {/* Certification Detail */}
+                    <div className="space-y-1.5 flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <span className="text-[10px] font-bold text-[#8C97E6] tracking-widest uppercase bg-[#2C3480]/25 px-2.5 py-0.5 rounded-full border border-[#2C3480]/50 font-mono">
+                          {cert.year}
+                        </span>
+                        <span className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border font-sans ${badgeInfo.pillClass}`}>
+                          {badgeInfo.label}
+                        </span>
+                      </div>
+                      <h3 className="text-base sm:text-lg font-bold text-white leading-snug group-hover:text-[#8C97E6] transition-colors font-sans">
+                        {cert.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-400 font-medium">
+                        {cert.issuer}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
         )}
 

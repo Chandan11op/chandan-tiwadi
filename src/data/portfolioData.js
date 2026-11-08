@@ -148,49 +148,49 @@ export const portfolioData = {
       title: "JavaScript Bootcamp",
       issuer: "LetsUpgrade",
       year: "2025",
-      badgeIcon: "js",
+      badgeIcon: "Intermediate",
       image: "/Galley/certificates/JavaScriptLU.png"
     },
     {
       title: "Python for Beginners",
       issuer: "Simplilearn",
       year: "2024",
-      badgeIcon: "python",
+      badgeIcon: "Basic",
       image: "/Galley/certificates/python certificate.png"
     },
     {
       title: "Website UI/UX Designing using ChatGPT",
       issuer: "Simplilearn",
       year: "2024",
-      badgeIcon: "ui",
+      badgeIcon: "Intermediate",
       image: "/Galley/certificates/website Designing certificate.png"
     },
     {
       title: "HTML Certification",
       issuer: "STP Computer Education",
       year: "2024",
-      badgeIcon: "html",
+      badgeIcon: "Basic",
       image: "/Galley/certificates/HTML&CSS.png"
     },
     {
       title: "C Programming Basics",
       issuer: "Simplilearn",
       year: "2024",
-      badgeIcon: "c",
+      badgeIcon: "Basic",
       image: "/Galley/certificates/chandan c certificate.png"
     },
     {
       title: "Artificial Intelligence & Machine Learning",
       issuer: "LetsUpgrade",
       year: "2024",
-      badgeIcon: "ai",
+      badgeIcon: "Expert",
       image: "/Galley/certificates/Chandan  Tiwadi_AIML.png"
     },
     {
       title: "Certificate of Completion",
       issuer: "LetsUpgrade",
       year: "2024",
-      badgeIcon: "award",
+      badgeIcon: "Professional Certificate",
       image: "/Galley/certificates/Chandan Tiwadi  Certificate.png"
     }
   ]

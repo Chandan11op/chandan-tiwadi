@@ -44,7 +44,7 @@ const certificateSchema = new mongoose.Schema(
     },
     badge_icon: {
       type: String,
-      default: 'award',
+      default: 'Professional Certificate',
       trim: true,
     },
     is_published: {

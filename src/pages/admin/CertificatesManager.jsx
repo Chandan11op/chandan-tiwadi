@@ -15,10 +15,75 @@ import {
   Eye, 
   EyeOff, 
   ExternalLink, 
-  Upload, 
   X,
-  AlertCircle
+  AlertCircle,
+  BookOpen,
+  Cpu,
+  Zap
 } from 'lucide-react';
+
+const CERTIFICATE_LEVEL_PRESETS = [
+  'Basic',
+  'Intermediate',
+  'Expert',
+  'Professional Certificate'
+];
+
+const getBadgeLevelInfo = (badge) => {
+  const raw = (badge || '').trim();
+  const lower = raw.toLowerCase();
+
+  if (lower === 'basic' || lower.includes('basic')) {
+    return {
+      label: raw || 'Basic',
+      pillClass: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+      icon: <BookOpen className="w-5 h-5 text-sky-400" />
+    };
+  }
+
+  if (lower === 'intermediate' || lower.includes('intermediate') || lower === 'js' || lower === 'ui') {
+    return {
+      label: raw === 'js' || raw === 'ui' ? 'Intermediate' : (raw || 'Intermediate'),
+      pillClass: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
+      icon: <Cpu className="w-5 h-5 text-[#8C97E6]" />
+    };
+  }
+
+  if (lower === 'expert' || lower.includes('expert') || lower === 'ai' || lower.includes('advanced')) {
+    return {
+      label: raw === 'ai' ? 'Expert' : (raw || 'Expert'),
+      pillClass: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+      icon: <Zap className="w-5 h-5 text-amber-400" />
+    };
+  }
+
+  if (
+    lower.includes('professional') ||
+    lower === 'award' ||
+    lower.includes('pro') ||
+    lower.includes('certificate')
+  ) {
+    return {
+      label: raw === 'award' ? 'Professional Certificate' : (raw || 'Professional Certificate'),
+      pillClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+      icon: <Award className="w-5 h-5 text-emerald-400" />
+    };
+  }
+
+  if (lower === 'python' || lower === 'html' || lower === 'c') {
+    return {
+      label: 'Basic',
+      pillClass: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+      icon: <BookOpen className="w-5 h-5 text-sky-400" />
+    };
+  }
+
+  return {
+    label: raw || 'Certificate',
+    pillClass: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+    icon: <Award className="w-5 h-5 text-purple-400" />
+  };
+};
 
 export default function CertificatesManager() {
   const [certificates, setCertificates] = useState([]);
@@ -36,7 +101,7 @@ export default function CertificatesManager() {
     credential_id: '',
     verification_url: '',
     file_url: '',
-    badge_icon: 'award',
+    badge_icon: 'Professional Certificate',
     is_published: true,
     display_order: 1
   });
@@ -67,7 +132,7 @@ export default function CertificatesManager() {
       credential_id: '',
       verification_url: '',
       file_url: '',
-      badge_icon: 'award',
+      badge_icon: 'Professional Certificate',
       is_published: true,
       display_order: certificates.length + 1
     });
@@ -83,7 +148,7 @@ export default function CertificatesManager() {
       credential_id: cert.credential_id || '',
       verification_url: cert.verification_url || '',
       file_url: cert.file_url || '',
-      badge_icon: cert.badge_icon || 'award',
+      badge_icon: cert.badge_icon || 'Professional Certificate',
       is_published: Boolean(cert.is_published),
       display_order: cert.display_order || 0
     });
@@ -216,10 +281,15 @@ export default function CertificatesManager() {
 
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-xl bg-accentPurple/10 border border-accentPurple/20 flex items-center justify-center text-accentPurple flex-shrink-0 mt-0.5">
-                    <Award className="w-5 h-5" />
+                    {getBadgeLevelInfo(cert.badge_icon).icon}
                   </div>
-                  <div>
-                    <h3 className="font-bold text-sm text-white">{cert.title}</h3>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <h3 className="font-bold text-sm text-white truncate">{cert.title}</h3>
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getBadgeLevelInfo(cert.badge_icon).pillClass}`}>
+                        {getBadgeLevelInfo(cert.badge_icon).label}
+                      </span>
+                    </div>
                     <p className="text-xs text-gray-400">{cert.issuer} • {cert.year}</p>
                   </div>
                 </div>
@@ -323,22 +393,58 @@ export default function CertificatesManager() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-semibold text-gray-300 mb-1">Badge Icon Style</label>
-                  <select
-                    value={formData.badge_icon}
-                    onChange={(e) => setFormData({ ...formData, badge_icon: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#090d16] border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-accent"
-                  >
-                    <option value="award">Award Ribbon</option>
-                    <option value="js">JavaScript (JS)</option>
-                    <option value="python">Python</option>
-                    <option value="ui">UI/UX Design</option>
-                    <option value="html">HTML/CSS</option>
-                    <option value="c">C Language</option>
-                    <option value="ai">AI / ML</option>
-                  </select>
+                  <label className="block font-semibold text-gray-300 mb-1">
+                    Certificate Level / Badge Style
+                  </label>
+                  <div className="space-y-2">
+                    <select
+                      value={
+                        CERTIFICATE_LEVEL_PRESETS.includes(formData.badge_icon)
+                          ? formData.badge_icon
+                          : 'custom'
+                      }
+                      onChange={(e) => {
+                        if (e.target.value !== 'custom') {
+                          setFormData({ ...formData, badge_icon: e.target.value });
+                        }
+                      }}
+                      className="w-full px-3 py-2 bg-[#090d16] border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-accent"
+                    >
+                      {CERTIFICATE_LEVEL_PRESETS.map((level) => (
+                        <option key={level} value={level}>
+                          {level}
+                        </option>
+                      ))}
+                      <option value="custom">Custom / Other Level</option>
+                    </select>
+
+                    <input
+                      type="text"
+                      value={formData.badge_icon}
+                      onChange={(e) => setFormData({ ...formData, badge_icon: e.target.value })}
+                      placeholder="Edit level or enter custom style"
+                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-accent"
+                    />
+
+                    <div className="flex flex-wrap gap-1.5 pt-0.5">
+                      {CERTIFICATE_LEVEL_PRESETS.map((lvl) => (
+                        <button
+                          key={lvl}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, badge_icon: lvl })}
+                          className={`px-2 py-0.5 rounded-lg text-[10px] font-medium transition-all ${
+                            formData.badge_icon === lvl
+                              ? 'bg-accent text-white border border-accent shadow-sm'
+                              : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/5'
+                          }`}
+                        >
+                          {lvl}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label className="block font-semibold text-gray-300 mb-1">Display Order</label>

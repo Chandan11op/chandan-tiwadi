@@ -185,7 +185,7 @@ const initialCertificates = [
     title: "JavaScript Bootcamp",
     issuer: "LetsUpgrade",
     year: "2025",
-    badge_icon: "js",
+    badge_icon: "Intermediate",
     file_url: "/Galley/certificates/JavaScriptLU.png",
     is_published: true,
     display_order: 1
@@ -194,7 +194,7 @@ const initialCertificates = [
     title: "Python for Beginners",
     issuer: "Simplilearn",
     year: "2024",
-    badge_icon: "python",
+    badge_icon: "Basic",
     file_url: "/Galley/certificates/python certificate.png",
     is_published: true,
     display_order: 2
@@ -203,7 +203,7 @@ const initialCertificates = [
     title: "Website UI/UX Designing using ChatGPT",
     issuer: "Simplilearn",
     year: "2024",
-    badge_icon: "ui",
+    badge_icon: "Intermediate",
     file_url: "/Galley/certificates/website Designing certificate.png",
     is_published: true,
     display_order: 3
@@ -212,7 +212,7 @@ const initialCertificates = [
     title: "HTML Certification",
     issuer: "STP Computer Education",
     year: "2024",
-    badge_icon: "html",
+    badge_icon: "Basic",
     file_url: "/Galley/certificates/HTML&CSS.png",
     is_published: true,
     display_order: 4
@@ -221,7 +221,7 @@ const initialCertificates = [
     title: "C Programming Basics",
     issuer: "Simplilearn",
     year: "2024",
-    badge_icon: "c",
+    badge_icon: "Basic",
     file_url: "/Galley/certificates/chandan c certificate.png",
     is_published: true,
     display_order: 5
@@ -230,7 +230,7 @@ const initialCertificates = [
     title: "Artificial Intelligence & Machine Learning",
     issuer: "LetsUpgrade",
     year: "2024",
-    badge_icon: "ai",
+    badge_icon: "Expert",
     file_url: "/Galley/certificates/Chandan  Tiwadi_AIML.png",
     is_published: true,
     display_order: 6
@@ -239,7 +239,7 @@ const initialCertificates = [
     title: "Certificate of Completion",
     issuer: "LetsUpgrade",
     year: "2024",
-    badge_icon: "award",
+    badge_icon: "Professional Certificate",
     file_url: "/Galley/certificates/Chandan Tiwadi  Certificate.png",
     is_published: true,
     display_order: 7
