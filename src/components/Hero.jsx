@@ -181,6 +181,7 @@ export default function Hero() {
                 width="450"
                 height="600"
                 loading="eager"
+                fetchPriority="high"
                 decoding="async"
                 className="relative z-10 w-full h-full object-contain object-bottom portrait-bottom-vignette drop-shadow-[0_20px_45px_rgba(0,0,0,0.9)] filter contrast-[1.03] brightness-[1.01]"
               />

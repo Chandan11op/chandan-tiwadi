@@ -105,6 +105,8 @@ export default function Navbar() {
               alt="Chandan Tiwadi - Full Stack Web Developer Logo"
               width="36"
               height="36"
+              loading="eager"
+              decoding="async"
               className="w-full h-full object-cover object-top scale-110 group-hover:scale-120 transition-transform duration-300"
             />
           </div>

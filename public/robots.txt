@@ -1,8 +1,11 @@
 # Robots.txt for Chandan Tiwadi Portfolio (https://chandan-tiwadi.pages.dev)
 User-agent: *
 Allow: /
+Allow: /assets/
+Allow: /Galley/
 Disallow: /admin-portal
 Disallow: /admin-portal/
+Disallow: /api/
 
 # XML Sitemap
 Sitemap: https://chandan-tiwadi.pages.dev/sitemap.xml
